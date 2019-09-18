@@ -1,0 +1,6 @@
+.stats {
+    grid-column: 1 / -1;
+    grid-row: 3 - 4;
+    height: 100vh;
+    background: red;
+}
