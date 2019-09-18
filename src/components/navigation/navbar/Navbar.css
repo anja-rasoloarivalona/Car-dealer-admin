@@ -1,0 +1,32 @@
+.navbarContainer {
+    grid-column: 1 / -1;
+    height: 5rem;
+    background: var(--color-grey);
+    display: flex;
+    align-items: center;
+}
+
+.navbar__list {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    padding-left: 12rem;
+    width: 50%;
+    height: 100%;
+}
+
+.navbar__list__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+
+}
+
+.navbar__list li:first-child {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
