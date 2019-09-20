@@ -11,6 +11,9 @@ const navbar = () => {
                     <NavLink to="/"  exact className="navbar__list__item" >
                         Inventaire
                     </NavLink>
+                    <NavLink to="/ajouter" className="navbar__list__item" >
+                        Ajouter
+                    </NavLink>
                     <NavLink to="/publicity" className="navbar__list__item">
                         Publicité
                     </NavLink>
