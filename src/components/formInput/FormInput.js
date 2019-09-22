@@ -3,7 +3,7 @@ import './FormInput.css';
 
 const formInput = props => {
     return (
-        <div className="input">
+        <div className={`input ${props.className}`}>
 
             {/*--------INPUT LABEL-----------*/}
             {
@@ -24,7 +24,7 @@ const formInput = props => {
                                required={props.required}
                                value={props.value}
                                placeholder={props.placeholder}
-                               onChange={e => props.onChange(props.id, e.target.value)}
+                               onChange={e => props.onChange(props.id, e.target.value, e.target.files)}
                                />
                     )
                 }

@@ -1,6 +1,52 @@
 .add-product {
     grid-column: 1 / -1;
     grid-row: 3 - 4;
-    height: 100vh;
-    background: red;
+   /* height: 100vh;*/
+    
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.add-product__form {
+    width: 80vw;
+ /*   height: 100vh;*/
+    background: white;
+    padding: 2rem 0;
+}
+
+.add-product__form img {
+    width: 20rem;
+    height: 10rem;
+    object-fit: cover;
+}
+
+.add-product__input {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+}
+
+.add-product__input input {
+    height: 80%;
+}
+
+.add-product__input--mainImg {
+    width: 75rem;
+}
+
+.add-product__input--galleryImg .filepond--item {
+    width: 20rem;
+    height: 10rem;
+}
+
+.add-product__input--galleryImg .filepond--image-preview-wrapper {
+    width: 20rem;
+    /*height: 10rem;*/
+}
+
+.filepond--wrapper {
+    
+}
+
