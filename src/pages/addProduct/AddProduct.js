@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './AddProduct.css';
 
+import {formGeneral} from './forms/formGeneral';
 
 import { FilePond, registerPlugin } from 'react-filepond';
 import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -19,13 +20,14 @@ registerPlugin(FilePondPluginImagePreview);
 
     state = {
         images: [],
-        urlImages: []
+        urlImages: [],
+
+
+        formGeneral: formGeneral,
     }
 
     uploadHandler = async e => {
-
         e.preventDefault();
-
         const { images } = this.state;
 
 
@@ -56,24 +58,12 @@ registerPlugin(FilePondPluginImagePreview);
                     })
                 })
             ))
-
-
             console.log('done', this.state.urlImages);
-
             return urls;
-
-
-            
-
         }
         catch (err){
             console.log(err)
-        }
-
-
-
-            
-            
+        }        
     }
 
 
@@ -86,112 +76,45 @@ registerPlugin(FilePondPluginImagePreview);
         this.setState({
             images: images
         })
+    }
 
-}
+
+    inputChangeHandler = (input, value, type) => {
+        const { formGeneral } = this.state;
+        const indexInput = formGeneral.findIndex(i => i.id === input);
+        let newForm = formGeneral;
+        newForm[indexInput].value = value;
+        this.setState({
+            formGeneral: newForm
+        })
+    }
+
+
 
     render() {
 
-     //const {url} = this.state;
+     const oldForm = this.state.formGeneral;
 
     
 
         return (
             <section className="add-product">
                 <form className="add-product__form">
-                    <Input className="add-product__input add-product__input--title"
-                        id="title"
-                        placeholder="titre"
-                        control="input"
-                        type="text"
-                        value=""
-                    />             
 
-                    <FilePond className="add-product__input--mainImg"
-                              allowMultiple={true}
-                              onupdatefiles={this.filesHandler}                 
-                        />
-
-                    <Input className="add-product__input"
-                        id="made"
-                        placeholder="marque"
-                        control="input"
-                        type="text"
-                        value=""
-                    />     
-
-                    <Input className="add-product__input"
-                        id="model"
-                        placeholder="modèle"
-                        control="input"
-                        type="text"
-                        value=""
-                    />    
-
-
-                    <Input className="add-product__input"
-                        id="year"
-                        placeholder="année"
-                        control="input"
-                        type="text"
-                        value=""
-                    />
-
-                    <Input className="add-product__input"
-                        id="price"
-                        placeholder="prix"
-                        control="input"
-                        type="number"
-                        value=""
-                    />  
-
-                    <Input className="add-product__input"
-                        id="kilometers"
-                        placeholder="Nb kilomètres"
-                        control="input"
-                        type="text"
-                        value=""
-                    />
-
-                    <Input className="add-product__input"
-                        id="gazol"
-                        placeholder="Essence ou diesel"
-                        control="input"
-                        type="text"
-                        value=""
-                    />
-
-                    <Input className="add-product__input"
-                        id="yearOnRoad"
-                        placeholder="Année de mise en circulation"
-                        control="input"
-                        type="text"
-                        value=""
-                    />
-
-                    <Input className="add-product__input"
-                        id="numberOwners"
-                        placeholder="Nb de propriétaires"
-                        control="input"
-                        type="text"
-                        value=""
-                    />
-
-                    <Input className="add-product__input"
-                        id="seriesNumber"
-                        placeholder="Numéro de série"
-                        control="input"
-                        type="text"
-                        value=""
-                    />
-
-                    <Input className="add-product__input"
-                        id="generalState"
-                        placeholder="État général"
-                        control="input"
-                        type="text"
-                        value=""
-                    />
-
+                    {
+                        oldForm.map( i=> (
+                            <Input className="add-product__input"
+                                   key={i.id}
+                                   id={i.id}
+                                   placeholder={i.placeholder}
+                                   control={i.control}
+                                   type={i.type}
+                                   value={i.value}
+                                   formType="general"
+                                   onChange={this.inputChangeHandler}/>
+                        ))
+                    }
+                                                        
                     <button onClick={this.uploadHandler}>Upload</button>
                
                 </form>
@@ -203,3 +126,8 @@ registerPlugin(FilePondPluginImagePreview);
 }
 export default AddProduct;
 
+ /*<FilePond className="add-product__input--mainImg"
+                              allowMultiple={true}
+                              onupdatefiles={this.filesHandler}                 
+      />
+*/ 

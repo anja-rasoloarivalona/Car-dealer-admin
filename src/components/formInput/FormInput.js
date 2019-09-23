@@ -24,7 +24,7 @@ const formInput = props => {
                                required={props.required}
                                value={props.value}
                                placeholder={props.placeholder}
-                               onChange={e => props.onChange(props.id, e.target.value, e.target.files)}
+                               onChange={e => props.onChange(props.id, e.target.value, props.formType)}
                                />
                     )
                 }
