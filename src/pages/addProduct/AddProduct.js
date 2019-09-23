@@ -26,11 +26,50 @@ registerPlugin(FilePondPluginImagePreview);
         formGeneral: formGeneral,
     }
 
+
+    senData = e => {
+        e.preventDefault();
+
+        const { formGeneral } = this.state;
+
+        console.log('fetch going....')
+
+        const formData = new FormData();
+
+        formGeneral.map( i => (
+            formData.append(`${i.id}`, `${i.value}`)
+        ))
+
+        let url = "http://localhost:8000/admin/add-product";
+        let method = 'POST'
+
+        fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+                },
+            method: method,
+            body: JSON.stringify(Object.fromEntries(formData))
+        })
+        .then(res => {
+            if(res.status !==200 && res.status !== 201){
+                throw new Error('Creating a product failed')
+            }
+            return res.json
+        })
+        .then( resData => {
+            console.log(resData)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+
     uploadHandler = async e => {
         e.preventDefault();
         const { images } = this.state;
 
-
+        /*
         try {
             const urls = await Promise.all( images.map(image => 
                 new Promise((resolve, reject) => {
@@ -63,7 +102,8 @@ registerPlugin(FilePondPluginImagePreview);
         }
         catch (err){
             console.log(err)
-        }        
+        }      */
+
     }
 
 
@@ -115,7 +155,7 @@ registerPlugin(FilePondPluginImagePreview);
                         ))
                     }
                                                         
-                    <button onClick={this.uploadHandler}>Upload</button>
+                    <button onClick={this.senData}>Upload</button>
                
                 </form>
 
