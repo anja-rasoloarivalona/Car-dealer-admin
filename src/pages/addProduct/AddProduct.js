@@ -22,42 +22,58 @@ registerPlugin(FilePondPluginImagePreview);
         urlImages: []
     }
 
-    uploadHandler = e => {
+    uploadHandler = async e => {
 
         e.preventDefault();
 
         const { images } = this.state;
 
-        images.forEach( image => {
-            const uploadTask = storage.ref(`africauto/${image.name}`).put(image);
-            uploadTask.on('state_changed', 
-    
-            (snapshot) => {
-                // progress function....
-               // const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-               // this.setState({progress: progress})
-            },
-            
-            (error) => {
-                console.log(error);
-            },
-            
-            () => {
-                //complete function...
 
-                storage.ref('africauto').child(image.name)
-                    .getDownloadURL()
-                    .then(url => {
-                        let urlImages= [];              
-                        let newUrls = [...urlImages, url];
+        try {
+            const urls = await Promise.all( images.map(image => 
+                new Promise((resolve, reject) => {
+                    const uploadTask = storage.ref(`africauto/${image.name}`).put(image);
+                    uploadTask.on('state_changed', 
+                    (snapshot) => {
+                        // progress function....
+                    },
+                    
+                    reject,                   
+                    () => {
+                        //complete function...
+        
+                        storage.ref('africauto').child(image.name)
+                            .getDownloadURL()
+                            .then(url => {
+                                let imgStored = this.state.urlImages;              
+                                imgStored.push(url);
 
-
-                        this.setState({
-                            urlImages: newUrls
-                        }, () => console.log(this.state.urlImages))
+                                this.setState({
+                                    urlImages: imgStored
+                                }, () => console.log(this.state.urlImages))
+                                resolve(url)
+                            })
                     })
-            })
-        })
+                })
+            ))
+
+
+            console.log('done', this.state.urlImages);
+
+            return urls;
+
+
+            
+
+        }
+        catch (err){
+            console.log(err)
+        }
+
+
+
+            
+            
     }
 
 
