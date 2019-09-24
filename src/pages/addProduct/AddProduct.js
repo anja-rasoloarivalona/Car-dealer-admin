@@ -25,12 +25,16 @@ class AddProduct extends Component {
   state = {
     images: [],
     urlImages: [],
+
     /*We need all inputs in one array to send the date easiliy */
     fullForm: formGeneral.concat(formTech, formDesign),
+
+
+
     /*We need to store each array into an array to develop the UI easily */
     fullFormPart: [formGeneral, formTech, formDesign],
 
-    featuresList: ['Air climatisé', 'verrouillage centralisé'],
+    featuresList: [],
     featureBeingAdded: '',
 
 
@@ -39,19 +43,21 @@ class AddProduct extends Component {
   };
 
   componentDidMount() {
-    console.log(this.state.fullFormPart);
+
   }
 
-  senData = e => {
-    e.preventDefault();
+  senData = () => {
 
-    const { fullForm } = this.state;
+    const { fullForm, featuresList, urlImages } = this.state;
 
     console.log("fetch going....");
 
     const formData = new FormData();
 
     fullForm.map(i => formData.append(`${i.id}`, `${i.value}`));
+
+    formData.append('features', featuresList);
+    formData.append('imageUrls', urlImages);
 
     let url = "http://localhost:8000/admin/add-product";
     let method = "POST";
@@ -81,7 +87,7 @@ class AddProduct extends Component {
     e.preventDefault();
     const { images } = this.state;
 
-    /*
+    
         try {
             const urls = await Promise.all( images.map(image => 
                 new Promise((resolve, reject) => {
@@ -89,8 +95,7 @@ class AddProduct extends Component {
                     uploadTask.on('state_changed', 
                     (snapshot) => {
                         // progress function....
-                    },
-                    
+                    },          
                     reject,                   
                     () => {
                         //complete function...
@@ -109,12 +114,14 @@ class AddProduct extends Component {
                     })
                 })
             ))
-            console.log('done', this.state.urlImages);
+
+            this.senData();
+
             return urls;
         }
         catch (err){
             console.log(err)
-        }      */
+        }      
   };
 
   filesHandler = files => {
@@ -183,6 +190,7 @@ class AddProduct extends Component {
     return (
       <section className="add-product">
         <form className="add-product__form">
+
           <div className={`add-product__part add-product__part--details 
                            ${this.state.showImage === true ? 'hide' : '' }`}>
 
@@ -217,7 +225,12 @@ class AddProduct extends Component {
                 />
             </div>
             
-
+            <div className="add-product__form__controller">
+                <Button onClick={this.showImageFormHandler}>
+                    next
+                </Button>
+                
+            </div>
           </div>
           
           <div className={`add-product__part add-product__part--image 
@@ -226,17 +239,18 @@ class AddProduct extends Component {
                 <FilePond className="add-product__filepond"
                           allowMultiple={true}
                           onupdatefiles={this.filesHandler}                 
-                />   
-          </div>  
-
-          <div className="add-product__form__controller">
+                /> 
+                <div className="add-product__form__controller">
                         <Button onClick={this.hideImageFormHandler}>
                             previous 
                         </Button>
-                        <Button onClick={this.showImageFormHandler}>
-                            next
+                        <Button onClick={this.uploadHandler}>
+                            upload
                         </Button>
-          </div>
+                </div>  
+          </div>  
+
+          
 
           
 
