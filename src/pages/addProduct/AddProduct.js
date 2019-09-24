@@ -26,6 +26,7 @@ class AddProduct extends Component {
   state = {
     images: [],
     urlImages: [],
+    albumId: '',
 
     /*We need all inputs in one array to send the date easiliy */
     fullForm: formGeneral.concat(formTech, formDesign),
@@ -56,9 +57,9 @@ class AddProduct extends Component {
     const formData = new FormData();
 
     fullForm.map(i => formData.append(`${i.id}`, `${i.value}`));
-
     formData.append('features', featuresList);
     formData.append('imageUrls', urlImages);
+    formData.append('albumId', this.state.albumId);
 
     let url = "http://localhost:8000/admin/add-product";
     let method = "POST";
@@ -89,6 +90,7 @@ class AddProduct extends Component {
     const { images } = this.state;
 
     let albumId = uuid();
+    this.setState({ albumId: albumId});
     
         try {
             const urls = await Promise.all( images.map(image => 
@@ -198,7 +200,7 @@ class AddProduct extends Component {
 
             {fullFormPart.map(part => (
 
-              <div className="add-product__part--details__section">
+              <div className="add-product__part--details__section" key={part[0].formType}>
                 <h3 className="add-product__form__title">{part[0].formType}</h3>
                     {part.map(i => (
                     <Input

@@ -1,5 +1,14 @@
 export const formTech = [
     {
+        id: 'transmissionType',
+        value: '',
+        placeholder: 'manuel ou automatique',
+        control: 'input',
+        type: 'text',
+        formType: "tech"
+        
+    },
+    {
         id: 'nbGearRatios',
         value: '',
         placeholder: 'nombre de rapports',
