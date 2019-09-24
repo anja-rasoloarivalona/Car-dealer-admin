@@ -1,75 +1,81 @@
-import React, { Component } from 'react'
-import './AddProduct.css';
+import React, { Component } from "react";
+import "./AddProduct.css";
 
-import {formGeneral} from './forms/formGeneral';
+import { formGeneral } from "./forms/formGeneral";
+import { formTech } from "./forms/formTech";
+import { formDesign } from "./forms/formDesign";
 
-import { FilePond, registerPlugin } from 'react-filepond';
-import * as FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { FilePond, registerPlugin } from "react-filepond";
+import * as FilePondPluginImagePreview from "filepond-plugin-image-preview";
 
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-import 'filepond/dist/filepond.min.css';
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+import "filepond/dist/filepond.min.css";
 
-import { storage } from '../../firebase';
-import Input from '../../components/formInput/FormInput';
+import { storage } from "../../firebase";
+import Input from "../../components/formInput/FormInput";
 
+
+import Button from '../../components/button/Button';
 
 registerPlugin(FilePondPluginImagePreview);
 
-
- class AddProduct extends Component {
-
-    state = {
-        images: [],
-        urlImages: [],
-
-
-        formGeneral: formGeneral,
-    }
+class AddProduct extends Component {
+  state = {
+    images: [],
+    urlImages: [],
+    /*We need all inputs in one array to send the date easiliy */
+    fullForm: formGeneral.concat(formTech, formDesign),
+    /*We need to store each array into an array to develop the UI easily */
+    fullFormPart: [formGeneral, formTech, formDesign],
 
 
-    senData = e => {
-        e.preventDefault();
+    showImage: false
+  };
 
-        const { formGeneral } = this.state;
+  componentDidMount() {
+    console.log(this.state.fullFormPart);
+  }
 
-        console.log('fetch going....')
+  senData = e => {
+    e.preventDefault();
 
-        const formData = new FormData();
+    const { fullForm } = this.state;
 
-        formGeneral.map( i => (
-            formData.append(`${i.id}`, `${i.value}`)
-        ))
+    console.log("fetch going....");
 
-        let url = "http://localhost:8000/admin/add-product";
-        let method = 'POST'
+    const formData = new FormData();
 
-        fetch(url, {
-            headers: {
-                "Content-Type": "application/json",
-                },
-            method: method,
-            body: JSON.stringify(Object.fromEntries(formData))
-        })
-        .then(res => {
-            if(res.status !==200 && res.status !== 201){
-                throw new Error('Creating a product failed')
-            }
-            return res.json
-        })
-        .then( resData => {
-            console.log(resData)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
+    fullForm.map(i => formData.append(`${i.id}`, `${i.value}`));
 
+    let url = "http://localhost:8000/admin/add-product";
+    let method = "POST";
 
-    uploadHandler = async e => {
-        e.preventDefault();
-        const { images } = this.state;
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: method,
+      body: JSON.stringify(Object.fromEntries(formData))
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Creating a product failed");
+        }
+        return res.json;
+      })
+      .then(resData => {
+        console.log(resData);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
-        /*
+  uploadHandler = async e => {
+    e.preventDefault();
+    const { images } = this.state;
+
+    /*
         try {
             const urls = await Promise.all( images.map(image => 
                 new Promise((resolve, reject) => {
@@ -103,71 +109,107 @@ registerPlugin(FilePondPluginImagePreview);
         catch (err){
             console.log(err)
         }      */
+  };
 
-    }
+  filesHandler = files => {
+    let images = [];
+    files.forEach(file => {
+      let a = file.file;
+      images = [...images, a];
+    });
+    this.setState({
+      images: images
+    });
+  };
 
+  inputChangeHandler = (input, value) => {
+    const { fullForm } = this.state;
+    const indexInput = fullForm.findIndex(i => i.id === input);
+    let newForm = fullForm;
+    newForm[indexInput].value = value;
+    this.setState({
+      fullForm: newForm
+    });
+  };
 
-    filesHandler = files => {
-        let images = [];
-        files.forEach(file => {
-            let a = file.file;
-            images = [...images, a]
-        })
-        this.setState({
-            images: images
-        })
-    }
+  showImageFormHandler = e => {
+      e.preventDefault();
+      window.scrollTo(0, 0);
+    if(this.state.showImage === false){
+        this.setState({showImage: true});
+    }  
+  }
 
-
-    inputChangeHandler = (input, value, type) => {
-        const { formGeneral } = this.state;
-        const indexInput = formGeneral.findIndex(i => i.id === input);
-        let newForm = formGeneral;
-        newForm[indexInput].value = value;
-        this.setState({
-            formGeneral: newForm
-        })
-    }
-
-
-
-    render() {
-
-     const oldForm = this.state.formGeneral;
-
+  hideImageFormHandler = e => {
+     e.preventDefault();
+     window.scrollTo(0, 0);
+      if(this.state.showImage === true){
+        this.setState({showImage: false});
+      }
     
+  }
 
-        return (
-            <section className="add-product">
-                <form className="add-product__form">
+  
 
-                    {
-                        oldForm.map( i=> (
-                            <Input className="add-product__input"
-                                   key={i.id}
-                                   id={i.id}
-                                   placeholder={i.placeholder}
-                                   control={i.control}
-                                   type={i.type}
-                                   value={i.value}
-                                   formType="general"
-                                   onChange={this.inputChangeHandler}/>
-                        ))
-                    }
-                                                        
-                    <button onClick={this.senData}>Upload</button>
-               
-                </form>
+  render() {
+    const fullFormPart = this.state.fullFormPart;
 
-                
-            </section>   
-    )}
+    return (
+      <section className="add-product">
+        <form className="add-product__form">
+          <div className={`add-product__part add-product__part--details 
+                           ${this.state.showImage === true ? 'hide' : '' }`}>
 
+            {fullFormPart.map(part => (
+
+              <div className="add-product__part--details__section">
+                <h3 className="add-product__form__title">{part[0].formType}</h3>
+                    {part.map(i => (
+                    <Input
+                        className="add-product__input"
+                        key={i.id}
+                        id={i.id}
+                        placeholder={i.placeholder}
+                        control={i.control}
+                        type={i.type}
+                        value={i.value}
+                        formType={i.formType}
+                        onChange={this.inputChangeHandler}
+                    />
+                    ))}
+              </div>
+
+            ))}
+
+
+          </div>
+          
+          <div className={`add-product__part add-product__part--image 
+                           ${this.state.showImage === true ? 'show' : '' }`}>
+                <h3 className="add-product__form__title">Images</h3>          
+                <FilePond className="add-product__filepond"
+                          allowMultiple={true}
+                          onupdatefiles={this.filesHandler}                 
+                />   
+          </div>  
+
+          <div className="add-product__form__controller">
+                        <Button onClick={this.hideImageFormHandler}>
+                            previous 
+                        </Button>
+                        <Button onClick={this.showImageFormHandler}>
+                            next
+                        </Button>
+          </div>
+
+          
+
+          
+        </form>
+      </section>
+    );
+  }
 }
 export default AddProduct;
 
- /*<FilePond className="add-product__input--mainImg"
-                              allowMultiple={true}
-                              onupdatefiles={this.filesHandler}                 
-      />
-*/ 
+

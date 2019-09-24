@@ -5,6 +5,7 @@ export const formGeneral = [
         placeholder: 'titre',
         control: 'input',
         type: 'text',
+        formType: "general"
         
     },
 
@@ -14,6 +15,7 @@ export const formGeneral = [
         placeholder: 'marque',
         control: 'input',
         type: 'text',
+        formType: "general"
     },
 
     {
@@ -22,6 +24,7 @@ export const formGeneral = [
         placeholder: 'modèle',
         control: 'input',
         type: 'text',
+        formType: "general"
     },
 
     {
@@ -30,6 +33,7 @@ export const formGeneral = [
         placeholder: 'année',
         control: 'input',
         type: 'text',
+        formType: "general"
     },
 
     {
@@ -38,6 +42,7 @@ export const formGeneral = [
         placeholder: 'prix',
         control: 'input',
         type: 'number',
+        formType: "general"
     },
 
     {
@@ -46,6 +51,7 @@ export const formGeneral = [
         placeholder: 'Nombre de kilomètres',
         control: 'input',
         type: 'number',
+        formType: "general"
     },
 
     {
@@ -54,6 +60,7 @@ export const formGeneral = [
         placeholder: 'essence ou diesel',
         control: 'input',
         type: 'text',
+        formType: "general"
     },
 
     {
@@ -62,6 +69,7 @@ export const formGeneral = [
         placeholder: 'année de mise en circulation',
         control: 'input',
         type: 'text',
+        formType: "general"
     },
 
     {
@@ -70,6 +78,7 @@ export const formGeneral = [
         placeholder: 'nombre de propriétaires',
         control: 'input',
         type: 'number',
+        formType: "general"
     },
 
     {
@@ -78,6 +87,7 @@ export const formGeneral = [
         placeholder: 'numéro de série',
         control: 'input',
         type: 'text',
+        formType: "general"
     },
 
     {
@@ -86,5 +96,6 @@ export const formGeneral = [
         placeholder: 'état général',
         control: 'input',
         type: 'text',
+        formType: "general"
     }
 ]
