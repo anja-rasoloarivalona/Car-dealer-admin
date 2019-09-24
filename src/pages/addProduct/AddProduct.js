@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./AddProduct.css";
+import uuid from 'uuid/v4';
 
 import { formGeneral } from "./forms/formGeneral";
 import { formTech } from "./forms/formTech";
@@ -87,11 +88,12 @@ class AddProduct extends Component {
     e.preventDefault();
     const { images } = this.state;
 
+    let albumId = uuid();
     
         try {
             const urls = await Promise.all( images.map(image => 
                 new Promise((resolve, reject) => {
-                    const uploadTask = storage.ref(`africauto/${image.name}`).put(image);
+                    const uploadTask = storage.ref(`${albumId}/${image.name}`).put(image);
                     uploadTask.on('state_changed', 
                     (snapshot) => {
                         // progress function....
@@ -100,7 +102,7 @@ class AddProduct extends Component {
                     () => {
                         //complete function...
         
-                        storage.ref('africauto').child(image.name)
+                        storage.ref(`${albumId}`).child(image.name)
                             .getDownloadURL()
                             .then(url => {
                                 let imgStored = this.state.urlImages;              
