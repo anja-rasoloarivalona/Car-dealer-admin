@@ -4,6 +4,7 @@ import "./AddProduct.css";
 import { formGeneral } from "./forms/formGeneral";
 import { formTech } from "./forms/formTech";
 import { formDesign } from "./forms/formDesign";
+import FormFeature from './forms/formFeature/FormFeature';
 
 import { FilePond, registerPlugin } from "react-filepond";
 import * as FilePondPluginImagePreview from "filepond-plugin-image-preview";
@@ -17,6 +18,7 @@ import Input from "../../components/formInput/FormInput";
 
 import Button from '../../components/button/Button';
 
+
 registerPlugin(FilePondPluginImagePreview);
 
 class AddProduct extends Component {
@@ -27,6 +29,10 @@ class AddProduct extends Component {
     fullForm: formGeneral.concat(formTech, formDesign),
     /*We need to store each array into an array to develop the UI easily */
     fullFormPart: [formGeneral, formTech, formDesign],
+
+    featuresList: ['Air climatisé', 'verrouillage centralisé'],
+    featureBeingAdded: '',
+
 
 
     showImage: false
@@ -149,6 +155,26 @@ class AddProduct extends Component {
     
   }
 
+
+  addFeatureChangeHandler = (input, value) => {
+        this.setState({featureBeingAdded: value})
+  }
+
+  addFeature = e => {
+      e.preventDefault();
+      const {featureBeingAdded, featuresList} = this.state;
+      let newList = [...featuresList, featureBeingAdded];
+      this.setState({featuresList: newList})
+  }
+
+  deleteFeature = i => {
+      let {featuresList} = this.state;
+      let newList = featuresList.filter(el => el !== i);
+      this.setState({featuresList: newList})
+  }
+
+
+
   
 
   render() {
@@ -181,6 +207,16 @@ class AddProduct extends Component {
 
             ))}
 
+            <div className="add-product__part--details__section">
+                <h3 className="add-product__form__title">options</h3>
+                <FormFeature featuresList={this.state.featuresList}
+                             addFeatureChangeHandler={this.addFeatureChangeHandler}
+                             value={this.state.featureBeingAdded}
+                             addFeature={this.addFeature}
+                             deleteFeature= {this.deleteFeature}
+                />
+            </div>
+            
 
           </div>
           

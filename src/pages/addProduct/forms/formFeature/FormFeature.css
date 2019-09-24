@@ -1,0 +1,32 @@
+.formFeature {
+    min-height: 50vh;
+    
+}
+
+.formFeature__add {
+    display: flex;
+    align-items: center;
+}
+
+.formFeature__add .input {
+    width: 50%;
+}
+
+.formFeature__add .input .input__field {
+    width: 100%;
+}
+
+
+.formFeature__list {
+    width: 50%;
+    margin-top: 2rem;
+}
+
+.formFeature__list__item {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+    width: 40%;
+    padding-left: .5rem;
+    border: 1px solid var(--color-grey);
+}
