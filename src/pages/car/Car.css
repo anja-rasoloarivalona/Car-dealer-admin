@@ -1,0 +1,104 @@
+.car {
+    grid-row: 3 / 4;
+    grid-column: 2 / 4;
+    display: flex;
+}
+
+
+.car__presentation {
+    width: 75%;
+}
+
+.car__presentation__title {
+    font-size: 3rem;
+    padding: 2rem 0;
+}
+
+.car__presentation--right {
+    width: 25%;
+    background: green;
+}
+
+.car__presentation__gallery {
+    width: 100%;
+    height: 40rem;
+    
+}
+
+.GalleryImage img {
+    margin: none;
+    width: 100%;
+ 
+}
+
+.Gallery__NavigationArrow button:focus {
+    outline: none;
+}
+
+.car__presentation__gallery__controller {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 14.5rem);
+    grid-template-rows: repeat(auto-fit, 7.5rem);
+    grid-auto-rows: 7.5rem;
+   
+    column-gap: 1rem;
+    row-gap: 1rem;
+
+    justify-content: center;
+    padding: 1rem 0;
+    margin-bottom: 3rem;
+}
+
+.car__presentation__gallery__controller__img {
+    width: 14.5rem;
+    height: 7.5rem;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.car__presentation__nav {
+    width: 100%;
+    background: var(--color-dark);
+    height: 5rem;
+
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+
+  
+}
+
+.car__presentation__nav li {
+    height: 100%;
+    width: 13rem;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.car__presentation__nav li.active {
+    background: var(--color-white);
+    color: var(--color-dark);
+}
+
+.car__presentation__nav a.active::before {
+    content: '';
+    position: absolute;
+    top: -.5rem;
+    height: .5rem;
+    width: 100%;
+    background: var(--color-primary);
+}
+
+.space {
+    height: 50vh;
+}

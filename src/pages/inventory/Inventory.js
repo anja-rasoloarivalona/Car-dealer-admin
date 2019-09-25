@@ -48,7 +48,8 @@ class Inventory extends Component {
                     {
                         products.map( product => (
                             <li className="inventory__list__item">
-                                <Product 
+                                <Product
+                                    id={product._id} 
                                     key={product.general[0].mainImgUrl}
                                     mainImg={product.general[0].mainImgUrl}
                                     made={product.general[0].made}
@@ -57,7 +58,9 @@ class Inventory extends Component {
                                     price={product.general[0].price}
                                     nbKilometers={product.general[0].nbKilometers}
                                     gazol={product.general[0].gazol}
-                                    transmissionType={product.general[0].transmissionType}/>
+                                    transmissionType={product.general[0].transmissionType}
+                                    
+                                    goToProd={() => this.props.history.push(`/car/${product._id}`)}/>
                             </li>
                         ))
                     }

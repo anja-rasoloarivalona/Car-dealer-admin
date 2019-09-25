@@ -6,7 +6,8 @@ import IconSvg from '../../utilities/svg/svg';
 const product = props => {
     return (
         <article className="product">
-            <img src={props.mainImg} alt="main img" className="product__img"/>
+            <img src={props.mainImg} alt="main img" className="product__img"
+                 onClick={props.goToProd}/>
             
             <div className="product__details">
                 <div className="product__details__model">
