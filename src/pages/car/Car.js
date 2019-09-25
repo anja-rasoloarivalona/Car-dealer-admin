@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import './Car.css';
 import { Gallery, GalleryImage } from "react-gesture-gallery";
 
-
+import Button from '../../components/button/Button';
 
 import Overview from './overview/Overview';
 import Technical from './technical/Technical';
 import Features from './features/Features';
+
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions';
 
 
 class Car extends Component {
@@ -14,7 +17,6 @@ class Car extends Component {
     state = {
         index: 0,
         initiatlIndex: 0,
-
         carDetail: 'overview',
 
         product: {},
@@ -41,9 +43,16 @@ class Car extends Component {
     }
 
     componentWillMount(){
-        let id = this.props.history.location.pathname.slice(5);
 
-        let url = "http://localhost:8000/admin/" + id;
+        let prodId;
+
+        if(this.props.prodId === ''){
+            prodId = this.props.match.params.prodId
+        } else {
+            prodId = this.props.prodId
+        }    
+
+        let url = "http://localhost:8000/admin/" + prodId;
         let method = 'GET';
 
         this.setState({loading: true})
@@ -64,12 +73,12 @@ class Car extends Component {
             this.setState({
                 product: resData.product,
                 loading: false
-            }, () => console.log(this.state.product))
+            }, () => this.props.setProductRequested(resData.product))
         })
         .catch( err => {
             console.log(err)
         })
-
+        
     }
 
     componentWillUnmount(){
@@ -164,7 +173,15 @@ class Car extends Component {
                         
                     </section>
                     <section className="car__presentation--right">
-
+                            <Button link= {{
+                                pathname: '/ajouter',
+                                state: {
+                                    prodId: this.props.history.location.pathname.slice(5)
+                                }
+                            }}
+                            >
+                                Edit
+                            </Button>
                     </section>
             </div>
             )
@@ -177,4 +194,16 @@ class Car extends Component {
 }
 
 
-export default Car;
+const mapStateToProps = state => {
+    return {
+        prodId: state.products.productRequestedId
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setProductRequested: (prod) => dispatch(actions.setRequestedProduct(prod))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Car);

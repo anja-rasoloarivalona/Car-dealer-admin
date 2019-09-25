@@ -19,27 +19,25 @@ import Navbar from './components/navigation/navbar/Navbar';
 class App extends Component {
   render() {
     return (
-      <div className="app">
-            <Navtop />
-            <Navbar />
-
-            <Switch>
-                
 
 
-                <Route path='/' exact component={Inventory}/>
+        <div className="app">
+                  <Navtop />
+                  <Navbar />
 
-                <Route exact path='/car/:prodId' component={Car}/>
+                  <Switch>
+                      <Route path='/' exact component={Inventory}/>
 
-                <Route path='/publicity' component={Publicity}/>
-                <Route path='/ajouter' component={Add}/>
-                <Route path='/stats' component={Stats}/>
-                <Route path='/commandes' component={Order}/>
+                      <Route exact path='/car/:prodId' component={Car}/>
 
-                
-                
-            </Switch>
-      </div>
+                      <Route path='/publicity' component={Publicity}/>
+                      <Route path='/ajouter' component={Add}/>
+                      <Route path='/stats' component={Stats}/>
+                      <Route path='/commandes' component={Order}/>                                  
+                </Switch>
+            </div>
+
+      
     );
   }
 }

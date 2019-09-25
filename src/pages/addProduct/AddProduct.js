@@ -20,6 +20,8 @@ import Input from "../../components/formInput/FormInput";
 import Button from '../../components/button/Button';
 
 
+
+
 registerPlugin(FilePondPluginImagePreview);
 
 class AddProduct extends Component {
@@ -35,17 +37,37 @@ class AddProduct extends Component {
 
     /*We need to store each array into an array to develop the UI easily */
     fullFormPart: [formGeneral, formTech, formDesign],
-
     featuresList: [],
+
+    
     featureBeingAdded: '',
 
 
 
-    showImage: false
+    showImage: false,
+
+
+
+    editingMode: false,
+    productBeingEditedId: null,
+
+
+    productBeingEdited: {}
+
   };
 
   componentDidMount() {
 
+    if(this.props.history.location.state === undefined){
+        return console.log('new')
+    } else {
+        this.setState({
+          editingMode: true,
+          productBeingEditedId: this.props.history.location.state.prodId
+        }, () => console.log(this.state.editingMode, this.state.productBeingEditedId))
+    }
+
+ 
   }
 
   senData = () => {

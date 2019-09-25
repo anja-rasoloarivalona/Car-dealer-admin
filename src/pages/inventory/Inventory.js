@@ -3,6 +3,9 @@ import './Inventory.css';
 
 import Product from '../../components/product/Product';
 
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions';
+
 
 class Inventory extends Component {
 
@@ -60,7 +63,10 @@ class Inventory extends Component {
                                     gazol={product.general[0].gazol}
                                     transmissionType={product.general[0].transmissionType}
                                     
-                                    goToProd={() => this.props.history.push(`/car/${product._id}`)}/>
+                                    goToProd={() => {
+                                                this.props.setProductRequestedId(product._id);
+                                                this.props.history.push(`/car/${product._id}`)
+                                    }}/>
                             </li>
                         ))
                     }
@@ -72,5 +78,11 @@ class Inventory extends Component {
 }
 
 
+const mapDispatchToProps = dispatch => {
+    return {
+        setProductRequestedId: (prodId) => dispatch(actions.setRequestedProductId(prodId))
+    }
+}
 
-export default Inventory;
+
+export default connect(null, mapDispatchToProps)(Inventory);
