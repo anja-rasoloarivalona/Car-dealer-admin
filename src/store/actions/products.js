@@ -2,10 +2,6 @@ import * as actionTypes from './actionsTypes';
 
 
 export const setRequestedProduct = data => {
-
-    console.log('from products action', data);
-
-    
     return {
         type: actionTypes.SET_REQUESTED_PRODUCT,
         product: data

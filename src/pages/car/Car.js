@@ -23,9 +23,7 @@ class Car extends Component {
         loading: false
     }
 
-    componentWillReceiveProps() {
-
-    }
+ 
 
 
     imageSlideHandler = () => {
@@ -42,7 +40,7 @@ class Car extends Component {
             }, 2500)
     }
 
-    componentWillMount(){
+   UNSAFE_componentWillMount(){
 
         let prodId;
 
@@ -175,9 +173,9 @@ class Car extends Component {
                     <section className="car__presentation--right">
                             <Button link= {{
                                 pathname: '/ajouter',
-                                state: {
-                                    prodId: this.props.history.location.pathname.slice(5)
-                                }
+                               /* state: {
+                                    prodId: this.props.match.params.prodId
+                                }*/
                             }}
                             >
                                 Edit

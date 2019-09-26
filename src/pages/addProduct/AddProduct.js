@@ -19,6 +19,8 @@ import Input from "../../components/formInput/FormInput";
 
 import Button from '../../components/button/Button';
 
+import { connect } from 'react-redux'
+
 
 
 
@@ -33,42 +35,83 @@ class AddProduct extends Component {
     /*We need all inputs in one array to send the date easiliy */
     fullForm: formGeneral.concat(formTech, formDesign),
 
-
-
     /*We need to store each array into an array to develop the UI easily */
     fullFormPart: [formGeneral, formTech, formDesign],
-    featuresList: [],
-
     
+    featuresList: [],
     featureBeingAdded: '',
-
-
-
     showImage: false,
 
-
-
     editingMode: false,
-    productBeingEditedId: null,
+    productBeingEdited: {},
+    newFullForm: {}
 
-
-    productBeingEdited: {}
-
-  };
+  }; 
 
   componentDidMount() {
 
-    if(this.props.history.location.state === undefined){
+    let product = Object.keys(this.props.productBeingEdited);
+
+
+   if(product.length === 0){
         return console.log('new')
-    } else {
-        this.setState({
-          editingMode: true,
-          productBeingEditedId: this.props.history.location.state.prodId
-        }, () => console.log(this.state.editingMode, this.state.productBeingEditedId))
-    }
+    } 
+
+    console.log('updating');
+
+   
+    let prod = this.props.productBeingEdited;
+
+    let general = prod.general[0]
+    let tech = prod.tech[0]
+    let design = prod.design[0]
+
+
+
+    let newFullForm = {...general, ...tech, ...design};
+
+    delete newFullForm["_id"]
+
+
+
+
+    this.setState({
+      editingMode: true,
+      featuresList: this.props.productBeingEdited.features,
+      newFullForm: newFullForm
+    })
 
  
   }
+
+  inputChangeHandler = (input, value) => {
+
+    const { fullForm, newFullForm } = this.state;
+
+    if(this.state.editingMode === false) {
+      const indexInput = fullForm.findIndex(i => i.id === input);
+      let newForm = fullForm;
+      newForm[indexInput].value = value;
+      this.setState({
+        fullForm: newForm
+        });
+    }
+
+    if(this.state.editingMode === true){
+      let upDatedNewFullForm = newFullForm;
+      upDatedNewFullForm[input] = value
+      this.setState({
+        newFullForm: upDatedNewFullForm
+      })
+    }
+
+
+
+    
+
+
+
+  };
 
   senData = () => {
 
@@ -161,15 +204,7 @@ class AddProduct extends Component {
     });
   };
 
-  inputChangeHandler = (input, value) => {
-    const { fullForm } = this.state;
-    const indexInput = fullForm.findIndex(i => i.id === input);
-    let newForm = fullForm;
-    newForm[indexInput].value = value;
-    this.setState({
-      fullForm: newForm
-    });
-  };
+  
 
   showImageFormHandler = e => {
       e.preventDefault();
@@ -232,7 +267,8 @@ class AddProduct extends Component {
                         placeholder={i.placeholder}
                         control={i.control}
                         type={i.type}
-                        value={i.value}
+                        value={ this.state.editingMode === false ? i.value : this.state.newFullForm[i.id]
+                          }
                         formType={i.formType}
                         onChange={this.inputChangeHandler}
                     />
@@ -286,6 +322,12 @@ class AddProduct extends Component {
     );
   }
 }
-export default AddProduct;
+
+const mapStateToProps = state => {
+  return {
+      productBeingEdited: state.products.productRequested
+  }
+}
+export default connect(mapStateToProps)(AddProduct);
 
 
