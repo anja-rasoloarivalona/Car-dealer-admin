@@ -1,0 +1,28 @@
+.file-picker {
+
+}
+
+.file-picker__currentImages__list {
+    list-style: none; 
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 20rem);
+    grid-template-rows: repeat(auto-fit, 10rem);
+    grid-auto-rows: 10rem;
+   
+    column-gap: 1rem;
+    row-gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.file-picker__currentImages__list__item {
+    width: 20rem;
+    height: 10rem;
+    object-fit: cover;
+}
+
+.file-picker__title {
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}

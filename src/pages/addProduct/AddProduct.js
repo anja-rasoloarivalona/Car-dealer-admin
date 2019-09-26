@@ -1,30 +1,16 @@
 import React, { Component } from "react";
 import "./AddProduct.css";
 import uuid from 'uuid/v4';
-
 import { formGeneral } from "./forms/formGeneral";
 import { formTech } from "./forms/formTech";
 import { formDesign } from "./forms/formDesign";
 import FormFeature from './forms/formFeature/FormFeature';
-
-import { FilePond, registerPlugin } from "react-filepond";
-import * as FilePondPluginImagePreview from "filepond-plugin-image-preview";
-
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
-import "filepond/dist/filepond.min.css";
-
+import Filepicker from './forms/filePicker/FilePicker';
 import { storage } from "../../firebase";
 import Input from "../../components/formInput/FormInput";
-
-
 import Button from '../../components/button/Button';
-
 import { connect } from 'react-redux'
 
-
-
-
-registerPlugin(FilePondPluginImagePreview);
 
 class AddProduct extends Component {
   state = {
@@ -34,7 +20,6 @@ class AddProduct extends Component {
 
     /*We need all inputs in one array to send the date easiliy */
     fullForm: formGeneral.concat(formTech, formDesign),
-
     /*We need to store each array into an array to develop the UI easily */
     fullFormPart: [formGeneral, formTech, formDesign],
     
@@ -43,7 +28,11 @@ class AddProduct extends Component {
     showImage: false,
 
     editingMode: false,
+
+
     productBeingEdited: {},
+    productBeingEditedID: '',
+    productBeingEditedCurrentUrlImages: [], 
     newFullForm: {}
 
   }; 
@@ -59,6 +48,8 @@ class AddProduct extends Component {
 
     console.log('updating');
 
+    console.log(this.props.productBeingEdited)
+
    
     let prod = this.props.productBeingEdited;
 
@@ -70,15 +61,13 @@ class AddProduct extends Component {
 
     let newFullForm = {...general, ...tech, ...design};
 
-    delete newFullForm["_id"]
-
-
-
-
     this.setState({
       editingMode: true,
       featuresList: this.props.productBeingEdited.features,
-      newFullForm: newFullForm
+      newFullForm: newFullForm,
+      albumId: this.props.productBeingEdited.albumId,
+      productBeingEditedCurrentUrlImages: this.props.productBeingEdited.imageUrls,
+      productBeingEditedID: this.props.productBeingEdited._id
     })
 
  
@@ -104,30 +93,41 @@ class AddProduct extends Component {
         newFullForm: upDatedNewFullForm
       })
     }
-
-
-
-    
-
-
-
   };
 
   senData = () => {
 
-    const { fullForm, featuresList, urlImages } = this.state;
+    const { fullForm, featuresList, urlImages, newFullForm } = this.state;
 
     console.log("fetch going....");
 
     const formData = new FormData();
 
-    fullForm.map(i => formData.append(`${i.id}`, `${i.value}`));
-    formData.append('features', featuresList);
-    formData.append('imageUrls', urlImages);
-    formData.append('albumId', this.state.albumId);
+    let method;
+    let url;
 
-    let url = "http://localhost:8000/admin/add-product";
-    let method = "POST";
+
+    if(this.state.editingMode === false){
+        fullForm.map(i => formData.append(`${i.id}`, `${i.value}`));
+        formData.append('features', featuresList);
+        formData.append('imageUrls', urlImages);
+        formData.append('albumId', this.state.albumId);
+
+        method = 'POST';
+        url = "http://localhost:8000/admin/add-product";
+    }
+
+    if(this.state.editingMode === true){
+        for(let i in newFullForm){
+          formData.append(`${i}`, `${newFullForm[i]}`)
+        };
+        formData.append('features', featuresList);
+        formData.append('albumId', this.state.albumId);
+        formData.append('imageUrls', this.state.productBeingEditedCurrentUrlImages);
+        formData.append('productBeingEditedID', this.state.productBeingEditedID )
+        method = 'PUT';
+        url = "http://localhost:8000/admin/edit-product"
+    }
 
     fetch(url, {
       headers: {
@@ -140,7 +140,8 @@ class AddProduct extends Component {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Creating a product failed");
         }
-        return res.json;
+
+        return res.json()
       })
       .then(resData => {
         console.log(resData);
@@ -154,43 +155,44 @@ class AddProduct extends Component {
     e.preventDefault();
     const { images } = this.state;
 
-    let albumId = uuid();
-    this.setState({ albumId: albumId});
+    if(this.state.editingMode === false){
+      let albumId = uuid();
+      this.setState({ albumId: albumId});
+      try {
+        const urls = await Promise.all( images.map(image => 
+            new Promise((resolve, reject) => {
+                const uploadTask = storage.ref(`${albumId}/${image.name}`).put(image);
+                uploadTask.on('state_changed', 
+                (snapshot) => {
+                    // progress function....
+                },          
+                reject,                   
+                () => {
+                    //complete function...
     
-        try {
-            const urls = await Promise.all( images.map(image => 
-                new Promise((resolve, reject) => {
-                    const uploadTask = storage.ref(`${albumId}/${image.name}`).put(image);
-                    uploadTask.on('state_changed', 
-                    (snapshot) => {
-                        // progress function....
-                    },          
-                    reject,                   
-                    () => {
-                        //complete function...
-        
-                        storage.ref(`${albumId}`).child(image.name)
-                            .getDownloadURL()
-                            .then(url => {
-                                let imgStored = this.state.urlImages;              
-                                imgStored.push(url);
+                    storage.ref(`${albumId}`).child(image.name)
+                        .getDownloadURL()
+                        .then(url => {
+                            let imgStored = this.state.urlImages;              
+                            imgStored.push(url);
 
-                                this.setState({
-                                    urlImages: imgStored
-                                }, () => console.log(this.state.urlImages))
-                                resolve(url)
-                            })
-                    })
+                            this.setState({
+                                urlImages: imgStored
+                            }, () => console.log(this.state.urlImages))
+                            resolve(url)
+                        })
                 })
-            ))
-
-            this.senData();
-
-            return urls;
-        }
-        catch (err){
-            console.log(err)
-        }      
+            })
+        ))
+        this.senData();
+        return urls;
+      }
+      catch (err){
+          console.log(err)
+      }   
+    } else {
+        this.senData();
+    }     
   };
 
   filesHandler = files => {
@@ -239,6 +241,11 @@ class AddProduct extends Component {
       let {featuresList} = this.state;
       let newList = featuresList.filter(el => el !== i);
       this.setState({featuresList: newList})
+  }
+
+  over = e => {
+    e.preventDefault()
+    console.log('new full form', this.state.newFullForm)
   }
 
 
@@ -298,16 +305,19 @@ class AddProduct extends Component {
           <div className={`add-product__part add-product__part--image 
                            ${this.state.showImage === true ? 'show' : '' }`}>
                 <h3 className="add-product__form__title">Images</h3>          
-                <FilePond className="add-product__filepond"
-                          allowMultiple={true}
-                          onupdatefiles={this.filesHandler}                 
-                /> 
+                <Filepicker filesHandler={this.filesHandler}
+                            productBeingEditedCurrentImages={this.state.productBeingEditedCurrentUrlImages}
+                            editingMode={this.state.editingMode}
+                />
                 <div className="add-product__form__controller">
                         <Button onClick={this.hideImageFormHandler}>
                             previous 
                         </Button>
                         <Button onClick={this.uploadHandler}>
                             upload
+                        </Button>
+                        <Button onClick={this.over}>
+                            State
                         </Button>
                 </div>  
           </div>  

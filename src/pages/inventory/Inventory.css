@@ -6,7 +6,7 @@
 
 .inventory__list {
     width: 100%;
-
+    list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, 30rem);
     grid-template-rows: repeat(auto-fit, 30rem);
