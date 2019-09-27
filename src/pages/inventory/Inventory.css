@@ -3,6 +3,39 @@
     margin-top: 5rem;   
 }
 
+.inventory__filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    background: var(--color-grey);
+    margin-bottom: 2rem;
+    
+}
+
+.inventory__filter__searchBar {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory__filter__searchBar input {
+    width: 30rem;
+    height: 3rem;
+    padding-left: .5rem;
+}
+
+.inventory__filter__searchBar svg {
+    width: 3rem;
+    height: 3rem;
+    padding: .8rem;
+    background: var(--color-primary);
+    fill: var(--color-white);
+}
+
+
+
 .inventory__list {
     width: 100%;
     list-style: none;

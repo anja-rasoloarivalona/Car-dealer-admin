@@ -5,6 +5,8 @@ import Product from '../../components/product/Product';
 
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
+import Input from '../../components/formInput/FormInput';
+import IconSvg from '../../utilities/svg/svg';
 
 
 class Inventory extends Component {
@@ -45,6 +47,17 @@ class Inventory extends Component {
         const { products } = this.state
         return (
             <div className="inventory">
+
+                <div className="inventory__filter">
+                    <div className="inventory__filter__searchBar">
+                        <Input control='input'
+                               value=''
+                               type='text'
+                               placeholder='search...'/>
+                        <IconSvg icon="search"/>
+                    </div>
+                </div>
+
 
                 <ul className="inventory__list">
                   
