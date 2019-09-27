@@ -41,7 +41,5 @@ body {
 
 .app {
   display: grid;
-  grid-template-columns: 1fr repeat(2, 40vw) 1fr;
-  grid-template-rows: max-content;
-  grid-auto-rows: max-content;
+  grid-template-columns: 20rem 1fr;
 }

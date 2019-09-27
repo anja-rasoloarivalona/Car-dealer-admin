@@ -25,6 +25,9 @@ class App extends Component {
                   <Navtop />
                   <Navbar />
 
+                {
+                  /*
+                  
                   <Switch>
                       <Route path='/' exact component={Inventory}/>
 
@@ -34,7 +37,11 @@ class App extends Component {
                       <Route path='/ajouter' component={Add}/>
                       <Route path='/stats' component={Stats}/>
                       <Route path='/commandes' component={Order}/>                                  
-                </Switch>
+                  </Switch>
+                  
+                  
+                  */
+                }  
             </div>
 
       
