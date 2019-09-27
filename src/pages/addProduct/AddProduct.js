@@ -130,12 +130,35 @@ class AddProduct extends Component {
     if(this.state.editingMode === true){
 
       let productBeingEditedUrlImages = [];
-          
-      if(this.state.images.length !== 0){
-        productBeingEditedUrlImages = [...this.state.productBeingEditedCurrentUrlImages, ...this.state.urlImages]
-      } else {
+
+      if(this.state.images.length === 0 && this.state.selectedImages.length === 0){
+        // we don't need need to add neither delete images
         productBeingEditedUrlImages = this.state.productBeingEditedCurrentUrlImages
+      } else {
+          
+          if(this.state.images.length !== 0 && this.state.selectedImages.length === 0){
+            //we need to add new imgUrls but we don't need to delete
+            productBeingEditedUrlImages = [...this.state.productBeingEditedCurrentUrlImages, ...this.state.urlImages]
+          } 
+
+          if(  this.state.images.length === 0 && this.state.selectedImages.length !== 0){
+            //We need to delete the images but we dont need to add new ones
+            productBeingEditedUrlImages = this.state.productBeingEditedCurrentUrlImages.filter( url => !this.state.selectedImages.includes(url) )
+          }
+
+          if(this.state.images.length !== 0 && this.state.selectedImages.length !== 0){
+            //We need to upload and delete images at the same time
+            productBeingEditedUrlImages = [...this.state.productBeingEditedCurrentUrlImages, ...this.state.urlImages].filter( url => !this.state.selectedImages.includes(url) )
+          }
+
       }
+          
+      
+
+      
+
+
+      
 
         for(let i in newFullForm){
           formData.append(`${i}`, `${newFullForm[i]}`)
@@ -188,8 +211,9 @@ class AddProduct extends Component {
 
       try {
         const urls = await Promise.all( images.map(image => 
+
             new Promise((resolve, reject) => {
-                const uploadTask = storage.ref(`${albumId}/${image.name}`).put(image);
+                const uploadTask = storage.ref(`${albumId}--${image.name}`).put(image);
                 uploadTask.on('state_changed', 
                 (snapshot) => {
                     // progress function....
@@ -198,7 +222,7 @@ class AddProduct extends Component {
                 () => {
                     //complete function...
     
-                    storage.ref(`${albumId}`).child(image.name)
+                    storage.ref(`${albumId}--${image.name}`)
                         .getDownloadURL()
                         .then(url => {
                             let imgStored = this.state.urlImages;              
@@ -212,7 +236,21 @@ class AddProduct extends Component {
                 })
             })
         ))
-        this.senData();
+
+        
+        
+        //check if we need to delete images after uploading images
+
+        if(this.state.selectedImages.length === 0 ){
+          //we need to send images but no images to delete
+          this.senData(); 
+        } 
+
+        if( this.state.selectedImages.length !== 0){
+          // after sending images, we need to delete as well before sending data
+          this.deleteImagesInFirebase()
+        }
+        
         return urls;
       }
       catch (err){
@@ -223,12 +261,49 @@ class AddProduct extends Component {
     /*------NO IMAGES TO SEND TO FIREBASE-------*/
     
     else {
-        this.senData();
+
+        //check if we need to delete
+        if(this.state.selectedImages !== 0){
+          this.deleteImagesInFirebase()
+        } else {
+          this.senData();
+        }
+        
     }  
     
-    
-
   };
+
+  deleteImagesInFirebase =  async () => {
+
+    const { selectedImages, albumId } = this.state;
+
+    try {
+      const imagesDeleted = await Promise.all(
+
+        selectedImages.map(imgUrl => 
+          
+          new Promise( (resolve, reject) => {
+            let first = imgUrl.indexOf('--');
+            let end = imgUrl.indexOf('?');
+            let imageName = imgUrl.substr(first + 2, (end - first - 2));
+            let imageRef = storage.ref(`${albumId}--${imageName}`);
+
+            imageRef.delete()
+            .then( () => resolve(imgUrl))
+            .catch( err => reject)
+          })
+        )
+    )
+
+    this.senData()
+
+    return imagesDeleted
+    }
+
+    catch (err){
+      console.log(err)
+    } 
+  }
 
   filesHandler = files => {
     let images = [];
@@ -278,7 +353,15 @@ class AddProduct extends Component {
 
   over = e => {
     e.preventDefault()
-    console.log('new full form', this.state.newFullForm)
+
+    let imgUrl = this.state.selectedImages[0];
+
+    let first = imgUrl.indexOf('--');
+            let end = imgUrl.indexOf('?');
+            let imageName = imgUrl.substr(first + 2, (end - first - 2));
+            let imageRef = storage.ref(`${this.state.albumId}--${imageName}`);
+
+            console.log(imageRef)
   }
 
   selectDeleteHandler = urlSelected => {
@@ -360,7 +443,8 @@ class AddProduct extends Component {
 
 
 
-    this.setState({ productBeingEditedCurrentUrlImagesWithChekedOption: oldImagesWithCheck })
+    this.setState({ productBeingEditedCurrentUrlImagesWithChekedOption: oldImagesWithCheck,
+                    cancelImageDeletingAllowed : false})
 
   }
 
@@ -441,13 +525,7 @@ class AddProduct extends Component {
                             State
                         </Button>
                 </div>  
-          </div>  
-
-          
-
-          
-
-          
+          </div>        
         </form>
       </section>
     );

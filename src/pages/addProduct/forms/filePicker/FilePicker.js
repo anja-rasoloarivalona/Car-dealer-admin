@@ -75,7 +75,7 @@ const filePicker = props => {
                             }
 
                             {
-                                cancelDeleteImagesAlowed === true && (
+                                cancelDeleteImagesAlowed === true && selectedImages.length !== 0 && (
                                     <Button onClick={props.onCancelDeleteCurrentImages}>
                                         Cancel
                                     </Button>
