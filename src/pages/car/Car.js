@@ -126,9 +126,17 @@ class Car extends Component {
         } else {
             productRequested = (
                 <div className="car">
-                        <Button link= {{pathname: '/ajouter'}} color="primary">
-                            Edit
-                        </Button>
+
+                        <div className="car__controller">
+                            <Button link= {{pathname: '/ajouter'}} color="primary">
+                                Edit
+                            </Button>
+                            <Button link='/' color="primary">
+                                Delete
+                            </Button>
+                        </div>
+                        
+
                         <h1 className="car__presentation__title">{product.general[0].title}</h1>
                         <div className="car__presentation__gallery">
                             <Gallery

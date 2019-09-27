@@ -6,10 +6,17 @@
     position: relative;
 }
 
-.car a {
+.car__controller {
     position: absolute;
     top: 1.5rem;
     right: 0rem;
+
+    display: flex;
+
+}
+
+.car a {
+    
 }
 
 .car__presentation__title {

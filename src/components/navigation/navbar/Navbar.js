@@ -32,6 +32,10 @@ const navbar = () => {
                         <IconSvg icon="email"/>
                         <span>Messages</span>
                     </NavLink>
+                    <NavLink to="/users" className="navbar__list__item">
+                        <IconSvg icon="users"/>
+                        <span>Users</span>
+                    </NavLink>
                 </ul>
           
         
