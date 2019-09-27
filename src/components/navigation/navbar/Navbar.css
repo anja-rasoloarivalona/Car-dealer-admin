@@ -2,6 +2,8 @@
     height: calc(100vh - 5rem);
     width: 20rem;
 
+   
+
     background: var(--color-dark);
     display: flex;
     align-items: center;
@@ -9,7 +11,30 @@
     list-style: none;
     position: fixed;
     top: 5rem;
+
+    transition: all .3s ease-in-out;
 }
+
+svg.navbar__list__toggle {
+    width: 2.5rem;
+    height: 2.5rem;
+    position: fixed;
+    left: 22rem;
+    top: 6.25rem;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.navbar__list.small {
+    width: 5rem;
+}
+
+.navbar__list.small svg.navbar__list__toggle {
+    left: 6rem;
+}
+
+
+
 
 .navbar__list__item {
     display: flex;
@@ -21,9 +46,35 @@
     text-decoration: none;
     color: var(--color-grey);
     height: 5rem;
-    padding-left: 2rem;
+   padding-left: 2rem;
+   position: relative;
+   opacity: 1;
+
+   
     border-bottom: 1px solid var(--color-grey);
+    transition: all .3s ease-in-out;
 }
+
+.navbar__list__item.hide {
+    padding-left: 1rem;
+    justify-content: center;
+}
+
+.navbar__list__item__text {
+    display: block;
+    transition: all .3s ease-in-out;
+}
+
+
+.navbar__list__item.hide .navbar__list__item__text {
+    position: absolute;
+    top: 1.9rem;
+    left: -13rem;
+    opacity: 0;
+}
+
+
+
 
 .navbar__list__item svg {
     width: 2rem;
@@ -33,14 +84,16 @@
 }
 
 .navbar__list a.active {
-    background: var(--color-primary);
-    color: var(--color-white);
+    background: var(--color-primary);   
 }
 
 .navbar__list a:first-child {
     border-top: 1px solid var(--color-grey);
 }
 
+.navbar__list a.active  .navbar__list__item__text {
+    color: var(--color-white);
+}
 .navbar__list a.active svg {
     fill: var(--color-white);
 }

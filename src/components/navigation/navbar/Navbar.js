@@ -1,45 +1,63 @@
-import React from 'react';
+import React from 'react'
 import './Navbar.css';
 
 import { NavLink} from 'react-router-dom';
 import IconSvg from '../../../utilities/svg/svg';
+import { NAV_LINKS } from './NavbarList';
+import { connect } from 'react-redux';
+import  * as actions from '../../../store/actions'
 
-const navbar = () => {
+
+
+const navbar = props => {
     return (
-           
-                <ul className="navbar__list">
-                    <NavLink to="/"  exact className="navbar__list__item" >
+        <ul className={`navbar__list ${props.showFullNavbar === true ? '': 'small'}`}>
+
+                    {
+                        props.showFullNavbar === true && (
+                            <IconSvg icon="chevrons-left" customClass="navbar__list__toggle"
+                            onClick={props.toggleShowFullNavbar}/>
+                        )
+                    }
+
+                    {
+                        props.showFullNavbar === false && (
+                            <IconSvg icon="chevrons-right" customClass="navbar__list__toggle"
+                            onClick={props.toggleShowFullNavbar}/>
+                        )
+                    }
+                    
+
+                    <NavLink to="/"  exact className={`navbar__list__item 
+                                            ${props.showFullNavbar === true ? '' : 'hide'}`} >
                         <IconSvg icon="inventory"/>
-                        <span>Inventaire</span>
+                        <span className="navbar__list__item__text">Inventaire</span>
                     </NavLink>
-                    <NavLink to="/ajouter" className="navbar__list__item" >
-                        <IconSvg icon="pencil"/>
-                        <span>Ajouter</span>
-                    </NavLink>
-                    <NavLink to="/publicity" className="navbar__list__item">
-                        <IconSvg icon="pub"/>
-                        <span>Publicité</span>
-                    </NavLink>
-                    <NavLink to="/stats" className="navbar__list__item">
-                        <IconSvg icon="stats"/>
-                        <span>Statistiques</span>        
-                    </NavLink>
-                    <NavLink to="/commandes" className="navbar__list__item">
-                        <IconSvg icon="command"/>
-                        <span>Commandes</span>
-                    </NavLink>
-                    <NavLink to="/messages" className="navbar__list__item">
-                        <IconSvg icon="email"/>
-                        <span>Messages</span>
-                    </NavLink>
-                    <NavLink to="/users" className="navbar__list__item">
-                        <IconSvg icon="users"/>
-                        <span>Users</span>
-                    </NavLink>
-                </ul>
-          
-        
+                    
+                    {
+                        NAV_LINKS.map( i => (
+                            <NavLink to={`/${i.path}`} className={`navbar__list__item 
+                                        ${props.showFullNavbar === true ? '' : 'hide'}`} >
+                                <IconSvg icon={i.icon}/>
+                                <span className="navbar__list__item__text">{i.text}</span>
+                            </NavLink>
+                        ))
+                    }
+            </ul>
     )
 }
 
-export default navbar;
+const mapStateToProps = state => {
+    return {
+        showFullNavbar: state.nav.showFullNavbar
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleShowFullNavbar: () => dispatch(actions.toggleShowFullNavbar())
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(navbar)

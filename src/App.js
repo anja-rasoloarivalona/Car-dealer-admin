@@ -16,12 +16,14 @@ import Car from './pages/car/Car';
 import Navtop from './components/navigation/navtop/Navtop';
 import Navbar from './components/navigation/navbar/Navbar';
 
+import {connect} from 'react-redux'
+
 class App extends Component {
   render() {
     return (
 
 
-        <div className="app">
+        <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>
                   <Navtop />
                   <Navbar />
 
@@ -30,7 +32,7 @@ class App extends Component {
                   <Switch>
                       <Route path='/' exact component={Inventory}/>
                       <Route path='/ajouter' component={Add}/>
-                      
+
                       <Route exact path='/car/:prodId' component={Car}/>
 
                       {
@@ -56,4 +58,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    showFullNavbar: state.nav.showFullNavbar
+
+  }
+}
+
+export default connect(mapStateToProps)(App);
