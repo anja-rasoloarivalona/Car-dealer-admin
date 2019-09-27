@@ -153,13 +153,6 @@ class AddProduct extends Component {
 
       }
           
-      
-
-      
-
-
-      
-
         for(let i in newFullForm){
           formData.append(`${i}`, `${newFullForm[i]}`)
         };
@@ -235,9 +228,7 @@ class AddProduct extends Component {
                         })
                 })
             })
-        ))
-
-        
+        ))        
         
         //check if we need to delete images after uploading images
 
@@ -446,11 +437,7 @@ class AddProduct extends Component {
     this.setState({ productBeingEditedCurrentUrlImagesWithChekedOption: oldImagesWithCheck,
                     cancelImageDeletingAllowed : false})
 
-  }
-
-
-
-  
+  } 
 
   render() {
     const fullFormPart = this.state.fullFormPart;

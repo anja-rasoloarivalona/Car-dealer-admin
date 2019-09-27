@@ -108,6 +108,7 @@ class Car extends Component {
 
         if(carDetail === 'technical'){
             detail = <Technical 
+                        nbCylinders = {product.tech[0].nbCylinders}
                         motorSize={product.tech[0].motorSize}
                         gazol={product.general[0].gazol}
                         maxSpeed={product.tech[0].maxSpeed}
