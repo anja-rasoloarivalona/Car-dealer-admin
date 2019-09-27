@@ -126,7 +126,9 @@ class Car extends Component {
         } else {
             productRequested = (
                 <div className="car">
-                    <section className="car__presentation">
+                        <Button link= {{pathname: '/ajouter'}} color="primary">
+                            Edit
+                        </Button>
                         <h1 className="car__presentation__title">{product.general[0].title}</h1>
                         <div className="car__presentation__gallery">
                             <Gallery
@@ -169,19 +171,6 @@ class Car extends Component {
                         <div className="space">
 
                         </div>
-                        
-                    </section>
-                    <section className="car__presentation--right">
-                            <Button link= {{
-                                pathname: '/ajouter',
-                               /* state: {
-                                    prodId: this.props.match.params.prodId
-                                }*/
-                            }}
-                            >
-                                Edit
-                            </Button>
-                    </section>
             </div>
             )
         }

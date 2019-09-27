@@ -1,12 +1,15 @@
 .car {
-    grid-row: 3 / 4;
-    grid-column: 2 / 4;
-    display: flex;
+    grid-column: 2 / 3;
+    margin-top: 5rem;
+    width: 85%;
+    justify-self: center;
+    position: relative;
 }
 
-
-.car__presentation {
-    width: 75%;
+.car a {
+    position: absolute;
+    top: 1.5rem;
+    right: 0rem;
 }
 
 .car__presentation__title {
@@ -14,10 +17,6 @@
     padding: 2rem 0;
 }
 
-.car__presentation--right {
-    width: 25%;
-    background: green;
-}
 
 .car__presentation__gallery {
     width: 100%;

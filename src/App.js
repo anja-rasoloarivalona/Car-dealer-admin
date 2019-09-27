@@ -30,12 +30,13 @@ class App extends Component {
                   <Switch>
                       <Route path='/' exact component={Inventory}/>
                       <Route path='/ajouter' component={Add}/>
-
+                      
+                      <Route exact path='/car/:prodId' component={Car}/>
 
                       {
                         /*
                         
-                        <Route exact path='/car/:prodId' component={Car}/>
+                        
 
                         <Route path='/publicity' component={Publicity}/>
                         
