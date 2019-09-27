@@ -1,11 +1,11 @@
 .add-product {
-    grid-column: 1 / -1;
-    grid-row: 3 / 4;
+    grid-column: 2 / 3;
+    margin-top: 5rem;   
 
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 4rem;
+    padding-top: 2rem;
 }
 
 .add-product__form {

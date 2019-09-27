@@ -1,21 +1,21 @@
 .inventory {
-    grid-column: 1 / -1;
-    grid-row: 3 - 4;
-    height: 100vh;
+    grid-column: 2 / 3;
+    margin-top: 5rem;   
 }
 
 .inventory__list {
     width: 100%;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 30rem);
-    grid-template-rows: repeat(auto-fit, 30rem);
-    grid-auto-rows: 30rem;
+    grid-template-columns: repeat(auto-fit, 25rem);
+    grid-template-rows: repeat(auto-fit, 25rem);
+    grid-auto-rows: 25rem;
    
     column-gap: 1rem;
-    row-gap: 3rem;
-    padding: 2rem 0;
+    row-gap: 1rem;
 
+
+    padding: 2rem 0;
 
     justify-content: center;
     align-items: center;
