@@ -37,6 +37,11 @@
 <path d="M32 14h-3v-3h-3v3h-3v3h3v3h3v-3h3z"></path>
 </symbol>
 
+<symbol id="icon-checked" viewBox="0 0 32 32">
+<title>checked</title>
+<path d="M27 4l-15 15-7-7-5 5 12 12 20-20z"></path>
+</symbol>
+
 <symbol id="icon-speedometer" viewBox="0 0 428.948 428.948">
 <title>speedometer</title>
 <g>

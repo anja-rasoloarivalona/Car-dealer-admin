@@ -33,14 +33,18 @@ class AddProduct extends Component {
     productBeingEdited: {},
     productBeingEditedID: '',
     productBeingEditedCurrentUrlImages: [], 
-    newFullForm: {}
+    newFullForm: {},
+
+
+    productBeingEditedCurrentUrlImagesWithChekedOption: [],
+    selectedImages: [],
+    cancelImageDeletingAllowed: false
 
   }; 
 
   componentDidMount() {
 
     let product = Object.keys(this.props.productBeingEdited);
-
 
    if(product.length === 0){
         return console.log('new')
@@ -52,14 +56,17 @@ class AddProduct extends Component {
 
    
     let prod = this.props.productBeingEdited;
-
     let general = prod.general[0]
     let tech = prod.tech[0]
     let design = prod.design[0]
-
-
-
     let newFullForm = {...general, ...tech, ...design};
+
+
+    let productBeingEditedCurrentUrlImagesWithChekedOption = [];
+    
+    this.props.productBeingEdited.imageUrls.forEach( url => {
+      productBeingEditedCurrentUrlImagesWithChekedOption = [...productBeingEditedCurrentUrlImagesWithChekedOption, {url: url, checked: false}]
+    })
 
     this.setState({
       editingMode: true,
@@ -67,7 +74,10 @@ class AddProduct extends Component {
       newFullForm: newFullForm,
       albumId: this.props.productBeingEdited.albumId,
       productBeingEditedCurrentUrlImages: this.props.productBeingEdited.imageUrls,
-      productBeingEditedID: this.props.productBeingEdited._id
+      productBeingEditedID: this.props.productBeingEdited._id,
+
+
+      productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption
     })
 
  
@@ -118,12 +128,21 @@ class AddProduct extends Component {
     }
 
     if(this.state.editingMode === true){
+
+      let productBeingEditedUrlImages = [];
+          
+      if(this.state.images.length !== 0){
+        productBeingEditedUrlImages = [...this.state.productBeingEditedCurrentUrlImages, ...this.state.urlImages]
+      } else {
+        productBeingEditedUrlImages = this.state.productBeingEditedCurrentUrlImages
+      }
+
         for(let i in newFullForm){
           formData.append(`${i}`, `${newFullForm[i]}`)
         };
         formData.append('features', featuresList);
         formData.append('albumId', this.state.albumId);
-        formData.append('imageUrls', this.state.productBeingEditedCurrentUrlImages);
+        formData.append('imageUrls', productBeingEditedUrlImages);
         formData.append('productBeingEditedID', this.state.productBeingEditedID )
         method = 'PUT';
         url = "http://localhost:8000/admin/edit-product"
@@ -153,11 +172,20 @@ class AddProduct extends Component {
 
   uploadHandler = async e => {
     e.preventDefault();
+
     const { images } = this.state;
 
-    if(this.state.editingMode === false){
-      let albumId = uuid();
-      this.setState({ albumId: albumId});
+    let albumId;
+
+    if(this.state.editingMode === true){
+      albumId = this.state.albumId
+    } else {
+      albumId = uuid()
+      this.setState({ albumId: albumId})
+    }
+
+    if(this.state.images.length !== 0){
+
       try {
         const urls = await Promise.all( images.map(image => 
             new Promise((resolve, reject) => {
@@ -190,9 +218,16 @@ class AddProduct extends Component {
       catch (err){
           console.log(err)
       }   
-    } else {
+    } 
+    
+    /*------NO IMAGES TO SEND TO FIREBASE-------*/
+    
+    else {
         this.senData();
-    }     
+    }  
+    
+    
+
   };
 
   filesHandler = files => {
@@ -205,8 +240,6 @@ class AddProduct extends Component {
       images: images
     });
   };
-
-  
 
   showImageFormHandler = e => {
       e.preventDefault();
@@ -246,6 +279,89 @@ class AddProduct extends Component {
   over = e => {
     e.preventDefault()
     console.log('new full form', this.state.newFullForm)
+  }
+
+  selectDeleteHandler = urlSelected => {
+
+    const  data  = this.state.productBeingEditedCurrentUrlImagesWithChekedOption;
+
+    let selectedImages = this.state.selectedImages;
+
+    if(selectedImages.length !== 0){
+
+        if(selectedImages.includes(urlSelected)){
+            selectedImages = selectedImages.filter(i => i !== urlSelected)
+        } else {
+            selectedImages = [...selectedImages, urlSelected]
+        }
+
+    } else {
+      selectedImages = [...selectedImages, urlSelected]
+    }
+
+    // New data with checked key updated for the UI
+    let newData = [];
+
+    data.forEach( i => {
+
+        if(i.url === urlSelected){
+          //When we find the object having the url selected, we change its checked value
+
+            if(i.checked === false){
+              newData = [...newData, { url: i.url, checked: true}];
+
+            } else {
+              newData = [...newData, { url: i.url, checked: false}]
+            }
+
+            
+        } else {
+            //Otherwise, we just add the data 
+            newData = [...newData, i]
+        }
+    })
+
+    this.setState({
+        productBeingEditedCurrentUrlImagesWithChekedOption : newData,
+        selectedImages: selectedImages
+      })
+  
+  }
+
+
+  deleteImageOnThePage = e => {
+    e.preventDefault()
+
+    let imagesWithCheck = this.state.productBeingEditedCurrentUrlImagesWithChekedOption 
+    let newCurrentImages = imagesWithCheck.filter(i => i.checked !== true)
+
+    this.setState({
+      productBeingEditedCurrentUrlImagesWithChekedOption: newCurrentImages,
+      cancelImageDeletingAllowed: true
+    })
+
+    
+  }
+
+  cancelDeleteCurrentImageHandler = e => {
+    e.preventDefault()
+
+    const { selectedImages, productBeingEditedCurrentUrlImagesWithChekedOption } = this.state;
+
+    let deletedImages = [];
+
+
+
+    selectedImages.forEach( url => {
+      deletedImages = [...deletedImages, { url: url, checked: true}]
+    })
+
+    let oldImagesWithCheck = [...productBeingEditedCurrentUrlImagesWithChekedOption, ...deletedImages]
+
+
+
+    this.setState({ productBeingEditedCurrentUrlImagesWithChekedOption: oldImagesWithCheck })
+
   }
 
 
@@ -306,8 +422,13 @@ class AddProduct extends Component {
                            ${this.state.showImage === true ? 'show' : '' }`}>
                 <h3 className="add-product__form__title">Images</h3>          
                 <Filepicker filesHandler={this.filesHandler}
-                            productBeingEditedCurrentImages={this.state.productBeingEditedCurrentUrlImages}
+                            productBeingEditedCurrentImages={this.state.productBeingEditedCurrentUrlImagesWithChekedOption}
                             editingMode={this.state.editingMode}
+                            selectDeleteHandler={this.selectDeleteHandler}
+                            selectedImages ={this.state.selectedImages}
+                            onDeleteCurrentImages = {this.deleteImageOnThePage}
+                            cancelDeleteImagesAlowed = {this.state.cancelImageDeletingAllowed}
+                            onCancelDeleteCurrentImages={this.cancelDeleteCurrentImageHandler}
                 />
                 <div className="add-product__form__controller">
                         <Button onClick={this.hideImageFormHandler}>

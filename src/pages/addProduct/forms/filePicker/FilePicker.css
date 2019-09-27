@@ -18,11 +18,37 @@
 .file-picker__currentImages__list__item {
     width: 20rem;
     height: 10rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.file-picker__currentImages__list__item__img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+}
+
+.file-picker__currentImages__list__item svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3rem;
+    height: 3rem;
+    fill: var(--color-white);
+    padding: .5rem;
+    background: red;
 }
 
 .file-picker__title {
     font-size: 1.3rem;
     text-transform: uppercase;
     margin-bottom: 1rem;
+}
+
+
+
+.file-picker__currentImages__controller {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
