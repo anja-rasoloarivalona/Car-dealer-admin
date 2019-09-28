@@ -16,13 +16,15 @@
 }
 
 svg.navbar__list__toggle {
-    width: 2.5rem;
-    height: 2.5rem;
-    position: fixed;
-    left: 22rem;
-    top: 6.25rem;
-    z-index: 10;
+    width: 2.7rem;
+    height: 2.7rem;
+    position: absolute;
+    bottom: 6rem;
+    z-index: 1;
     cursor: pointer;
+    padding: .3rem;
+    background: var(--color-grey);
+    transition: all .3s ease-in-out;
 }
 
 .navbar__list.small {
@@ -31,6 +33,7 @@ svg.navbar__list__toggle {
 
 .navbar__list.small svg.navbar__list__toggle {
     left: 6rem;
+    transform: translateX(-5rem);
 }
 
 
@@ -85,6 +88,7 @@ svg.navbar__list__toggle {
 
 .navbar__list a.active {
     background: var(--color-primary);   
+    border: var(--color-primary);
 }
 
 .navbar__list a:first-child {

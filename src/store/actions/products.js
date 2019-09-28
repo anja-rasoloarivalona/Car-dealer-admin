@@ -15,3 +15,9 @@ export const setRequestedProductId = data => {
         id: data
     }
 }
+
+export const toggleEditingMode = () => {
+    return {
+        type: actionTypes.TOGGLE_EDITING_MODE
+    }
+}

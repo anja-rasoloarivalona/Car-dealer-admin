@@ -1,6 +1,7 @@
 export {
     setRequestedProduct,
-    setRequestedProductId
+    setRequestedProductId,
+    toggleEditingMode
 } from './products'
 
 

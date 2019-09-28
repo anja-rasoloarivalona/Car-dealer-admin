@@ -128,7 +128,8 @@ class Car extends Component {
                 <div className="car">
 
                         <div className="car__controller">
-                            <Button link= {{pathname: '/ajouter'}} color="primary">
+                            <Button link= {{pathname: '/ajouter'}} color="primary"
+                                    onClick={this.props.toggleEditingMode}>
                                 Edit
                             </Button>
                             <Button link='/' color="primary">
@@ -192,13 +193,14 @@ class Car extends Component {
 
 const mapStateToProps = state => {
     return {
-        prodId: state.products.productRequestedId
+        prodId: state.products.productRequestedId,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        setProductRequested: (prod) => dispatch(actions.setRequestedProduct(prod))
+        setProductRequested: (prod) => dispatch(actions.setRequestedProduct(prod)),
+        toggleEditingMode: () => dispatch(actions.toggleEditingMode())
     }
 }
 

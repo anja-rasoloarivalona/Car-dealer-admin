@@ -1,11 +1,13 @@
 .add-product {
     grid-column: 2 / 3;
-    margin-top: 8rem;   
+    margin-top: 5rem;   
 
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 2rem;
+  
+ 
 }
 
 .add-product__form {
@@ -16,6 +18,7 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
+
 }
 
 .add-product__part {
@@ -60,19 +63,48 @@
     height: 4rem;
     display: flex;
     align-items: center;
-    
+    font-size: 1.2rem;
+    margin: 1rem 0;
 }
 
-.add-product__input input {
+.add-product__input label {
+    width: 14rem;
+    font-weight: 600;
+}
+
+.add-product__input input, .add-product__input select {
     height: 80%;
     width: 50%;
     padding-left: .5rem;
+    border: none;
+    border-bottom: 1px solid var(--color-grey); 
+}
+
+.add-product__input input:focus, .add-product__input select:focus {
+    outline: none;
+    border-bottom: 2px solid var(--color-primary)
 }
 
 
-.add-product__input input::placeholder {
+.add-product__input input::placeholder, .add-product__input select::placeholder {
     color: var(--color-grey);
 }
+
+.add-product__input input:not(:placeholder-shown), .add-product__input select:not(:placeholder-shown){
+    background: rgb(232, 240, 254);
+}
+
+.add-product__input select {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    cursor: pointer;
+}
+
+
+
+
+
 
 .add-product__form__controller {
     width: 100%;

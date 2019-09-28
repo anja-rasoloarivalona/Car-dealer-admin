@@ -5,7 +5,8 @@ export const formDesign = [
         placeholder: 'couleur intérieure',
         control: 'input',
         type: 'text',
-        formType: "design"
+        formType: "design",
+        label: 'couleur intérieure'
         
     },
 
@@ -15,6 +16,7 @@ export const formDesign = [
         placeholder: 'couleur extérieure',
         control: 'input',
         type: 'design',
+        label: 'couleur extérieure'
     },
 
 

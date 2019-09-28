@@ -5,7 +5,8 @@ export const formTech = [
         placeholder: 'manuel ou automatique',
         control: 'input',
         type: 'text',
-        formType: "tech"
+        formType: "tech",
+        label: 'boîte'
         
     },
     {
@@ -14,7 +15,8 @@ export const formTech = [
         placeholder: 'nombre de rapports',
         control: 'input',
         type: 'number',
-        formType: "tech"
+        formType: "tech",
+        label: 'nb rapports'
         
     },
 
@@ -24,7 +26,8 @@ export const formTech = [
         placeholder: 'nombre de cylindres',
         control: 'input',
         type: 'number',
-        formType: "tech"
+        formType: "tech",
+        label: 'nb cylindres'
     },
 
     {
@@ -33,7 +36,8 @@ export const formTech = [
         placeholder: 'taille du moteur',
         control: 'input',
         type: 'text',
-        formType: "tech"
+        formType: "tech",
+        label: 'taille moteur'
     },
 
     {
@@ -42,7 +46,8 @@ export const formTech = [
         placeholder: 'vitesse maximum',
         control: 'input',
         type: 'text',
-        formType: "tech"
+        formType: "tech",
+        label: 'vitesse max'
     },
 
     

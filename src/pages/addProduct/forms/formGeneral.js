@@ -5,7 +5,8 @@ export const formGeneral = [
         placeholder: 'titre',
         control: 'input',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'titre'
         
     },
 
@@ -15,7 +16,8 @@ export const formGeneral = [
         placeholder: 'marque',
         control: 'input',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'marque'
     },
 
     {
@@ -24,16 +26,19 @@ export const formGeneral = [
         placeholder: 'modèle',
         control: 'input',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'modèle'
     },
 
     {
         id: 'year',
-        value: '',
+        value: '2008',
         placeholder: 'année',
-        control: 'input',
+        control: 'select',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'année',
+        options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
     },
 
     {
@@ -42,7 +47,8 @@ export const formGeneral = [
         placeholder: 'prix',
         control: 'input',
         type: 'number',
-        formType: "general"
+        formType: "general",
+        label: 'prix'
     },
 
     {
@@ -51,34 +57,41 @@ export const formGeneral = [
         placeholder: 'Nombre de kilomètres',
         control: 'input',
         type: 'number',
-        formType: "general"
+        formType: "general",
+        label: 'Nb km'
     },
 
     {
         id: 'gazol',
-        value: '',
+        value: 'essence',
         placeholder: 'essence ou diesel',
-        control: 'input',
+        control: 'select',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'carburant',
+        options: ['essence', 'diesel']
     },
 
     {
         id: 'yearOfRelease',
-        value: '',
+        value: '2008',
         placeholder: 'année de mise en circulation',
-        control: 'input',
+        control: 'select',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'mise en circulation',
+        options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
     },
 
     {
         id: 'nbOwners',
-        value: '',
+        value: 0,
         placeholder: 'nombre de propriétaires',
-        control: 'input',
+        control: 'select',
         type: 'number',
-        formType: "general"
+        formType: "general",
+        label: 'nb proprios',
+        options: [0, 1, 2, 3, 4, 5, 6]
     },
 
     {
@@ -87,7 +100,8 @@ export const formGeneral = [
         placeholder: 'numéro de série',
         control: 'input',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'numéro de série'
     },
 
     {
@@ -96,6 +110,29 @@ export const formGeneral = [
         placeholder: 'état général',
         control: 'input',
         type: 'text',
-        formType: "general"
+        formType: "general",
+        label: 'état général'
+    },
+
+    {
+        id: 'publicity',
+        value: 'oui',
+        placeholder: 'oui ou non',
+        control: 'select',
+        type: 'text',
+        formType: "general",
+        label: 'publicité',
+        options: ['oui', 'non']
+    },
+
+    {
+        id: 'homePage',
+        value: 'oui',
+        placeholder: 'oui ou non',
+        control: 'select',
+        type: 'text',
+        formType: "general",
+        label: "page d'accueil",
+        options: ['oui', 'non']
     }
 ]

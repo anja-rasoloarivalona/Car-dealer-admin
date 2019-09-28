@@ -47,12 +47,13 @@ const formInput = props => {
                     props.control === 'select' && (
                         <select id={props.id}
                                 required={props.required}
-                                value={props.value}
                                 onChange={e => props.onChange(props.id, e.target.value)}>
                                 
-                                <option value="option1">Option1</option>
-                                <option value="option2">Option2</option>
-                                <option value="option3">Option3</option>
+                                {
+                                    props.options.map( option => (
+                                        <option value={option}>{option}</option>
+                                    ))
+                                }
                         </select>
                     )
                 }

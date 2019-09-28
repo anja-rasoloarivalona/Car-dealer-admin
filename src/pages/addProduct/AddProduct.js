@@ -10,6 +10,7 @@ import { storage } from "../../firebase";
 import Input from "../../components/formInput/FormInput";
 import Button from '../../components/button/Button';
 import { connect } from 'react-redux'
+import * as actions from '../../store/actions'
 
 
 class AddProduct extends Component {
@@ -27,9 +28,6 @@ class AddProduct extends Component {
     featureBeingAdded: '',
     showImage: false,
 
-    editingMode: false,
-
-
     productBeingEdited: {},
     productBeingEditedID: '',
     productBeingEditedCurrentUrlImages: [], 
@@ -43,60 +41,62 @@ class AddProduct extends Component {
   }; 
 
   componentDidMount() {
+ 
 
-    let product = Object.keys(this.props.productBeingEdited);
-
-   if(product.length === 0){
+   if(this.props.editingMode === false){
         return console.log('new')
-    } 
+    } else {
+      console.log('updating');
+      console.log(this.props.productBeingEdited)
+    //  let product = Object.keys(this.props.productBeingEdited);
 
-    console.log('updating');
+      let prod = this.props.productBeingEdited;
+      let general = prod.general[0]
+      let tech = prod.tech[0]
+      let design = prod.design[0]
+      let newFullForm = {...general, ...tech, ...design};
+  
+      let productBeingEditedCurrentUrlImagesWithChekedOption = [];
+      
+      this.props.productBeingEdited.imageUrls.forEach( url => {
+        productBeingEditedCurrentUrlImagesWithChekedOption = [...productBeingEditedCurrentUrlImagesWithChekedOption, {url: url, checked: false}]
+      })
+  
+      this.setState({
+        featuresList: this.props.productBeingEdited.features,
+        newFullForm: newFullForm,
+        albumId: this.props.productBeingEdited.albumId,
+        productBeingEditedCurrentUrlImages: this.props.productBeingEdited.imageUrls,
+        productBeingEditedID: this.props.productBeingEdited._id,
+        productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption
+      })
+    }
 
-    console.log(this.props.productBeingEdited)
-
-   
-    let prod = this.props.productBeingEdited;
-    let general = prod.general[0]
-    let tech = prod.tech[0]
-    let design = prod.design[0]
-    let newFullForm = {...general, ...tech, ...design};
-
-
-    let productBeingEditedCurrentUrlImagesWithChekedOption = [];
     
-    this.props.productBeingEdited.imageUrls.forEach( url => {
-      productBeingEditedCurrentUrlImagesWithChekedOption = [...productBeingEditedCurrentUrlImagesWithChekedOption, {url: url, checked: false}]
-    })
-
-    this.setState({
-      editingMode: true,
-      featuresList: this.props.productBeingEdited.features,
-      newFullForm: newFullForm,
-      albumId: this.props.productBeingEdited.albumId,
-      productBeingEditedCurrentUrlImages: this.props.productBeingEdited.imageUrls,
-      productBeingEditedID: this.props.productBeingEdited._id,
-
-
-      productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption
-    })
 
  
+  }
+
+  componentWillUnmount(){
+    if(this.props.editingMode === true){
+      this.props.toggleEditingMode()
+    }
   }
 
   inputChangeHandler = (input, value) => {
 
     const { fullForm, newFullForm } = this.state;
 
-    if(this.state.editingMode === false) {
+    if(this.props.editingMode === false) {
       const indexInput = fullForm.findIndex(i => i.id === input);
       let newForm = fullForm;
       newForm[indexInput].value = value;
       this.setState({
         fullForm: newForm
-        });
+        }, () => console.log('input change', this.state.fullForm));
     }
 
-    if(this.state.editingMode === true){
+    if(this.props.editingMode === true){
       let upDatedNewFullForm = newFullForm;
       upDatedNewFullForm[input] = value
       this.setState({
@@ -117,7 +117,7 @@ class AddProduct extends Component {
     let url;
 
 
-    if(this.state.editingMode === false){
+    if(this.props.editingMode === false){
         fullForm.map(i => formData.append(`${i.id}`, `${i.value}`));
         formData.append('features', featuresList);
         formData.append('imageUrls', urlImages);
@@ -127,7 +127,7 @@ class AddProduct extends Component {
         url = "http://localhost:8000/admin/add-product";
     }
 
-    if(this.state.editingMode === true){
+    if(this.props.editingMode === true){
 
       let productBeingEditedUrlImages = [];
 
@@ -180,6 +180,16 @@ class AddProduct extends Component {
       })
       .then(resData => {
         console.log(resData);
+
+        if(this.props.editingMode === true){
+          this.props.toggleEditingMode();
+          this.props.history.push(`/car/${this.state.productBeingEditedID}`)
+        } else {
+          this.props.history.push(`/car/${resData.product._id}`)
+        }
+
+        
+
       })
       .catch(err => {
         console.log(err);
@@ -193,7 +203,7 @@ class AddProduct extends Component {
 
     let albumId;
 
-    if(this.state.editingMode === true){
+    if(this.props.editingMode === true){
       albumId = this.state.albumId
     } else {
       albumId = uuid()
@@ -343,16 +353,8 @@ class AddProduct extends Component {
   }
 
   over = e => {
-    e.preventDefault()
-
-    let imgUrl = this.state.selectedImages[0];
-
-    let first = imgUrl.indexOf('--');
-            let end = imgUrl.indexOf('?');
-            let imageName = imgUrl.substr(first + 2, (end - first - 2));
-            let imageRef = storage.ref(`${this.state.albumId}--${imageName}`);
-
-            console.log(imageRef)
+    e.preventDefault();
+    console.log('editing mode',this.state.editingMode)
   }
 
   selectDeleteHandler = urlSelected => {
@@ -456,12 +458,14 @@ class AddProduct extends Component {
                     {part.map(i => (
                     <Input
                         className="add-product__input"
+                        label={i.label}
                         key={i.id}
                         id={i.id}
+                        options={i.options}
                         placeholder={i.placeholder}
                         control={i.control}
                         type={i.type}
-                        value={ this.state.editingMode === false ? i.value : this.state.newFullForm[i.id]
+                        value={ this.props.editingMode === false ? i.value : this.state.newFullForm[i.id]
                           }
                         formType={i.formType}
                         onChange={this.inputChangeHandler}
@@ -494,7 +498,7 @@ class AddProduct extends Component {
                 <h3 className="add-product__form__title">Images</h3>          
                 <Filepicker filesHandler={this.filesHandler}
                             productBeingEditedCurrentImages={this.state.productBeingEditedCurrentUrlImagesWithChekedOption}
-                            editingMode={this.state.editingMode}
+                            editingMode={this.props.editingMode}
                             selectDeleteHandler={this.selectDeleteHandler}
                             selectedImages ={this.state.selectedImages}
                             onDeleteCurrentImages = {this.deleteImageOnThePage}
@@ -521,9 +525,17 @@ class AddProduct extends Component {
 
 const mapStateToProps = state => {
   return {
+      editingMode: state.products.editingMode,
       productBeingEdited: state.products.productRequested
   }
 }
-export default connect(mapStateToProps)(AddProduct);
+
+
+const madDispacthToProps = dispatch => {
+  return {
+        toggleEditingMode: () => dispatch(actions.toggleEditingMode())
+  }
+}
+export default connect(mapStateToProps, madDispacthToProps)(AddProduct);
 
 
