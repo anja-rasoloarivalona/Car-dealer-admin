@@ -15,11 +15,17 @@ import Car from './pages/car/Car';
 /*----COMPONENTS---------*/
 import Navtop from './components/navigation/navtop/Navtop';
 import Navbar from './components/navigation/navbar/Navbar';
+import * as actions from './store/actions'
 
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+
+
 
 class App extends Component {
+
   render() {
+
+    
     return (
 
 
@@ -32,15 +38,11 @@ class App extends Component {
                   <Switch>
                       <Route path='/' exact component={Inventory}/>
                       <Route path='/ajouter' component={Add}/>
-
                       <Route exact path='/car/:prodId' component={Car}/>
+                      <Route path='/publicity' component={Publicity}/>
 
                       {
-                        /*
-                        
-                        
-
-                        <Route path='/publicity' component={Publicity}/>
+                        /*                     
                         
                         <Route path='/stats' component={Stats}/>
                         <Route path='/commandes' component={Order}/> 
@@ -60,9 +62,12 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    showFullNavbar: state.nav.showFullNavbar
+    showFullNavbar: state.nav.showFullNavbar,
+    loading: state.nav.loading
 
   }
 }
+
+
 
 export default connect(mapStateToProps)(App);

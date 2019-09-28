@@ -6,3 +6,4 @@ export const toggleShowFullNavbar = () => {
         type: actionTypes.TOGGLE_SHOW_FULL_NAVBAR
     }
 }
+

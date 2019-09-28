@@ -231,7 +231,7 @@ class AddProduct extends Component {
                                 urlImages: imgStored
                             }, () => console.log(this.state.urlImages))
                             resolve(url)
-                        })
+                         })
                 })
             })
         ))        
@@ -522,16 +522,11 @@ class AddProduct extends Component {
 const mapStateToProps = state => {
   return {
       editingMode: state.products.editingMode,
-      productBeingEdited: state.products.productRequested
+      productBeingEdited: state.products.productRequested,
   }
 }
 
 
-const madDispacthToProps = dispatch => {
-  return {
-        toggleEditingMode: () => dispatch(actions.toggleEditingMode())
-  }
-}
-export default connect(mapStateToProps, madDispacthToProps)(AddProduct);
+export default connect(mapStateToProps)(AddProduct);
 
 
