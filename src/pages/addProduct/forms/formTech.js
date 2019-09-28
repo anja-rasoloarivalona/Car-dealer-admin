@@ -1,33 +1,35 @@
 export const formTech = [
     {
         id: 'transmissionType',
-        value: '',
+        value: 'manuelle',
         placeholder: 'manuel ou automatique',
-        control: 'input',
+        control: 'select',
         type: 'text',
         formType: "tech",
-        label: 'boîte'
-        
+        label: 'boîte',
+        options: ['manuelle', 'automatique']  
     },
     {
         id: 'nbGearRatios',
-        value: '',
+        value: 5,
         placeholder: 'nombre de rapports',
-        control: 'input',
+        control: 'select',
         type: 'number',
         formType: "tech",
-        label: 'nb rapports'
+        label: 'nb rapports',
+        options: [5, 6]
         
     },
 
     {
         id: 'nbCylinders',
-        value: '',
+        value: 2,
         placeholder: 'nombre de cylindres',
-        control: 'input',
+        control: 'select',
         type: 'number',
         formType: "tech",
-        label: 'nb cylindres'
+        label: 'nb cylindres',
+        options: [2, 3, 4, 5, 6, 7,8,9,10,11,12]
     },
 
     {

@@ -175,20 +175,16 @@ class AddProduct extends Component {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Creating a product failed");
         }
-
         return res.json()
       })
       .then(resData => {
         console.log(resData);
-
         if(this.props.editingMode === true){
           this.props.toggleEditingMode();
           this.props.history.push(`/car/${this.state.productBeingEditedID}`)
         } else {
           this.props.history.push(`/car/${resData.product._id}`)
         }
-
-        
 
       })
       .catch(err => {
