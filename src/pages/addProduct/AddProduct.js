@@ -527,6 +527,11 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps)(AddProduct);
+const madDispacthToProps = dispatch => {
+  return {
+        toggleEditingMode: () => dispatch(actions.toggleEditingMode())
+  }
+}
+export default connect(mapStateToProps, madDispacthToProps)(AddProduct);
 
 
