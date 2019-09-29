@@ -1,7 +1,7 @@
 .loader-container {
     width: calc(100vw - 20rem);
     height: 100%;
-    background: var(--color-white);
+    background: rgba(129, 129, 129, 0.171);
     position: fixed;
     left: 20rem;
     display: flex;

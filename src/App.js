@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-
+import Loader from './components/loader/Loader';
 
 
 /*-----------PAGES---------*/
@@ -23,24 +23,53 @@ import {connect} from 'react-redux';
 
 class App extends Component {
 
+  state = {
+    loading: true
+  }
+
+
+  componentDidMount() {
+    let url = "http://localhost:8000/admin/products";
+    let method = "GET";
+
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: method
+    })
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error("Failed to fectch products");
+        }
+        return res.json(); //extract the body
+      })
+      .then(resData => {
+        this.props.setProducts(resData.products);
+        this.setState({ loading: false})
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+
   render() {
 
-    
-    return (
+    let app;
 
-
+    if(this.state.loading === true) {
+      app = <Loader />
+    } else {
+      app = (
         <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>
                   <Navtop />
-                  <Navbar />
-
-              
-                  
+                  <Navbar />                  
                   <Switch>
                       <Route path='/' exact component={Inventory}/>
                       <Route path='/ajouter' component={Add}/>
                       <Route exact path='/car/:prodId' component={Car}/>
                       <Route path='/publicity' component={Publicity}/>
-
                       {
                         /*                     
                         
@@ -51,12 +80,12 @@ class App extends Component {
                                                        
                   </Switch>
                   
-                  
-               
             </div>
+      )
+    }
 
-      
-    );
+    
+    return app;
   }
 }
 
@@ -68,6 +97,12 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    setProducts: products => dispatch(actions.setProducts(products))
+  }
+}
 
 
-export default connect(mapStateToProps)(App);
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

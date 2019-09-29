@@ -218,7 +218,7 @@ class AddProduct extends Component {
           this.props.toggleEditingMode()     
           this.props.history.push(`/car/${this.props.productBeingEditedId}`)
         } else {
-          
+
           this.props.history.push(`/car/${resData.product._id}`)
         }
       })
