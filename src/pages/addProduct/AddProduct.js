@@ -10,7 +10,8 @@ import { storage } from "../../firebase";
 import Input from "../../components/formInput/FormInput";
 import Button from '../../components/button/Button';
 import { connect } from 'react-redux'
-import * as actions from '../../store/actions'
+import * as actions from '../../store/actions';
+import Loader from '../../components/loader/Loader';
 
 
 class AddProduct extends Component {
@@ -18,6 +19,7 @@ class AddProduct extends Component {
     images: [],
     urlImages: [],
     albumId: '',
+    loading: false,
 
     /*We need all inputs in one array to send the date easiliy */
     fullForm: formGeneral.concat(formTech, formDesign),
@@ -107,6 +109,8 @@ class AddProduct extends Component {
 
   senData = () => {
 
+    
+
     const { fullForm, featuresList, urlImages, newFullForm } = this.state;
 
     console.log("fetch going....");
@@ -178,22 +182,27 @@ class AddProduct extends Component {
         return res.json()
       })
       .then(resData => {
-        console.log(resData);
+        this.setState({ loading: false})
+        return resData
+      })
+      .then(resData => {
+        console.log('relax this is happening')
         if(this.props.editingMode === true){
           this.props.toggleEditingMode();
           this.props.history.push(`/car/${this.state.productBeingEditedID}`)
         } else {
           this.props.history.push(`/car/${resData.product._id}`)
         }
-
       })
       .catch(err => {
+        this.setState({loading: false})
         console.log(err);
       });
   };
 
   uploadHandler = async e => {
     e.preventDefault();
+    this.setState({loading: true})
 
     const { images } = this.state;
 
@@ -251,7 +260,9 @@ class AddProduct extends Component {
         return urls;
       }
       catch (err){
+          this.setState({loading: false})
           console.log(err)
+          
       }   
     } 
     
@@ -298,6 +309,7 @@ class AddProduct extends Component {
     }
 
     catch (err){
+      this.setState({loading: false})
       console.log(err)
     } 
   }
@@ -440,82 +452,91 @@ class AddProduct extends Component {
   render() {
     const fullFormPart = this.state.fullFormPart;
 
-    return (
-      <section className="add-product">
-        <form className="add-product__form">
 
-          <div className={`add-product__part add-product__part--details 
-                           ${this.state.showImage === true ? 'hide' : '' }`}>
+    let addProduct;
 
-            {fullFormPart.map(part => (
+    if(this.state.loading === true) {
+      addProduct = <Loader />
+    } else {
+      addProduct = (
+        <section className="add-product">
+            <form className="add-product__form">
 
-              <div className="add-product__part--details__section" key={part[0].formType}>
-                <h3 className="add-product__form__title">{part[0].formType}</h3>
-                    {part.map(i => (
-                    <Input
-                        className="add-product__input"
-                        label={i.label}
-                        key={i.id}
-                        id={i.id}
-                        options={i.options}
-                        placeholder={i.placeholder}
-                        control={i.control}
-                        type={i.type}
-                        value={ this.props.editingMode === false ? i.value : this.state.newFullForm[i.id]
-                          }
-                        formType={i.formType}
-                        onChange={this.inputChangeHandler}
+              <div className={`add-product__part add-product__part--details 
+                              ${this.state.showImage === true ? 'hide' : '' }`}>
+
+                {fullFormPart.map(part => (
+
+                  <div className="add-product__part--details__section" key={part[0].formType}>
+                    <h3 className="add-product__form__title">{part[0].formType}</h3>
+                        {part.map(i => (
+                        <Input
+                            className="add-product__input"
+                            label={i.label}
+                            key={i.id}
+                            id={i.id}
+                            options={i.options}
+                            placeholder={i.placeholder}
+                            control={i.control}
+                            type={i.type}
+                            value={ this.props.editingMode === false ? i.value : this.state.newFullForm[i.id]
+                              }
+                            formType={i.formType}
+                            onChange={this.inputChangeHandler}
+                        />
+                        ))}
+                  </div>
+
+                ))}
+
+                <div className="add-product__part--details__section">
+                    <h3 className="add-product__form__title">options</h3>
+                    <FormFeature featuresList={this.state.featuresList}
+                                addFeatureChangeHandler={this.addFeatureChangeHandler}
+                                value={this.state.featureBeingAdded}
+                                addFeature={this.addFeature}
+                                deleteFeature= {this.deleteFeature}
                     />
-                    ))}
-              </div>
-
-            ))}
-
-            <div className="add-product__part--details__section">
-                <h3 className="add-product__form__title">options</h3>
-                <FormFeature featuresList={this.state.featuresList}
-                             addFeatureChangeHandler={this.addFeatureChangeHandler}
-                             value={this.state.featureBeingAdded}
-                             addFeature={this.addFeature}
-                             deleteFeature= {this.deleteFeature}
-                />
-            </div>
-            
-            <div className="add-product__form__controller">
-                <Button onClick={this.showImageFormHandler}>
-                    next
-                </Button>
+                </div>
                 
-            </div>
-          </div>
-          
-          <div className={`add-product__part add-product__part--image 
-                           ${this.state.showImage === true ? 'show' : '' }`}>
-                <h3 className="add-product__form__title">Images</h3>          
-                <Filepicker filesHandler={this.filesHandler}
-                            productBeingEditedCurrentImages={this.state.productBeingEditedCurrentUrlImagesWithChekedOption}
-                            editingMode={this.props.editingMode}
-                            selectDeleteHandler={this.selectDeleteHandler}
-                            selectedImages ={this.state.selectedImages}
-                            onDeleteCurrentImages = {this.deleteImageOnThePage}
-                            cancelDeleteImagesAlowed = {this.state.cancelImageDeletingAllowed}
-                            onCancelDeleteCurrentImages={this.cancelDeleteCurrentImageHandler}
-                />
                 <div className="add-product__form__controller">
-                        <Button onClick={this.hideImageFormHandler}>
-                            previous 
-                        </Button>
-                        <Button onClick={this.uploadHandler}>
-                            upload
-                        </Button>
-                        <Button onClick={this.over}>
-                            State
-                        </Button>
-                </div>  
-          </div>        
-        </form>
-      </section>
-    );
+                    <Button onClick={this.showImageFormHandler}>
+                        next
+                    </Button>
+                    
+                </div>
+              </div>
+              
+              <div className={`add-product__part add-product__part--image 
+                              ${this.state.showImage === true ? 'show' : '' }`}>
+                    <h3 className="add-product__form__title">Images</h3>          
+                    <Filepicker filesHandler={this.filesHandler}
+                                productBeingEditedCurrentImages={this.state.productBeingEditedCurrentUrlImagesWithChekedOption}
+                                editingMode={this.props.editingMode}
+                                selectDeleteHandler={this.selectDeleteHandler}
+                                selectedImages ={this.state.selectedImages}
+                                onDeleteCurrentImages = {this.deleteImageOnThePage}
+                                cancelDeleteImagesAlowed = {this.state.cancelImageDeletingAllowed}
+                                onCancelDeleteCurrentImages={this.cancelDeleteCurrentImageHandler}
+                    />
+                    <div className="add-product__form__controller">
+                            <Button onClick={this.hideImageFormHandler}>
+                                previous 
+                            </Button>
+                            <Button onClick={this.uploadHandler}>
+                                upload
+                            </Button>
+                            <Button onClick={this.over}>
+                                State
+                            </Button>
+                    </div>  
+              </div>        
+            </form>
+          </section>
+      )
+    }
+
+    return addProduct
   }
 }
 
