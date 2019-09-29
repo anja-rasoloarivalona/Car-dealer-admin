@@ -36,7 +36,7 @@ const navbar = props => {
                     
                     {
                         NAV_LINKS.map( i => (
-                            <NavLink to={`/${i.path}`} className={`navbar__list__item 
+                            <NavLink key={i.path} to={`/${i.path}`} className={`navbar__list__item 
                                         ${props.showFullNavbar === true ? '' : 'hide'}`} >
                                 <IconSvg icon={i.icon}/>
                                 <span className="navbar__list__item__text">{i.text}</span>

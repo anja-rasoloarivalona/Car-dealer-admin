@@ -24,6 +24,7 @@ const formInput = props => {
                                required={props.required}
                                value={props.value}
                                placeholder={props.placeholder}
+                               
                                onChange={e => props.onChange(props.id, e.target.value, props.formType)}
                                />
                     )
@@ -51,7 +52,7 @@ const formInput = props => {
                                 
                                 {
                                     props.options.map( option => (
-                                        <option value={option}>{option}</option>
+                                        <option key={option} value={option}>{option}</option>
                                     ))
                                 }
                         </select>

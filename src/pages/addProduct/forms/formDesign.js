@@ -16,6 +16,7 @@ export const formDesign = [
         placeholder: 'couleur extérieure',
         control: 'input',
         type: 'design',
+        formType: "design",
         label: 'couleur extérieure'
     },
 

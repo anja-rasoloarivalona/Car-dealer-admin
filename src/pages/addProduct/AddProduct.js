@@ -14,7 +14,35 @@ import * as actions from '../../store/actions';
 import Loader from '../../components/loader/Loader';
 
 
+/*
+
+  //TO BE USED
+
+  const newFormGeneral = formGeneral.map( a => ({...a}));
+  const newFormTech = formTech.map(a => ({...a}));
+  const newFormDesign = formDesign.map(a => ({...a}));
+
+  const firstFull = newFormGeneral.concat(newFormTech, newFormDesign);
+  const firstFullPart = [ newFormGeneral, newFormDesign, newFormTech];
+
+
+  //CLONE
+
+  const initFormGeneral = formGeneral.map( a => ({...a}));
+  const initFormTech = formTech.map(a => ({...a}));
+  const initFormDesign = formDesign.map(a => ({...a}));
+
+  const INIT_FULL_FORM = initFormGeneral.concat( initFormTech, initFormDesign);
+  const INIT_FULL_FORM_PART = [ initFormGeneral, initFormTech, initFormDesign];
+  
+  
+  
+  */
+
+
+
 class AddProduct extends Component {
+
   state = {
     images: [],
     urlImages: [],
@@ -22,10 +50,10 @@ class AddProduct extends Component {
     loading: false,
 
     /*We need all inputs in one array to send the date easiliy */
-    fullForm: formGeneral.concat(formTech, formDesign),
+    fullForm: [],
     /*We need to store each array into an array to develop the UI easily */
-    fullFormPart: [formGeneral, formTech, formDesign],
-    
+    fullFormPart: [],  
+
     featuresList: [],
     featureBeingAdded: '',
     showImage: false,
@@ -35,22 +63,29 @@ class AddProduct extends Component {
     productBeingEditedCurrentUrlImages: [], 
     newFullForm: {},
 
-
     productBeingEditedCurrentUrlImagesWithChekedOption: [],
     selectedImages: [],
     cancelImageDeletingAllowed: false
 
   }; 
 
-  componentDidMount() {
- 
+  componentWillMount() { 
 
+    const initFormGeneral = formGeneral.map( a => ({...a}));
+    const initFormTech = formTech.map(a => ({...a}));
+    const initFormDesign = formDesign.map(a => ({...a}));
+
+    const INIT_FULL_FORM = initFormGeneral.concat( initFormTech, initFormDesign);
+    const INIT_FULL_FORM_PART = [ initFormGeneral, initFormTech, initFormDesign];
+
+
+ 
    if(this.props.editingMode === false){
-        return console.log('new')
+    this.setState({fullForm: INIT_FULL_FORM, fullFormPart: INIT_FULL_FORM_PART })
+    return 
+    
+
     } else {
-      console.log('updating');
-      console.log(this.props.productBeingEdited)
-    //  let product = Object.keys(this.props.productBeingEdited);
 
       let prod = this.props.productBeingEdited;
       let general = prod.general[0]
@@ -70,7 +105,8 @@ class AddProduct extends Component {
         albumId: this.props.productBeingEdited.albumId,
         productBeingEditedCurrentUrlImages: this.props.productBeingEdited.imageUrls,
         productBeingEditedID: this.props.productBeingEdited._id,
-        productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption
+        productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption,
+        fullFormPart: INIT_FULL_FORM_PART
       })
     }
 
@@ -79,28 +115,42 @@ class AddProduct extends Component {
  
   }
 
+  
+
   componentWillUnmount(){
-    if(this.props.editingMode === true){
+
+    console.log(['UNMOUNTED'])
+
+ if(this.props.editingMode === true){
       this.props.toggleEditingMode()
+      this.props.setProductRequestedId('')
+      this.props.setProductRequested({})
     }
   }
 
   inputChangeHandler = (input, value) => {
 
-    const { fullForm, newFullForm } = this.state;
+    const { fullForm, newFullForm } = {...this.state};
+
 
     if(this.props.editingMode === false) {
+      
       const indexInput = fullForm.findIndex(i => i.id === input);
-      let newForm = fullForm;
+
+      let newForm = [...fullForm]
+
       newForm[indexInput].value = value;
+
+
       this.setState({
         fullForm: newForm
-        }, () => console.log('input change', this.state.fullForm));
+        }, () => console.log(this.state.fullForm[0]))
     }
 
     if(this.props.editingMode === true){
+
       let upDatedNewFullForm = newFullForm;
-      upDatedNewFullForm[input] = value
+    upDatedNewFullForm[input] = value
       this.setState({
         newFullForm: upDatedNewFullForm
       })
@@ -113,7 +163,10 @@ class AddProduct extends Component {
 
     const { fullForm, featuresList, urlImages, newFullForm } = this.state;
 
+
+
     console.log("fetch going....");
+
 
     const formData = new FormData();
 
@@ -179,17 +232,23 @@ class AddProduct extends Component {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Creating a product failed");
         }
+
+
         return res.json()
       })
       .then(resData => {
-        this.setState({ loading: false})
+
+        this.props.setProductRequested(resData.product)
+        this.props.setProductRequestedId(resData.product._id)
+
+     //   this.setState({fullForm: INIT_FULL_FORM, fullFormPart: INIT_FULL_FORM_PART});
+
         return resData
       })
-      .then(resData => {
-        console.log('relax this is happening')
-        if(this.props.editingMode === true){
-          this.props.toggleEditingMode();
-          this.props.history.push(`/car/${this.state.productBeingEditedID}`)
+      .then( resData => {
+        if(this.props.editingMode === true){  
+          this.props.toggleEditingMode()     
+          this.props.history.push(`/car/${this.props.productBeingEditedId}`)
         } else {
           this.props.history.push(`/car/${resData.product._id}`)
         }
@@ -238,7 +297,7 @@ class AddProduct extends Component {
 
                             this.setState({
                                 urlImages: imgStored
-                            }, () => console.log(this.state.urlImages))
+                            })
                             resolve(url)
                          })
                 })
@@ -362,7 +421,7 @@ class AddProduct extends Component {
 
   over = e => {
     e.preventDefault();
-    console.log('editing mode',this.state.editingMode)
+    console.log(this.state)
   }
 
   selectDeleteHandler = urlSelected => {
@@ -450,6 +509,8 @@ class AddProduct extends Component {
   } 
 
   render() {
+
+
     const fullFormPart = this.state.fullFormPart;
 
 
@@ -544,13 +605,18 @@ const mapStateToProps = state => {
   return {
       editingMode: state.products.editingMode,
       productBeingEdited: state.products.productRequested,
+
+      productBeingEditedId: state.products.productRequestedId
   }
 }
 
 
 const madDispacthToProps = dispatch => {
   return {
-        toggleEditingMode: () => dispatch(actions.toggleEditingMode())
+        toggleEditingMode: () => dispatch(actions.toggleEditingMode()),
+
+        setProductRequested: (prod) => dispatch(actions.setRequestedProduct(prod)),
+        setProductRequestedId: (id) => dispatch(actions.setRequestedProductId(id))
   }
 }
 export default connect(mapStateToProps, madDispacthToProps)(AddProduct);
