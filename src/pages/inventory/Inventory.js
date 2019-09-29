@@ -32,7 +32,7 @@ class Inventory extends Component {
         return res.json(); //extract the body
       })
       .then(resData => {
-          console.log('loaded');
+        this.props.setProducts(resData.products)
         this.setState({products: resData.products, loading: false})
       })
       .catch(err => {
@@ -41,7 +41,7 @@ class Inventory extends Component {
   }
 
   render() {
-    const { products } = this.state;
+  //  const { products } = this.state;
 
     let inventory;
 
@@ -63,7 +63,7 @@ class Inventory extends Component {
           </div>
 
           <ul className="inventory__list">
-            {products.map(product => (
+            {this.props.products.map(product => (
               <li className="inventory__list__item">
                 <Product
                   id={product._id}
@@ -92,16 +92,24 @@ class Inventory extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    products: state.products.products
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
-    setProductRequestedId: prodId =>dispatch(actions.setRequestedProductId(prodId))
+    setProductRequestedId: (prodId) =>dispatch(actions.setRequestedProductId(prodId)),
+    setProducts: (products) => dispatch(actions.setProducts(products))
 
     };
 
 };
 
+
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Inventory);

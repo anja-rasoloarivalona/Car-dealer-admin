@@ -21,3 +21,10 @@ export const toggleEditingMode = () => {
         type: actionTypes.TOGGLE_EDITING_MODE
     }
 }
+
+export const setProducts = data => {
+    return {
+        type: actionTypes.SET_PRODUCTS,
+        products: data
+    }
+}

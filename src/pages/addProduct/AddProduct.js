@@ -13,34 +13,6 @@ import { connect } from 'react-redux'
 import * as actions from '../../store/actions';
 import Loader from '../../components/loader/Loader';
 
-
-/*
-
-  //TO BE USED
-
-  const newFormGeneral = formGeneral.map( a => ({...a}));
-  const newFormTech = formTech.map(a => ({...a}));
-  const newFormDesign = formDesign.map(a => ({...a}));
-
-  const firstFull = newFormGeneral.concat(newFormTech, newFormDesign);
-  const firstFullPart = [ newFormGeneral, newFormDesign, newFormTech];
-
-
-  //CLONE
-
-  const initFormGeneral = formGeneral.map( a => ({...a}));
-  const initFormTech = formTech.map(a => ({...a}));
-  const initFormDesign = formDesign.map(a => ({...a}));
-
-  const INIT_FULL_FORM = initFormGeneral.concat( initFormTech, initFormDesign);
-  const INIT_FULL_FORM_PART = [ initFormGeneral, initFormTech, initFormDesign];
-  
-  
-  
-  */
-
-
-
 class AddProduct extends Component {
 
   state = {
@@ -237,12 +209,8 @@ class AddProduct extends Component {
         return res.json()
       })
       .then(resData => {
-
         this.props.setProductRequested(resData.product)
         this.props.setProductRequestedId(resData.product._id)
-
-     //   this.setState({fullForm: INIT_FULL_FORM, fullFormPart: INIT_FULL_FORM_PART});
-
         return resData
       })
       .then( resData => {
@@ -250,6 +218,7 @@ class AddProduct extends Component {
           this.props.toggleEditingMode()     
           this.props.history.push(`/car/${this.props.productBeingEditedId}`)
         } else {
+          
           this.props.history.push(`/car/${resData.product._id}`)
         }
       })
