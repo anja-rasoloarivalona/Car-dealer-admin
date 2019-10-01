@@ -41,7 +41,7 @@ class AddProduct extends Component {
 
   }; 
 
-  componentWillMount() { 
+  componentDidMount() { 
 
     const initFormGeneral = formGeneral.map( a => ({...a}));
     const initFormTech = formTech.map(a => ({...a}));
