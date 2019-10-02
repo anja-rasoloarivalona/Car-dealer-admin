@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Loader from './components/loader/Loader';
@@ -35,8 +35,23 @@ class App extends Component {
 
 
 
-  componentDidMount() {
+  componentWillMount() {
+      const token = localStorage.getItem('woto-admin-token');
+      const expiryDate = localStorage.getItem('woto-admin-expiryData');
+      const connectedAdminId = localStorage.getItem('woto-admin-adminId');
+      const connnectedAdminName = localStorage.getItem('woto-admin-adminName');
 
+      if(!token || !expiryDate){
+        console.log('NO TOKEN');
+        return
+      }
+
+      if(new Date(expiryDate) <= new Date()){
+        console.log('Token not valid anymore')
+        return
+      }
+
+      this.props.setLoginStateToTrue(true, token, connectedAdminId, connnectedAdminName)
 
   }
 
@@ -71,38 +86,52 @@ class App extends Component {
     let app;
 
     if(this.state.loading === true) {
-      app = <Loader />
+      app = <Loader fullView/>
     } else {
-      app = (
-        <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>
-                  <Navtop />
-                  <Navbar />  
-                 {
-                   /*
-                      <Chat /> 
-                   */
-                 }                
-                  <Switch>
-                      <Route path='/' exact component={Inventory}/>
-                      <Route path='/ajouter' component={Add}/>
-                      <Route exact path='/car/:prodId' component={Car}/>
-                      <Route path='/publicity' component={Publicity}/>
+        
+      if(!this.props.token || !this.props.adminId || !this.props.auth || !this.props.adminName) {
+          app = <Auth />
+        } else {
+            app = (
+      
+              <Fragment>       
+                        <Navbar />  
                       {
-                        /*                     
-                        
-                        <Route path='/stats' component={Stats}/>
-                        <Route path='/commandes' component={Order}/> 
+                        /*
+                            <Chat /> 
                         */
-                      }
-                                                       
-                  </Switch>
-                  
-            </div>
-      )
+                      }                
+                        <Switch>
+                            <Route path='/' exact component={Inventory}/>
+                            <Route path='/ajouter' component={Add}/>
+                            <Route exact path='/car/:prodId' component={Car}/>
+                            <Route path='/publicity' component={Publicity}/>
+                            {
+                              /*                     
+                              
+                              <Route path='/stats' component={Stats}/>
+                              <Route path='/commandes' component={Order}/> 
+                              */
+                            }
+                                                            
+                        </Switch>
+                        
+                </Fragment>
+          )
+        }
     }
+    
+    
+    
+    
 
     
-    return app;
+    return (
+            <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>
+                    <Navtop />
+                    {app}
+            </div>
+      )
   }
 }
 
@@ -121,7 +150,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setProducts: products => dispatch(actions.setProducts(products))
+    setProducts: products => dispatch(actions.setProducts(products)),
+
+
+    setLoginStateToTrue: (isAuth, token, adminId, adminName) => dispatch(actions.setLoginStateToTrue(isAuth, token, adminId, adminName)),
+    setLoginStateToFalse: () => dispatch(actions.setLoginStateToFalse())
   }
 }
 

@@ -10,9 +10,14 @@
     transition: all .3s ease-in-out;
 }
 
-.loader-container.full {
+.loader-container.expand {
     width: calc(100vw - 5rem);
     left: 5rem;
+}
+
+.loader-container.full {
+  width: 100vw;
+  left: 0;
 }
 
 .loader {

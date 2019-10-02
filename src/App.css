@@ -45,6 +45,7 @@ body {
   grid-template-columns: 20rem 1fr;
 
   transition: all .3s ease-in-out;
+  height: 100vh;
 }
 
 .app.full-app {

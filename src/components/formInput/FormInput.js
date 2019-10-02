@@ -5,12 +5,7 @@ const formInput = props => {
     return (
         <div className={`input ${props.className}`}>
 
-            {/*--------INPUT LABEL-----------*/}
-            {
-                props.label && (
-                    <label htmlFor={props.id}>{props.label}</label>
-                )
-            }
+            
 
             {/*-------INPUT VARIATION--------*/}
 
@@ -24,7 +19,7 @@ const formInput = props => {
                                required={props.required}
                                value={props.value}
                                placeholder={props.placeholder}
-                               
+                               autoComplete={props.autoComplete}
                                onChange={e => props.onChange(props.id, e.target.value, props.formType)}
                                />
                     )
@@ -57,6 +52,18 @@ const formInput = props => {
                                     ))
                                 }
                         </select>
+                    )
+                }
+
+                {/*--------INPUT LABEL-----------*/}
+            {
+                props.label && (
+                    <label htmlFor={props.id} className="input__label">{props.label}</label>
+                )
+            }
+            {
+                    props.border && (
+                        <div className="input__border"></div>
                     )
                 }
         </div>

@@ -1,7 +1,6 @@
 import React, { Component  } from 'react';
 import Input from '../../../components/formInput/FormInput';
 import Button from '../../../components/button/Button';
-import './Signup.css';
 import { validator } from '../../../utilities/validators';
 import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
 
@@ -145,7 +144,8 @@ class Signup extends Component {
             <form className= 'auth__form auth__form--signup'
                     onSubmit={e => this.submitHandler(e, this.state.signupForm)} 
                     autoComplete="off"
-                    noValidate>       
+                    noValidate> 
+
             <ul className="auth__input__list">
 
                     <Input type='text'
@@ -177,6 +177,8 @@ class Signup extends Component {
                             onChange={this.inputChangeHandler}
                             placeholder='email'
                             border
+                            autoComplete="nope"
+                        
                             required={true}/>
 
                     <Input  type='password'
@@ -189,6 +191,8 @@ class Signup extends Component {
                             border
                             autoComplete = 'new-password'
                             required={true}/>
+
+                            
                     <Input 
                         id='confirm_password'
                         label='confirmer mot de passe'
@@ -197,16 +201,11 @@ class Signup extends Component {
                         control='input' 
                         required={true}
                         border
+                       
                         value={this.state.signupForm['confirm_password'].value}
                         onChange={this.inputChangeHandler}
                     />
             </ul>
-
-            <div className='signup__options'>
-                <div className="signup__options--1">
-                    Déjà un compte ?
-                </div>
-            </div>
 
             <div className="auth__button">
                 <Button color='primary' type='submit'>

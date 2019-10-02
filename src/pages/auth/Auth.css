@@ -1,11 +1,8 @@
 .auth {
-    grid-column: 2 / 4;
-    height: calc(100vh - 10rem);
+    grid-column: 1 / -1;
+    height: calc(100vh - 5rem);
 
-
-    background: white;
-
-
+    margin-top: 5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,13 +49,10 @@
     padding: 2rem;
     position: relative;
     z-index: 21;
-    border: 1px solid var(--color-grey)
- 
-}
-
-.auth__form input {
+    border: 1px solid var(--color-grey);
     
 }
+
 
 .auth__form--login {
     height: 65%;
@@ -75,7 +69,82 @@
 
 .auth__input__list {
     list-style: none;
+    
 }
+
+
+.auth__input__list .input {
+    margin: 1.5rem 0;
+    height: 5rem;
+    position: relative;
+}
+
+
+.auth__input__list .input__label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 14rem;
+    display: flex;
+    align-items: center;
+    padding-left: .5rem;
+    color: var(--color-grey);
+    transition: all .2s ease-in;
+    font-size: 1.45rem;
+    opacity: 0;
+}
+
+
+.auth__input__list .input__field {
+    height: 100%;
+    width: 100%;
+    padding-left: .5rem;
+    border: none;
+    
+}
+
+
+.auth__input__list .input__field:focus {
+    outline: none;  
+}
+
+
+
+.auth__input__list input:not(:placeholder-shown) + label {
+    opacity: 1;
+    transform: translateY(-1.7rem);
+    font-size: 1rem;
+}
+
+.auth__input__list .input__border {
+    position: absolute;
+    bottom: .5rem;
+    width: 100%;
+    height: 1px;
+    background: var(--color-grey);
+}
+
+
+.auth__input__list input:-webkit-autofill,
+.auth__input__list input:-webkit-autofill:hover, 
+.auth__input__list input:-webkit-autofill:focus, 
+.auth__input__list input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

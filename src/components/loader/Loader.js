@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 
 const loader = props => {
     return (
-        <div className={`loader-container ${props.showFullNavbar === true ? '': 'full'}`}>
+        <div className={`loader-container ${props.showFullNavbar === true ? '': 'expand'}
+                        ${props.fullView ? 'full': ''}`}>
             <div className="loader">
                 <div className="loader__bar"></div>
                 <div className="loader__bar"></div>
