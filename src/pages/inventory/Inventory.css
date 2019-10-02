@@ -1,6 +1,6 @@
 .inventory {
     grid-column: 2 / 3;
-    margin-top: 5rem;   
+    grid-row: 2 / 3;  
 }
 
 .inventory__filter {

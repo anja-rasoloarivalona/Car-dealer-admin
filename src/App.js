@@ -12,6 +12,7 @@ import Order from './pages/order/Order';
 import Add from './pages/addProduct/AddProduct';
 import Car from './pages/car/Car';
 import Auth from './pages/auth/Auth';
+import Users from './pages/users/Users'
 
 /*----COMPONENTS---------*/
 import Navtop from './components/navigation/navtop/Navtop';
@@ -109,6 +110,7 @@ class App extends Component {
                             <Route path='/ajouter' component={Add}/>
                             <Route exact path='/car/:prodId' component={Car}/>
                             <Route path='/publicity' component={Publicity}/>
+                            <Route path='/users' component={Users}/>
                             {
                               /*                     
                               

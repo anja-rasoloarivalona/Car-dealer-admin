@@ -1,0 +1,104 @@
+.users {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    
+
+    display: flex;
+    justify-content: center;
+   
+   /* height: calc(100vh - 5rem) */
+}
+
+table, th, td {
+    border: 1px solid rgb(233, 232, 232);
+    border-collapse: collapse;
+}
+
+
+
+.users__table th {
+    font-size: 1.2rem;
+    padding: 1.7rem;
+    background: rgb(248, 245, 245);
+    text-align: center;
+}
+
+.users__table__data td {
+    text-align: left;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+
+
+.users__table {
+    width: 100%;
+}
+
+.users__table__data__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+
+}
+
+.users__table__data__avatar div {
+    background: rgb(224, 10, 10);
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--color-white);
+}
+
+.users__table__data__name {
+    font-weight: 600;
+    color: rgba(42, 42, 187, 0.856);
+}
+
+.users__table__data__info div {
+    background: rgb(231, 230, 230);
+    display: inline-block;
+    padding: .7rem;
+    border-radius: 4px;
+}
+
+.users__table__data__status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.users__table__data__status div {
+    background: rgb(48, 197, 48);
+    display: inline-block;
+    padding: .7rem;
+    border-radius: 4px;
+    color: var(--color-white);
+}
+
+.users__table svg {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.users__table__data__icon {
+    position: relative;
+}
+
+.users__table__data__icon svg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.users__table__data__icon--message {
+    fill: var(--color-primary)
+}
