@@ -70,6 +70,7 @@
 .add-product__input label {
     width: 14rem;
     font-weight: 600;
+    order: -1;
 }
 
 .add-product__input input, .add-product__input select {
