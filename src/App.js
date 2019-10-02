@@ -11,6 +11,7 @@ import Stats from './pages/stats/Stats';
 import Order from './pages/order/Order';
 import Add from './pages/addProduct/AddProduct';
 import Car from './pages/car/Car';
+import Auth from './pages/auth/Auth';
 
 /*----COMPONENTS---------*/
 import Navtop from './components/navigation/navtop/Navtop';
@@ -27,11 +28,19 @@ import {connect} from 'react-redux';
 class App extends Component {
 
   state = {
-    loading: true
+    loading: false
   }
 
 
+
+
+
   componentDidMount() {
+
+
+  }
+
+  fetchProductsHandler = () => {
     let url = "http://localhost:8000/admin/products";
     let method = "GET";
 
@@ -100,7 +109,12 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     showFullNavbar: state.nav.showFullNavbar,
-    loading: state.nav.loading
+    loading: state.nav.loading,
+
+    auth: state.auth.auth,
+    token: state.auth.auth,
+    adminId: state.auth.adminId,
+    adminName: state.auth.adminName
 
   }
 }
