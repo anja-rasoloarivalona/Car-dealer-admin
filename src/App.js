@@ -15,8 +15,11 @@ import Car from './pages/car/Car';
 /*----COMPONENTS---------*/
 import Navtop from './components/navigation/navtop/Navtop';
 import Navbar from './components/navigation/navbar/Navbar';
-import * as actions from './store/actions'
+import Chat from './components/chat/Chat';
 
+
+
+import * as actions from './store/actions'
 import {connect} from 'react-redux';
 
 
@@ -40,7 +43,7 @@ class App extends Component {
     })
       .then(res => {
         if (res.status !== 200) {
-          throw new Error("Failed to fectch products");
+          throw new Error("Failed to fetch products");
         }
         return res.json(); //extract the body
       })
@@ -64,7 +67,12 @@ class App extends Component {
       app = (
         <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>
                   <Navtop />
-                  <Navbar />                  
+                  <Navbar />  
+                 {
+                   /*
+                      <Chat /> 
+                   */
+                 }                
                   <Switch>
                       <Route path='/' exact component={Inventory}/>
                       <Route path='/ajouter' component={Add}/>

@@ -1,0 +1,10 @@
+.login__options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.login__options--1 {
+    cursor: pointer;
+}
