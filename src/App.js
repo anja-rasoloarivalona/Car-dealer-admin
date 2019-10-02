@@ -28,18 +28,20 @@ import {connect} from 'react-redux';
 class App extends Component {
 
   state = {
-    loading: false
+    loading: true
   }
 
 
 
 
 
-  componentWillMount() {
+  componentDidMount() {
       const token = localStorage.getItem('woto-admin-token');
       const expiryDate = localStorage.getItem('woto-admin-expiryData');
       const connectedAdminId = localStorage.getItem('woto-admin-adminId');
       const connnectedAdminName = localStorage.getItem('woto-admin-adminName');
+
+      this.setState({ loading: false})
 
       if(!token || !expiryDate){
         console.log('NO TOKEN');
@@ -52,6 +54,7 @@ class App extends Component {
       }
 
       this.props.setLoginStateToTrue(true, token, connectedAdminId, connnectedAdminName)
+      this.fetchProductsHandler()
 
   }
 

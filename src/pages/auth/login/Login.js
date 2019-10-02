@@ -60,7 +60,7 @@ import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
         }
 
 
-        fetch('http://localhost:8000/auth/login', {
+        fetch('http://localhost:8000/admin/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,13 +88,16 @@ import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
         .then( resData => {
                 this.props.loginSucceeded(resData);
 
-                localStorage.setItem('woto-token', resData.token);
-                localStorage.setItem('woto-userId', resData.userId);
 
-                const remainingMilliSeconds = 24 * 60 * 60 * 1000 //24hours
+
+                localStorage.setItem('woto-admin-token', resData.token);
+                localStorage.setItem('woto-admin-adminId', resData.userId);
+                localStorage.setItem('woto-admin-adminName', resData.adminName)
+
+                const remainingMilliSeconds =  60 * 60 * 1000 //1hour
                 const expiryDate = new Date( new Date().getTime() + remainingMilliSeconds )
 
-                localStorage.setItem('woto-expiryDate', expiryDate.toISOString());
+                localStorage.setItem('woto-admin-expiryData', expiryDate.toISOString());
 
                 this.props.setLoadingToFalse()
 

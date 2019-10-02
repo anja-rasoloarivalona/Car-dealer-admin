@@ -37,11 +37,7 @@ class Signup extends Component {
         
     }
 
-    componentWillMount(){
-        console.log(this.state)
-    }
-
-    
+ 
 
 
     inputChangeHandler = (input, value) => {
@@ -90,7 +86,7 @@ class Signup extends Component {
         formData.append('email', signupFormData.userEmail.value);
         formData.append('password', signupFormData.userPassword.value)
 
-        fetch('http://localhost:8000/auth/signup', {
+        fetch('http://localhost:8000/admin/signup', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -201,7 +197,7 @@ class Signup extends Component {
                         control='input' 
                         required={true}
                         border
-                       
+                        autoComplete = 'new-password'
                         value={this.state.signupForm['confirm_password'].value}
                         onChange={this.inputChangeHandler}
                     />

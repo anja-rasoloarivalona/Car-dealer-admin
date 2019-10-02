@@ -1,4 +1,4 @@
-import React, { Component , Fragment} from 'react'
+import React, { Component } from 'react'
 import './Auth.css';
 
 import Login from './login/Login';
@@ -44,12 +44,14 @@ class Auth extends Component {
 
 
     render() {
-        return (
-            <Fragment>
-                {
-                    this.state.loading === true && <Loader />
-                }
-            <section className="auth">
+
+        let auth;
+
+        if(this.state.loading === true){
+            auth = <Loader fullView />
+        } else {
+            auth =(
+                <section className="auth">
                   
                   <div className="auth__container">
 
@@ -69,9 +71,6 @@ class Auth extends Component {
                             </div>
                             )
                         }
-
-                      
-
 
                       {
                           this.state.requestedForm === 'signup' && (
@@ -95,9 +94,9 @@ class Auth extends Component {
                       
                   </div>
           </section>
-            </Fragment>
-            
-        )
+            )
+        }
+        return auth
     }
 }
 
