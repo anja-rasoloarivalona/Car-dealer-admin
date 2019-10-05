@@ -2,19 +2,23 @@ import React, { Component, Fragment } from 'react';
 import './MessagesContainer.css';
 import openSocket from 'socket.io-client';
 import {timeStampGenerator} from '../../../utilities/timeStampGenerator';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import notification from '../../../assets/notification.mp3'
  
- class MessagesContainer extends Component {
+
+class MessagesContainer extends Component {
 
     state = {
         messages: [],
 
         messageInput: '',
-        userId: ''
-       
+        userId: '',  
     }
 
+    
+
     componentDidMount(){
+
 
         this.setState({messages: this.props.messages, userId: this.props.userId});
 
@@ -22,6 +26,9 @@ import { connect } from 'react-redux'
 
 
         socket.on('userSentMessage', data => {
+
+        
+            this.player.play()
 
             if(data.messageData.userId === this.state.userId){
                 let url = "http://localhost:8000/messages/admin-update/" + this.state.userId;
@@ -59,7 +66,7 @@ import { connect } from 'react-redux'
         socket.on('userReadNewMessages', data => {
 
             console.log('user read message', data);
-            
+
             if(data._id === this.state.userId){
                 
 
@@ -145,6 +152,9 @@ import { connect } from 'react-redux'
     
         return (
             <section className="messagesContainer">
+
+                <audio src={notification} ref={ref => this.player = ref}  />
+
                 <div className="messagesContainer__body">
                 {
                           this.state.messages.length !== 0 && this.state.messages.map( message => (
