@@ -1,0 +1,84 @@
+.messagesContainer {
+    width: calc(100% - 20rem);
+    height: calc(100vh - 5rem);
+    background: green;
+
+    display: flex;
+   
+    justify-content: center;
+    flex-direction: column;
+}
+
+.messagesContainer__body {
+    width: 80%;
+    max-width: 80%;
+    height: 100%;
+    background: white;
+    padding: 2rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: calc(100vh - 16rem);
+}
+
+.messagesContainer__body__chat {
+    display: inline-block;
+    border-radius: 3px;
+    
+    background: grey;
+    max-width: 60%;
+    margin: 1rem 0;
+    padding: .5rem;
+    font-size: 1.2rem;
+    width: auto;
+    margin-right: 2rem;
+}
+
+.messagesContainer__body__chat--user {
+    background: grey;
+    color: white;
+}
+
+
+.messagesContainer__body__chat--admin {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.messagesContainer__body__chat__detail {
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-6px);
+    color: var(--color-grey);
+    
+}
+
+.messagesContainer__input {
+    width: 80%;
+    min-height: 5rem;
+    background: salmon;
+    display: flex;
+   align-items: center;
+   justify-content: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    
+}
+
+.messagesContainer__input textarea {
+    resize: none;
+    width: 80%;
+    min-height: 5rem;
+    max-height: 9rem;
+    padding: .5rem;
+}
+
+.messagesContainer__input textarea:focus {
+    outline: none;
+}
+
+.messagesContainer__cta {
+    width: 80%;
+    height: 5rem;
+    background: yellow;
+    display: block;
+}
