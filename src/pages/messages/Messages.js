@@ -43,7 +43,10 @@ import { timeStampGenerator } from '../../utilities/timeStampGenerator';
         })
         .catch( err => {
             console.log(err)
-        })        
+        })   
+        
+        
+        
     }
 
     changeConvoHandler = userId => {
@@ -92,6 +95,8 @@ import { timeStampGenerator } from '../../utilities/timeStampGenerator';
        let newMessagesState = this.state.messages.filter(i => i._id !== userId);
 
        let newData = [convoToBeUpdated, ...newMessagesState];
+
+
 
         this.setState({messages: newData})
 

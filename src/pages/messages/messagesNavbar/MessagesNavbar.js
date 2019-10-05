@@ -13,9 +13,9 @@ class MessagesNavbar extends Component {
 
     
     componentDidUpdate(prevProps){
+
         if(prevProps.messages[0]._id !== this.props.messages[0]._id){
-            this.setState({ messages: this.props.messages },
-                () => console.log('did update', this.state.messages))
+            this.setState({ messages: this.props.messages })
         }
     }
 

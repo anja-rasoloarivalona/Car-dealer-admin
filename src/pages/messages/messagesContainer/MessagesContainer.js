@@ -16,8 +16,7 @@ import { connect } from 'react-redux'
 
     componentDidMount(){
 
-        this.setState({messages: this.props.messages, userId: this.props.userId},
-            () => console.log('mounted',this.state.messages));
+        this.setState({messages: this.props.messages, userId: this.props.userId});
 
         const socket = openSocket('http://localhost:8000');
 
@@ -53,6 +52,18 @@ import { connect } from 'react-redux'
                     .catch( err => {
                         console.log(err)
                     })
+            }
+        })
+
+
+        socket.on('userReadNewMessages', data => {
+
+            console.log('user read message', data);
+            
+            if(data._id === this.state.userId){
+                
+
+                this.setState({ messages: data.messages})
             }
         })
     }
@@ -103,7 +114,6 @@ import { connect } from 'react-redux'
             })
         })
         .then( res => {
-            console.log('sent baby');
             return res.json()
 
         })
@@ -125,7 +135,7 @@ import { connect } from 'react-redux'
       addMessages = message => {
         this.setState(prevState => ({
             messages: [...prevState.messages, message]
-        }), () => console.log(this.state.messages))
+        }))
 
     }
 
