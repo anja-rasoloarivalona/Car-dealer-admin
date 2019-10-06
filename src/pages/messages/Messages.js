@@ -121,7 +121,8 @@ import * as actions from '../../store/actions';
                     this.state.userMessages && (
                         <MessagesContainer messages={this.state.userMessages}
                                            userId={this.state.requestedMessageUserId}
-                                           updateNavbar={this.updateNavbar}/>
+                                           updateNavbar={this.updateNavbar}
+                                           playNotificationSound={this.props.playNotificationSound}/>
                     )        
                 }
                 

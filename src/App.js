@@ -19,6 +19,7 @@ import Messages from './pages/messages/Messages'
 import Navtop from './components/navigation/navtop/Navtop';
 import Navbar from './components/navigation/navbar/Navbar';
 import Chat from './components/chat/Chat';
+import notification from './assets/notification.mp3'
 
 
 
@@ -85,6 +86,10 @@ class App extends Component {
       });
   }
 
+  playNotificationSound = () => {
+    this.player.play();
+  }
+
 
   render() {
 
@@ -101,6 +106,8 @@ class App extends Component {
       
               <Fragment>       
                         <Navbar />  
+                        
+                        <audio src={notification} ref={ref => this.player = ref}  />
                       {
                         /*
                             <Chat /> 
@@ -112,7 +119,8 @@ class App extends Component {
                             <Route exact path='/car/:prodId' component={Car}/>
                             <Route path='/publicity' component={Publicity}/>
                             <Route path='/users' component={Users}/>
-                            <Route path='/messages' component={Messages}/>
+                            <Route path='/messages' render={(props) => <Messages {...props} playNotificationSound={this.playNotificationSound}/>}
+                            />
                             {
                               /*                     
                               

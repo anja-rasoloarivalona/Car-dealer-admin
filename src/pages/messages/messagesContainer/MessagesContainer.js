@@ -3,9 +3,10 @@ import './MessagesContainer.css';
 import openSocket from 'socket.io-client';
 import {timeStampGenerator} from '../../../utilities/timeStampGenerator';
 import { connect } from 'react-redux';
-import notification from '../../../assets/notification.mp3'
 import * as actions from '../../../store/actions'
  
+
+
 
 class MessagesContainer extends Component {
 
@@ -14,12 +15,20 @@ class MessagesContainer extends Component {
 
         messageInput: '',
         userId: '',  
+
+        
     }
 
+
+
+    componentWillUnmount() {
+        this._ismounted = false;
+     }
     
 
     componentDidMount(){
 
+        this._ismounted = true;
 
         this.setState({messages: this.props.messages, userId: this.props.userId});
 
@@ -28,9 +37,9 @@ class MessagesContainer extends Component {
 
         socket.on('userSentMessage', data => {
       
-            this.player.play();
+            this.props.playNotificationSound()
 
-            if(data.messageData.userId === this.state.userId){
+            if(data.messageData.userId === this.state.userId && this._ismounted === true){
                 let url = "http://localhost:8000/messages/admin-update/" + this.state.userId;
                 let method = "POST";
 
@@ -176,7 +185,7 @@ class MessagesContainer extends Component {
         return (
             <section className="messagesContainer">
 
-                <audio src={notification} ref={ref => this.player = ref}  />
+                
 
                 <div className="messagesContainer__body">
                 {

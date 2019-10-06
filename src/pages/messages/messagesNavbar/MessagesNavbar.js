@@ -19,22 +19,33 @@ class MessagesNavbar extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this._ismounted = false;
+     }
+
     componentDidMount(){
+        this._ismounted = true;
 
         this.setState({ messages: this.props.messages, requestedMessageUserId: this.props.requestedMessageUserId});
 
         const socket = openSocket('http://localhost:8000');
 
             socket.on('userSentMessage', data => {
-            let messageData = data.messageData;
-            let userId = messageData.userId;
 
-            //find the user discussion to be updated and pull it 
-            let convoToBeUpdated = this.state.messages.filter( i => i._id === userId)[0];
-            //update the last message of that discussion
-           convoToBeUpdated.messages[0] = messageData
-           
-          this.checkIfAdminIsOnTheConvoToBeUpdated(userId, convoToBeUpdated)
+            if(this._ismounted === true){
+                let messageData = data.messageData;
+                let userId = messageData.userId;
+    
+                //find the user discussion to be updated and pull it 
+                let convoToBeUpdated = this.state.messages.filter( i => i._id === userId)[0];
+                //update the last message of that discussion
+                convoToBeUpdated.messages[0] = messageData
+               
+                this.checkIfAdminIsOnTheConvoToBeUpdated(userId, convoToBeUpdated)
+            }
+
+            else return
+            
             
         })
     }
