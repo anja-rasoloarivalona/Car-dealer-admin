@@ -20,11 +20,6 @@ export const NAV_LINKS = [
         icon: 'command'
     },
     {
-        path: 'messages',
-        text: 'Messages',
-        icon: 'email'
-    },
-    {
         path: 'users',
         text: 'Users',
         icon: 'users'

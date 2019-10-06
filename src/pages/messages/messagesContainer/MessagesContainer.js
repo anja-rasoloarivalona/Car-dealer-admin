@@ -4,6 +4,7 @@ import openSocket from 'socket.io-client';
 import {timeStampGenerator} from '../../../utilities/timeStampGenerator';
 import { connect } from 'react-redux';
 import notification from '../../../assets/notification.mp3'
+import * as actions from '../../../store/actions'
  
 
 class MessagesContainer extends Component {
@@ -26,9 +27,8 @@ class MessagesContainer extends Component {
 
 
         socket.on('userSentMessage', data => {
-
-        
-            this.player.play()
+      
+            this.player.play();
 
             if(data.messageData.userId === this.state.userId){
                 let url = "http://localhost:8000/messages/admin-update/" + this.state.userId;
@@ -59,6 +59,31 @@ class MessagesContainer extends Component {
                     .catch( err => {
                         console.log(err)
                     })
+
+            } else {
+                
+                let userId = data.messageData.userId;
+                let url = "http://localhost:8000/stats/add-notification/" + userId;
+                let method = 'POST';
+
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then( res => {
+                    if(res.status !== 200 && res.status !== 201)
+                    throw new Error('Failed to add notification')
+                    return res.json()
+                })
+                .then(resData => {
+                    this.props.addANotification(resData.notification)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
             }
         })
 
@@ -67,9 +92,7 @@ class MessagesContainer extends Component {
 
             console.log('user read message', data);
 
-            if(data._id === this.state.userId){
-                
-
+            if(data._id === this.state.userId){           
                 this.setState({ messages: data.messages})
             }
         })
@@ -235,4 +258,10 @@ const mapStateToPros = state => {
     }
 }
 
-export default connect(mapStateToPros)(MessagesContainer);
+const mapDispatchToProps = dispatch => {
+    return {
+        addANotification : (data) => dispatch(actions.addANotification(data)),
+    }
+}
+
+export default connect(mapStateToPros, mapDispatchToProps)(MessagesContainer);

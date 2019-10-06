@@ -4,7 +4,7 @@ import MessagesNavbar from './messagesNavbar/MessagesNavbar';
 import MessagesContainer from './messagesContainer/MessagesContainer';
 import { connect } from 'react-redux';
 import { timeStampGenerator } from '../../utilities/timeStampGenerator';
-
+import * as actions from '../../store/actions';
 
  class Messages extends Component {
 
@@ -77,8 +77,11 @@ import { timeStampGenerator } from '../../utilities/timeStampGenerator';
             return res.json()
         })
         .then(resData => {
-            
-            this.setState({ userMessages: resData.messages.messages, requestedMessageUserId: userId})
+            this.setState({ userMessages: resData.messages.messages, requestedMessageUserId: userId},
+                () => console.log(this.state.messages))
+
+            this.props.substractANotification(userId)
+
         })
         .catch( err => {
             console.log(err)
@@ -142,4 +145,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Messages);
+const mapDispatchToProps = dispatch => {
+    return {
+        substractANotification: userId => dispatch(actions.substractANotification(userId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Messages);

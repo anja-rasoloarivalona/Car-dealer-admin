@@ -7,7 +7,10 @@ export {
 
 
 export {
-    toggleShowFullNavbar
+    toggleShowFullNavbar,
+    initNotifications,
+    addANotification,
+    substractANotification
 } from './nav'
 
 export {

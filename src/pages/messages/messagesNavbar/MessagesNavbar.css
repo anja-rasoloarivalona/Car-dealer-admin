@@ -2,6 +2,7 @@
     width: 20rem;
     height: 100%;
     background: rgb(236, 232, 227);
+    
 }
 
 .messagesNavbar__list {
@@ -23,7 +24,7 @@
 }
 
 .messagesNavbar__list__item.active {
-    background: var(--color-primary);
+    background: rgb(197, 167, 101);
     color: var(--color-white);
 }
 
