@@ -77,8 +77,7 @@ import * as actions from '../../store/actions';
             return res.json()
         })
         .then(resData => {
-            this.setState({ userMessages: resData.messages.messages, requestedMessageUserId: userId},
-                () => console.log(this.state.messages))
+            this.setState({ userMessages: resData.messages.messages, requestedMessageUserId: userId})
 
             this.props.substractANotification(userId)
 

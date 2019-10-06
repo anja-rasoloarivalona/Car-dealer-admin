@@ -26,7 +26,9 @@ import IconSvg from '../../utilities/svg/svg';
             return res.json(); //extract the body
         })
         .then(resData => {
-            this.setState({ users: resData.users})
+
+            this.setState({ users: resData.users},
+            () => console.log(this.state.users))
         })
         .catch(err => {
             console.log(err);
@@ -35,6 +37,9 @@ import IconSvg from '../../utilities/svg/svg';
 
 
     render() {
+
+        const {users} = this.state;
+
         return (
             <section className="users">
                 <table className="users__table">
@@ -51,45 +56,53 @@ import IconSvg from '../../utilities/svg/svg';
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="users__table__data">
-                            <td className="users__table__data__avatar">
-                                <div>
-                                    AR
-                                </div>
-                    
-                            </td>
-                            <td className="users__table__data__name">
-                                Anja Rasoloarivalona
-                            </td>
-                            <td className="users__table__data__info">
-                                <div>
-                                    rasoloanja@gmail.com
-                                </div>
-                                
-                            </td>
-                            <td className="users__table__data__info">
-                                <div>
-                                    +1 438 896 2026
-                                </div>
-                            </td>
-                            <td className="users__table__data__status">
-                                <div>
-                                    Active
-                                </div>
-                            </td>
-                            <td className="users__table__data__info">
-                                <div>
-                                    12-10-2019 &nbsp; 21:54:15
-                                </div>
-                                
-                            </td>
-                            <td className="users__table__data__icon users__table__data__icon--file">
-                                <IconSvg icon="file"/>
-                            </td>
-                            <td className="users__table__data__icon users__table__data__icon--message">
-                                <IconSvg icon="email"/>
-                            </td>
+
+                        {
+                            users.map( user => (
+
+                          <tr className="users__table__data"
+                              key={user._id}>
+                                <td className="users__table__data__avatar">
+                                    <div>
+                                        {user.firstName.slice(0, 1)}{user.lastName.slice(0, 1)}
+                                    </div>
+                        
+                                </td>
+                                <td className="users__table__data__name">
+                                    {user.firstName} {user.lastName}
+                                </td>
+                                <td className="users__table__data__info">
+                                    <div>
+                                        {user.email}
+                                    </div>
+                                    
+                                </td>
+                                <td className="users__table__data__info">
+                                    <div>
+                                        +1 438 896 2026
+                                    </div>
+                                </td>
+                                <td className="users__table__data__status">
+                                    <div>
+                                        Active
+                                    </div>
+                                </td>
+                                <td className="users__table__data__info">
+                                    <div>
+                                        {user.lastConnection}
+                                    </div>
+                                    
+                                </td>
+                                <td className="users__table__data__icon users__table__data__icon--file">
+                                    <IconSvg icon="file"/>
+                                </td>
+                                <td className="users__table__data__icon users__table__data__icon--message">
+                                    <IconSvg icon="email"/>
+                                </td>
                         </tr>
+                            ))
+                        }
+                        
                     </tbody>
                 </table>
 

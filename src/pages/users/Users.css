@@ -51,11 +51,13 @@ table, th, td {
     justify-content: center;
     border-radius: 50%;
     color: var(--color-white);
+    text-transform: uppercase;
 }
 
 .users__table__data__name {
     font-weight: 600;
     color: rgba(42, 42, 187, 0.856);
+    text-transform: capitalize;
 }
 
 .users__table__data__info div {

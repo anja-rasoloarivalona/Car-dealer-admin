@@ -14,7 +14,7 @@ class Navbar extends Component {
 
     componentDidMount(){
         
-        console.log('navbar did mount')
+
 
         let url = "http://localhost:8000/stats/notifications";
         let mehod = 'GET';
