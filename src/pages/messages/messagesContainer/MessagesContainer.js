@@ -89,9 +89,6 @@ class MessagesContainer extends Component {
 
 
         socket.on('userReadNewMessages', data => {
-
-            console.log('user read message', data);
-
             if(data._id === this.state.userId){           
                 this.setState({ messages: data.messages})
             }
@@ -113,10 +110,13 @@ class MessagesContainer extends Component {
 
     handleKeyDown = (e) => {
 
-        e.target.style.height = 'inherit';
-        e.target.style.height = `${e.target.scrollHeight}px`; 
+       // e.target.style.height = 'inherit';
+
+
+     //   e.target.style.height = `${e.target.scrollHeight}px`; 
+
         // In case you have a limitation
-        // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`
+        e.target.style.height = `${Math.min(e.target.scrollHeight, '60')}px`
       }
 
       keypress = e => {
@@ -232,17 +232,21 @@ class MessagesContainer extends Component {
                             ))
                         }
                 </div>
-                <div className="messagesContainer__input">
+                
+   
                     <textarea className="messagesContainer__textarea"
                              value={this.state.messageInput}
                              onChange={(e) => this.messageChangeHandler(e)}
+
+                             rows = {1}
+
                              placeholder='message'
                              onKeyDown={this.handleKeyDown}
                              onKeyPress={this.keypress}>
                              
                     </textarea>
                     
-                </div>
+         
                 <div className="messagesContainer__cta">
 
                 </div>

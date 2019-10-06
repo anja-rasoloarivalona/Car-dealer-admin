@@ -5,19 +5,20 @@
 
     display: flex;
    
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
+
+    position: relative;
 }
 
 .messagesContainer__body {
     width: 80%;
     max-width: 80%;
-    height: 100%;
+    height: calc(100vh - 12rem);
     background: white;
     padding: 2rem;
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: calc(100vh - 16rem);
 }
 
 .messagesContainer__body__chat {
@@ -52,27 +53,22 @@
     
 }
 
-.messagesContainer__input {
-    width: 80%;
-    min-height: 5rem;
-    background: salmon;
-    display: flex;
-   align-items: center;
-   justify-content: center;
-    flex-direction: column;
-    margin-bottom: 1rem;
-    
-}
 
-.messagesContainer__input textarea {
+
+.messagesContainer__textarea {
     resize: none;
     width: 80%;
-    min-height: 5rem;
-    max-height: 9rem;
-    padding: .5rem;
+    min-height: 3rem;
+    max-height: 6rem;
+    padding: .5rem;  
+    
+
+    
+    position: absolute;
+    bottom: 4.5rem;
 }
 
-.messagesContainer__input textarea:focus {
+.messagesContainer__textarea:focus {
     outline: none;
 }
 
