@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Users.css';
 import IconSvg from '../../utilities/svg/svg';
+import openSocket from 'socket.io-client';
 
  class Users extends Component {
 
@@ -28,11 +29,61 @@ import IconSvg from '../../utilities/svg/svg';
         .then(resData => {
 
             this.setState({ users: resData.users},
-            () => console.log(this.state.users))
+            () => console.log('initial state', this.state.users))
         })
         .catch(err => {
             console.log(err);
         });
+
+        const socket = openSocket('http://localhost:8000');
+
+        socket.on('userLoggedIn', data => {
+            let userLoggedInId = data._id;
+
+            const userLoggedIn = this.state.users.filter( i => i._id === userLoggedInId)[0];
+
+            userLoggedIn.active = true;
+
+            userLoggedIn.connection = [data.connection[data.connection.length - 1]];
+
+            const newUserStates = this.state.users.filter(i => i._id !== userLoggedInId);
+            let newData = [];
+
+            if(newUserStates.length === 0){
+                newData = [userLoggedIn];
+                this.setState({ users: newData} , () => console.log('state', this.state.users))
+            } else {
+                newData = [userLoggedIn, ...newUserStates]
+                this.setState({ users: newData}, () => console.log('state', this.state.users))
+            }
+        })
+
+        socket.on('userLoggedOut', data => {
+
+            console.log('logged out happening')
+            let userLoggedInId = data._id;
+
+
+            let userLoggedInIndex = this.state.users.findIndex( i => i._id === userLoggedInId)
+
+            const userLoggedIn = this.state.users.filter( i => i._id === userLoggedInId)[0];
+
+            userLoggedIn.active = false;
+
+            userLoggedIn.connection = [data.connection[data.connection.length - 1]];
+
+            let newUsersData = [...this.state.users];
+            newUsersData[userLoggedInIndex] = userLoggedIn;
+
+
+            this.setState({ users: newUsersData})
+        })
+
+
+
+
+
+
     }
 
 
@@ -50,7 +101,7 @@ import IconSvg from '../../utilities/svg/svg';
                             <th>Email</th>
                             <th>Tél</th>
                             <th>Status</th>
-                            <th>Last connection</th>
+                            <th>Connection</th>
                             <th>Fiche</th>
                             <th>Open conversation</th>
                         </tr>
@@ -83,13 +134,18 @@ import IconSvg from '../../utilities/svg/svg';
                                     </div>
                                 </td>
                                 <td className="users__table__data__status">
-                                    <div>
-                                        Active
+
+                            
+                                    <div className={`users__table__data__status__icon 
+                                        ${user.active === true ? 'active': ''}`}>
+                                       {user.active === true ? 'active': 'away'}
                                     </div>
                                 </td>
                                 <td className="users__table__data__info">
                                     <div>
-                                        {user.lastConnection}
+                                        {
+                                            user.active === true ?  user.connection[0].start : user.connection[0].end
+                                        }
                                     </div>
                                     
                                 </td>
