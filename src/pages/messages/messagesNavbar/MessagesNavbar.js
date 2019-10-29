@@ -79,7 +79,6 @@ class MessagesNavbar extends Component {
         let newMessages = [...this.state.messages];
         newMessages[convoToBeUpdatedIndex] = convoToBeUpdated;
 
-
         this.setState({ requestedMessageUserId: userId, messages: newMessages});
         this.props.onchangeConvoHandler(userId);
     }
