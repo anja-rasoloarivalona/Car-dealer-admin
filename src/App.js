@@ -57,33 +57,6 @@ class App extends Component {
       }
 
       this.props.setLoginStateToTrue(true, token, connectedAdminId, connnectedAdminName)
-      this.fetchProductsHandler()
-
-  }
-
-  fetchProductsHandler = () => {
-    let url = "http://localhost:8000/admin/products";
-    let method = "GET";
-
-    fetch(url, {
-      headers: {
-        "Content-Type": "application/json"
-      },
-      method: method
-    })
-      .then(res => {
-        if (res.status !== 200) {
-          throw new Error("Failed to fetch products");
-        }
-        return res.json(); //extract the body
-      })
-      .then(resData => {
-        this.props.setProducts(resData.products);
-        this.setState({ loading: false})
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }
 
   playNotificationSound = () => {
@@ -167,9 +140,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setProducts: products => dispatch(actions.setProducts(products)),
-
-
     setLoginStateToTrue: (isAuth, token, adminId, adminName) => dispatch(actions.setLoginStateToTrue(isAuth, token, adminId, adminName)),
     setLoginStateToFalse: () => dispatch(actions.setLoginStateToFalse())
   }

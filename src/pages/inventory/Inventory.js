@@ -10,24 +10,58 @@ import IconSvg from "../../utilities/svg/svg";
 import Loader from "../../components/loader/Loader";
 
 class Inventory extends Component {
+
+  state = {
+    sortBy: 'prix croissant',
+    products: null,
+    loading: true
+  }
+
+  componentDidMount(){
+    this.fetchProductsHandler()
+  }
+
+  sortByHandler = sortBy => {
+    this.fetchProductsHandler(sortBy)
+    this.setState({ sortBy })
+  }
+
+  fetchProductsHandler = (sortBy) => {
+    let url = `http://localhost:8000/product?sortBy=${sortBy}`;
+
+
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (res.status !== 200) {
+          throw new Error("Failed to fetch products");
+        }
+        return res.json(); 
+      })
+      .then(resData => {
+
+        let products = resData.products;
+        this.props.setProducts(products);
+        this.setState({ products: products, loading: false})
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   render() {
 
-    return (
-      <div className="inventory">
-              <div className="inventory__filter">
-                <div className="inventory__filter__searchBar">
-                  <Input
-                    control="input"
-                    value=""
-                    type="text"
-                    placeholder="search..."
-                  />
-                  <IconSvg icon="search" />
-                </div>
-              </div>
+    const { products, loading } = this.state;
 
-              <ul className="inventory__list">
-                {this.props.products.map(product => (
+    let productsList = <Loader />
+
+  
+    if(!loading){
+      productsList = (
+            <ul className="inventory__list">
+                {products.map(product => (
                   <li className="inventory__list__item">
                     <Product
                       id={product._id}
@@ -48,6 +82,44 @@ class Inventory extends Component {
                   </li>
                 ))}
               </ul>
+      )
+    }
+
+    return (
+      <div className="inventory">
+
+              <div className="inventory__filter">
+                <div className="inventory__filter__searchBar">
+                  <Input
+                    control="input"
+                    value=""
+                    type="text"
+                    placeholder="search..."
+                  />
+                  <IconSvg icon="search" />
+                </div>
+              </div>
+
+              <div className="inventory__controller">
+                  <div className="inventory__controller__sort">
+                      <div className="inventory__controller__sort__key">Trier par</div>
+                      <select value={this.state.sortBy}
+                              onChange={e => this.sortByHandler(e.target.value)}>
+                        <option value="prix croissant">Prix croissant</option>
+                        <option value="prix décroissant">Prix décroissant</option>
+                        <option value="popularité">Popularité</option>
+                        <option value="date">Date</option>
+                      </select>
+                  </div>
+
+                  <div className="inventory__controller__displayMode">
+                        Voir données
+                  </div>
+              </div>
+
+               {productsList}
+
+
             </div>
     )
   }
