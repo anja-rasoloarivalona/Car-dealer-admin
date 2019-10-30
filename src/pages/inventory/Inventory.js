@@ -9,12 +9,16 @@ import Input from "../../components/formInput/FormInput";
 import IconSvg from "../../utilities/svg/svg";
 import Loader from "../../components/loader/Loader";
 
+
+
 class Inventory extends Component {
 
   state = {
     sortBy: 'prix croissant',
     products: null,
-    loading: true
+    loading: true,
+
+    displayMode: 'list'
   }
 
   componentDidMount(){
@@ -26,9 +30,20 @@ class Inventory extends Component {
     this.setState({ sortBy })
   }
 
+  toggleDisplayMode = () => {
+    let displayMode;
+
+    if(this.state.displayMode === 'list'){
+      displayMode = 'grid'
+    } else {
+      displayMode = 'list'
+    }
+
+    this.setState({ displayMode})
+  }
+
   fetchProductsHandler = (sortBy) => {
     let url = `http://localhost:8000/product?sortBy=${sortBy}`;
-
 
     fetch(url, {
       headers: {
@@ -45,42 +60,94 @@ class Inventory extends Component {
 
         let products = resData.products;
         this.props.setProducts(products);
-        this.setState({ products: products, loading: false})
+        this.setState({ products: products, loading: false}, 
+          
+          () => console.log('datas', this.state.products[0].general[0].viewCounter === undefined))
       })
       .catch(err => {
         console.log(err);
       });
   }
+
+
   render() {
 
-    const { products, loading } = this.state;
+    const { products, loading, displayMode } = this.state;
 
     let productsList = <Loader />
 
   
     if(!loading){
       productsList = (
-            <ul className="inventory__list">
-                {products.map(product => (
-                  <li className="inventory__list__item">
-                    <Product
-                      id={product._id}
-                      key={product.general[0].mainImgUrl}
-                      mainImg={product.general[0].mainImgUrl}
-                      made={product.general[0].made}
-                      model={product.general[0].model}
-                      year={product.general[0].year}
-                      price={product.general[0].price}
-                      nbKilometers={product.general[0].nbKilometers}
-                      gazol={product.general[0].gazol}
-                      transmissionType={product.general[0].transmissionType}
-                      goToProd={() => {
-                        this.props.setProductRequestedId(product._id);
-                        this.props.history.push(`/car/${product._id}`);
-                      }}
-                    />
-                  </li>
-                ))}
+            <ul className={`inventory__list 
+                ${displayMode === 'grid' ? '': 'list'}`}>
+                {products.map(product => {
+
+                  let date = new Date(product.createdAt).toLocaleString('fr-FR');
+                  let view = product.general[0].viewCounter;
+                  if(view === undefined){
+                      view = 0
+                  }
+
+                  return (
+                  
+                    <li className="inventory__list__item"
+                        key={product._id}>
+  
+                      <Product
+                        id={product._id}
+                        mainImg={product.general[0].mainImgUrl}
+                        made={product.general[0].made}
+                        model={product.general[0].model}
+                        year={product.general[0].year}
+                        price={product.general[0].price}
+                        nbKilometers={product.general[0].nbKilometers}
+                        gazol={product.general[0].gazol}
+                        transmissionType={product.general[0].transmissionType}
+                        goToProd={() => {
+                          this.props.setProductRequestedId(product._id);
+                          this.props.history.push(`/car/${product._id}`);
+                        }}
+                      />
+  
+                        {
+                          displayMode === 'list' && (
+                            <div className="inventory__list__item__info">
+                              
+                              <ul className="inventory__list__item__info__list">
+                                  <li className="inventory__list__item__info__list__item">
+                                      <div>Date de publication</div>
+                                      <div>{date}</div>
+                                  </li>
+                                  <li className="inventory__list__item__info__list__item">
+                                      <div>Prix concessionnaire</div>
+                                      <div>8 000 0000</div>
+                                  </li>
+                                  <li className="inventory__list__item__info__list__item">
+                                      <div>Nombre de vues</div>
+                                      <div>{view}</div>
+                                  </li>
+                                  <li className="inventory__list__item__info__list__item">
+                                      <div>Suivis par</div>
+                                      <div>9 users</div>
+                                  </li>
+                                  <li className="inventory__list__item__info__list__item">
+                                      <div>Numéro de référence</div>
+                                      <div>Xpojgweli</div>
+                                  </li>
+                              </ul>
+                            </div>
+                          ) 
+                        }
+  
+  
+                    </li>
+                  
+                  )
+                }
+
+
+                )}
               </ul>
       )
     }
@@ -112,8 +179,10 @@ class Inventory extends Component {
                       </select>
                   </div>
 
-                  <div className="inventory__controller__displayMode">
-                        Voir données
+                  <div className={`inventory__controller__displayMode 
+                                  ${displayMode === 'list' ? 'active': ''}`}
+                      onClick={this.toggleDisplayMode}>
+                        Afficher données
                   </div>
               </div>
 

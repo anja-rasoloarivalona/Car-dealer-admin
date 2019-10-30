@@ -4,7 +4,7 @@ import {updatedObject } from '../utility';
 
 
 const initialState = {
-    showFullNavbar: true,
+    showFullNavbar: false,
     notification: []
 }
 

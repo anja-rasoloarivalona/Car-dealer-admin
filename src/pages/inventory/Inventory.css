@@ -8,7 +8,7 @@
     align-items: center;
     justify-content: center;
     height: 5rem;
-    background: var(--color-grey);    
+    background: rgb(224, 224, 224);    
 }
 
 .inventory__filter__searchBar {
@@ -45,20 +45,53 @@
     column-gap: 1rem;
     row-gap: 1rem;
 
-
     padding: 2rem 0;
 
     justify-content: center;
     align-items: center;
 }
 
+.inventory__list.list {
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.inventory__list.list .inventory__list__item {
+    display: flex;
+    margin-bottom: 3rem;
+    width: 80%;
+    border-bottom: 1px solid grey;
+    padding-bottom: 3rem;
+    justify-content: center;
+}
+
+.inventory__list.list .inventory__list__item__info {
+    margin-left: 3rem;
+    width: 50%;
+    padding: 1rem 2rem;
+    border: 1px solid var(--color-grey);
+}
+
+.inventory__list__item__info__list {
+    list-style: none;
+}
+
+.inventory__list__item__info__list__item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
 .inventory__controller {
     height: 10rem;
-    background: red;
-
-    padding: 4rem;
-
     display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 6rem;
 }
 
 .inventory__controller__sort {
@@ -70,5 +103,30 @@
 
 .inventory__controller__sort__key {
     margin-right: 1rem;
+    font-size: 1.2rem;
 }
 
+.inventory__controller__displayMode {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 6rem;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    height: 3rem;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid var(--color-grey);
+    color: var(--color-grey);
+    transition: all .3s ease-in
+}
+
+.inventory__controller__displayMode.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: 1px solid var(--color-primary);
+}
