@@ -13,7 +13,8 @@ import Add from './pages/addProduct/AddProduct';
 import Car from './pages/car/Car';
 import Auth from './pages/auth/Auth';
 import Users from './pages/users/Users'
-import Messages from './pages/messages/Messages'
+import Messages from './pages/messages/Messages';
+import UserAccount from './pages/userAccount/userAccount';
 
 /*----COMPONENTS---------*/
 import Navtop from './components/navigation/navtop/Navtop';
@@ -92,6 +93,7 @@ class App extends Component {
                             <Route exact path='/car/:prodId' component={Car}/>
                             <Route path='/publicity' component={Publicity}/>
                             <Route path='/users' component={Users}/>
+                            <Route path='/user/:userId' component={UserAccount}/>
                             <Route path='/messages' render={(props) => <Messages {...props} playNotificationSound={this.playNotificationSound}/>}
                             />
                             {

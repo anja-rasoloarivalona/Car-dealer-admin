@@ -1,0 +1,83 @@
+.user-account {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+} 
+
+.user-account__section-title {
+    padding: 2rem 0;
+    padding-left: 2rem;
+    text-transform: uppercase;
+}
+
+
+.user-account__id {
+    background: white;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    border-bottom: 1px solid rgb(184, 184, 184);
+}
+
+.user-account__id__avatar {
+    background: red;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    border-radius: 50%;
+    color: var(--color-white);
+    margin-right: 2rem;
+}
+
+.user-account__id__infos {
+    flex: 1;
+}
+
+.user__account__id__infos__item--name {
+    text-transform: capitalize;
+    font-size: 1.8rem;
+    margin-bottom: .5rem;
+}
+
+.user__account__id__infos__item--email {
+    font-size: 1.2rem;
+}
+
+.user-account__id__status {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-account__id__status__badge {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border-radius: 3px;
+    color: var(--color-white);
+    
+}
+
+.user-account__id__status__badge.active {
+    background: green;
+}
+
+.user-account__id__status__badge.away {
+    background: red;
+}
+.user-account__favorites__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 25rem);
+    grid-template-rows: repeat(auto-fit, 25rem);
+    grid-auto-rows: 25rem;
+   
+    column-gap: 1rem;
+    row-gap: 1rem;
+
+    padding: 2rem 0;
+
+    justify-content: center;
+    align-items: center;
+}

@@ -12,7 +12,7 @@ const svg = props => {
             xmlnsXlink="http://www.w3.org/1999/xlink">
 
             <use xlinkHref={`${sprite}#icon-${props.icon}`} />
-    </svg>
+        </svg>
     )
 }
 

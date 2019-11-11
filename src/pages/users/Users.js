@@ -6,7 +6,7 @@ import openSocket from 'socket.io-client';
  class Users extends Component {
 
     state = {
-        users: []
+        users: [],
     }
 
     componentDidMount(){
@@ -40,7 +40,7 @@ import openSocket from 'socket.io-client';
         socket.on('userLoggedIn', data => {
             let userLoggedInId = data._id;
 
-            const userLoggedIn = this.state.users.filter( i => i._id === userLoggedInId)[0];
+            const userLoggedIn = this.state.users.find( i => i._id === userLoggedInId);
 
             userLoggedIn.active = true;
 
@@ -66,7 +66,7 @@ import openSocket from 'socket.io-client';
 
             let userLoggedInIndex = this.state.users.findIndex( i => i._id === userLoggedInId)
 
-            const userLoggedIn = this.state.users.filter( i => i._id === userLoggedInId)[0];
+            const userLoggedIn = this.state.users.find( i => i._id === userLoggedInId);
 
             userLoggedIn.active = false;
 
@@ -135,11 +135,11 @@ import openSocket from 'socket.io-client';
                                 </td>
                                 <td className="users__table__data__status">
 
-                            
                                     <div className={`users__table__data__status__icon 
                                         ${user.active === true ? 'active': ''}`}>
                                        {user.active === true ? 'active': 'away'}
                                     </div>
+
                                 </td>
                                 <td className="users__table__data__info">
                                     <div>
@@ -150,7 +150,8 @@ import openSocket from 'socket.io-client';
                                     
                                 </td>
                                 <td className="users__table__data__icon users__table__data__icon--file">
-                                    <IconSvg icon="file"/>
+                                    <IconSvg icon="file"
+                                            onClick={() => this.props.history.push(`/user/${user._id}`)}/>
                                 </td>
                                 <td className="users__table__data__icon users__table__data__icon--message">
                                     <IconSvg icon="email"/>

@@ -5,13 +5,13 @@
 
     display: flex;
     justify-content: center;
-   
-   /* height: calc(100vh - 5rem) */
+
 }
 
 table, th, td {
     border: 1px solid rgb(233, 232, 232);
     border-collapse: collapse;
+    
 }
 
 
@@ -25,8 +25,9 @@ table, th, td {
 
 .users__table__data td {
     text-align: left;
-    padding: 1rem;
+    padding: 2rem;
     font-size: 1.2rem;
+ 
 }
 
 
@@ -35,11 +36,8 @@ table, th, td {
 }
 
 .users__table__data__avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-
+  position: relative;
+  width: 7rem;
 }
 
 .users__table__data__avatar div {
@@ -52,6 +50,14 @@ table, th, td {
     border-radius: 50%;
     color: var(--color-white);
     text-transform: uppercase;
+   
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+   
 }
 
 .users__table__data__name {
@@ -67,19 +73,27 @@ table, th, td {
     border-radius: 4px;
 }
 
-.users__table__data__status {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
+.users__table__data__status {   
+    position: relative;
+    
 }
 
 .users__table__data__status__icon {
     background: red;
-    display: inline-block;
-    padding: .7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 4px;
     color: var(--color-white);
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 6rem;
+    height: 2.5rem;
 }
 
 .users__table__data__status__icon.active {
