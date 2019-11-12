@@ -9,6 +9,20 @@
     text-transform: uppercase;
 }
 
+.user-account__products-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 25rem);
+    grid-template-rows: repeat(auto-fit, 25rem);
+    grid-auto-rows: 25rem;
+   
+    column-gap: 1rem;
+    row-gap: 1rem;
+
+    padding: 2rem 0;
+
+    justify-content: center;
+    align-items: center;
+}
 
 .user-account__id {
     background: white;
@@ -66,18 +80,4 @@
 
 .user-account__id__status__badge.away {
     background: red;
-}
-.user-account__favorites__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 25rem);
-    grid-template-rows: repeat(auto-fit, 25rem);
-    grid-auto-rows: 25rem;
-   
-    column-gap: 1rem;
-    row-gap: 1rem;
-
-    padding: 2rem 0;
-
-    justify-content: center;
-    align-items: center;
 }

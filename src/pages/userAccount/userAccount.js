@@ -8,7 +8,8 @@ class userAccount extends Component {
 
     state = {
         user: null,
-        userFavoriteProducts: null
+        userFavoriteProducts: null,
+        userViewedProducts: null
     }
 
     componentDidMount(){
@@ -32,14 +33,15 @@ class userAccount extends Component {
          })
          .then(resData => {
              this.setState({ user: resData.user,
-                            userFavoriteProducts: resData.favorites}, () => console.log('user', resData))
+                            userFavoriteProducts: resData.favorites,
+                            userViewedProducts: resData.viewedProducts}, () => console.log('user', resData))
          })
          .catch(err => {
              console.log(err);
          });
     }
     render() {
-        const { user, userFavoriteProducts } = this.state;
+        const { user, userFavoriteProducts, userViewedProducts } = this.state;
         let userData;
 
         if(!user) {
@@ -71,9 +73,34 @@ class userAccount extends Component {
 
                         <section className="user-account__favorites">
                             <h3 className="user-account__section-title">Favorite Products</h3>
-                            <ul className="user-account__favorites__list">
+                            <ul className="user-account__products-list">
                                 {
                                     userFavoriteProducts.map( product => (
+                                        <ProductCard
+                                            id={product._id}
+                                            mainImg={product.general[0].mainImgUrl}
+                                            made={product.general[0].made}
+                                            model={product.general[0].model}
+                                            year={product.general[0].year}
+                                            price={product.general[0].price}
+                                            nbKilometers={product.general[0].nbKilometers}
+                                            gazol={product.general[0].gazol}
+                                            transmissionType={product.general[0].transmissionType}
+                                            goToProd={() => {
+                                            this.props.setProductRequestedId(product._id);
+                                            this.props.history.push(`/car/${product._id}`);
+                                            }}
+                                        />
+                                    ))
+                                }
+                            </ul>
+                        </section>
+
+                        <section className="user-account__viewed">
+                            <h3 className="user-account__section-title">Viewed Products</h3>
+                            <ul className="user-account__products-list">
+                                {
+                                    userViewedProducts.map( product => (
                                         <ProductCard
                                             id={product._id}
                                             mainImg={product.general[0].mainImgUrl}
