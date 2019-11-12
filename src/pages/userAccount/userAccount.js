@@ -40,6 +40,34 @@ class userAccount extends Component {
              console.log(err);
          });
     }
+
+    elapsedTimeCalculator = data => {
+        let hourDisplayedElapsedTime;
+        let minuteDisplayedElapsedTime;
+        let secondsDisplayedElapsedTime
+
+        let connectionEnd = data.end.substr(3, 2) + '-' + data.end.substr(0, 2) + '-' + data.end.substr(6, 4) + ' ' + data.end.split(' ')[1]
+        let connectionStart = data.start.substr(3, 2) + '-' + data.start.substr(0, 2) + '-' + data.start.substr(6, 4) + ' ' + data.start.split(' ')[1]
+        let elapsedTime = new Date(connectionEnd) - new Date(connectionStart)
+    
+        if( (elapsedTime / 1000 / 60) > 60){
+            //elapsed time is bigger than one hour
+            hourDisplayedElapsedTime = Math.floor(elapsedTime / 1000 / 60 / 60) + 'h'
+            minuteDisplayedElapsedTime = Math.floor((elapsedTime / 1000 / 60) % 60)  + 'min'
+            secondsDisplayedElapsedTime = Math.floor((elapsedTime / 1000 / 60) % 60) % 60 + 'sec'
+            return `${hourDisplayedElapsedTime} ${minuteDisplayedElapsedTime} ${secondsDisplayedElapsedTime}`
+        } else {
+                if( (elapsedTime / 1000) > 60){
+                    //elapsed time is bigger than one minute
+                    minuteDisplayedElapsedTime = (Math.floor(elapsedTime / 1000 / 60)) + 'min';
+                    secondsDisplayedElapsedTime = (elapsedTime / 1000) % 60 + 'sec'
+                    return `${minuteDisplayedElapsedTime} ${secondsDisplayedElapsedTime}`
+                    } 
+                    else return ((elapsedTime / 1000) + 'sec') 
+                            
+                }
+    }
+
     render() {
         const { user, userFavoriteProducts, userViewedProducts } = this.state;
         let userData;
@@ -77,6 +105,7 @@ class userAccount extends Component {
                                 {
                                     userFavoriteProducts.map( product => (
                                         <ProductCard
+                                            key={product._id}
                                             id={product._id}
                                             mainImg={product.general[0].mainImgUrl}
                                             made={product.general[0].made}
@@ -102,6 +131,7 @@ class userAccount extends Component {
                                 {
                                     userViewedProducts.map( product => (
                                         <ProductCard
+                                            key={product._id}
                                             id={product._id}
                                             mainImg={product.general[0].mainImgUrl}
                                             made={product.general[0].made}
@@ -119,6 +149,43 @@ class userAccount extends Component {
                                     ))
                                 }
                             </ul>
+                        </section>
+
+                        <section className="user-account__connection">
+                                <h3 className="user-account__section-title">Connection History</h3>
+                                <table className="user-account__connection__table">
+                                    <thead>
+                                        <tr>
+                                            <th>Start</th>
+                                            <th>End</th>
+                                            <th>Durée</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {
+                                            user.connection.map(connection => {
+                                                let data = {
+                                                            end: connection.end, 
+                                                            start: connection.start
+                                                        }
+                                               let displayedElapsedTime = this.elapsedTimeCalculator(data)
+
+                                               console.log(displayedElapsedTime.includes(NaN))
+                                               
+                                                return (
+                                                    <tr className="user-account__connection__table__data"
+                                                        key={connection._id}>
+                                                        <td>{connection.start}</td>
+                                                        <td>{connection.end !== 'none' ? connection.end : 'active'}</td>
+                                                        <td>{displayedElapsedTime.includes(NaN) ? 'to be determined' : displayedElapsedTime }</td>
+                                                    </tr>
+                                                )
+                                                
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
                         </section>
 
          
