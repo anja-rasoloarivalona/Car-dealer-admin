@@ -4,19 +4,17 @@ import openSocket from 'socket.io-client';
 import {timeStampGenerator} from '../../../utilities/timeStampGenerator';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions'
- 
+import MessagesList from './MessagesContainerList'
 
 
 
 class MessagesContainer extends Component {
 
     state = {
-        messages: [],
-
+        messages: null,
         messageInput: '',
-        userId: '',  
-
-        
+        userId: '',   
+        displayDetails: false
     }
 
 
@@ -25,16 +23,19 @@ class MessagesContainer extends Component {
         this._ismounted = false;
      }
     
-
+    
     componentDidMount(){
-
+        
         this._ismounted = true;
+        
+        this.setState({
+            messages: this.props.messages, 
+            userId: this.props.userId
+        });
 
-        this.setState({messages: this.props.messages, userId: this.props.userId});
+        this.scrollToBottom();
 
         const socket = openSocket('http://localhost:8000');
-
-
         socket.on('userSentMessage', data => {
       
             this.props.playNotificationSound()
@@ -106,7 +107,9 @@ class MessagesContainer extends Component {
 
 
     componentDidUpdate(prevProps){
-        if(prevProps.userId !== this.props.userId){
+        this.scrollToBottom();
+
+        if(prevProps.userId !== this.props.userId){    
             this.setState({messages: this.props.messages, userId: this.props.userId});
         }
     }
@@ -118,24 +121,20 @@ class MessagesContainer extends Component {
 
 
     handleKeyDown = (e) => {
-
        // e.target.style.height = 'inherit';
-
-
-     //   e.target.style.height = `${e.target.scrollHeight}px`; 
-
-        // In case you have a limitation
+       //   e.target.style.height = `${e.target.scrollHeight}px`; 
+       // In case you have a limitation
         e.target.style.height = `${Math.min(e.target.scrollHeight, '60')}px`
       }
 
-      keypress = e => {
+    keypress = e => {
         if(e.key === 'Enter'){
             e.preventDefault();
             this.sendMessageHandler()   
         }
-      }
+    }
 
-      sendMessageHandler = () => {
+    sendMessageHandler = () => {
         let timeStamp = timeStampGenerator();
 
         let url = "https://africauto.herokuapp.com/messages/admin/" + this.props.userId; 
@@ -167,90 +166,51 @@ class MessagesContainer extends Component {
         .catch( err => {
             console.log(err)
         })
-      }
-
-
-      
-
-
-      addMessages = message => {
-        this.setState(prevState => ({
-            messages: [...prevState.messages, message]
-        }))
-
     }
 
 
-    render() {
+      
+    addMessages = message => {
+        this.setState(prevState => ({
+            messages: [...prevState.messages, message]
+        }))
+    }
 
-    
+    displayDetailsHandler = () => {
+        this.setState(prevState => ({
+            displayDetails: !prevState.displayDetails
+        }))
+    }
+
+    scrollToBottom() {
+        this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+      }
+
+
+    render() {
+        const {displayDetails, messages} = this.state;
         return (
             <section className="messagesContainer">
 
-                
-
                 <div className="messagesContainer__body">
-                {
-                          this.state.messages.length !== 0 && this.state.messages.map( message => (
 
+                    <div className={`messagesContainer__body__displayDetailsButton
+                                    ${displayDetails ? 'active' : ''}`}
+                         onClick={this.displayDetailsHandler}>
+                        { displayDetails ? 'Hide Data' : 'Show Data'}
+                    </div>
 
-                                <div key={message._id}>
-                                        <div className={`messagesContainer__body__chat messagesContainer__body__chat--${message.senderType === 'user' ? 'user' : 'admin'}`}>
-                                            {message.message}
-                                        </div>
+                    {messages && <MessagesList messages={messages} displayDetails={displayDetails}/>}
 
-                                        <div className="messagesContainer__body__chat__detail">
-                                                {
-                                                    message.senderType === 'user' && (
-                                                        <Fragment>
-                                                        <span>
-                                                            {message.timeStamp}
-                                                        </span>
-                                                        <span>
-                                                            Lu par {message.readBy} le {message.readByTimeStamp}
-                                                        </span>
-                                                        </Fragment>
-                                                        
-                                                    )
-                                                }
-
-                                                {
-                                                    message.senderType === 'admin' && (
-                                                        <Fragment>
-                                                        <span>
-                                                            {message.timeStamp} - {message.from}
-                                                        </span> 
-                                                        {
-                                                            message.read === true && (
-                                                                    <span>   Lu le {message.readByTimeStamp} </span>
-                                                            )
-                                                        }
-
-                                                        {
-                                                            message.read === false && (
-                                                                    <span>Non lu</span>
-                                                            )
-                                                        }
-                                                            
-                                                        
-                                                        </Fragment>
-                                                        
-                                                    )
-                                                }
-                                        </div>
-
-                                </div>
-                            ))
-                        }
+                        
+                    <div ref={el => { this.messagesEnd = el; }}></div>
                 </div>
                 
    
                     <textarea className="messagesContainer__textarea"
                              value={this.state.messageInput}
                              onChange={(e) => this.messageChangeHandler(e)}
-
                              rows = {1}
-
                              placeholder='message'
                              onKeyDown={this.handleKeyDown}
                              onKeyPress={this.keypress}>
