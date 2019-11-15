@@ -13,8 +13,7 @@ class MessagesContainer extends Component {
     state = {
         messages: null,
         messageInput: '',
-        userId: '',   
-        displayDetails: false
+        userId: ''
     }
 
 
@@ -176,12 +175,6 @@ class MessagesContainer extends Component {
         }))
     }
 
-    displayDetailsHandler = () => {
-        this.setState(prevState => ({
-            displayDetails: !prevState.displayDetails
-        }))
-    }
-
     scrollToBottom() {
         this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
       }
@@ -193,12 +186,6 @@ class MessagesContainer extends Component {
             <section className="messagesContainer">
 
                 <div className="messagesContainer__body">
-
-                    <div className={`messagesContainer__body__displayDetailsButton
-                                    ${displayDetails ? 'active' : ''}`}
-                         onClick={this.displayDetailsHandler}>
-                        { displayDetails ? 'Hide Data' : 'Show Data'}
-                    </div>
 
                     {messages && <MessagesList messages={messages} displayDetails={displayDetails}/>}
 

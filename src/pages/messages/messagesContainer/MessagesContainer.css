@@ -21,65 +21,81 @@
     overflow-y: scroll;
     overflow-x: hidden;
     position: relative;
+
+    
 }
 
-.messagesContainer__body__displayDetailsButton {
-    position: fixed;
-    right: 25rem;
-    top: 8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 7rem;
-    height: 3rem;
-    border-radius: 4px;
-    background: var(--color-white);
-    color: var(--color-grey);
-    border: 1px solid var(--color-grey);
+
+.messagesContainer__body__chatContainer {
     cursor: pointer;
-    transition: all .3s ease-in;
-}
-
-.messagesContainer__body__displayDetailsButton.active {
-    background: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    color: var(--color-white)
+    display: flex;
+    flex-direction: column; 
 }
 
 .messagesContainer__body__chat {
     display: inline-block;
-    border-radius: 3px;
+    border-radius: 1rem;
     background: grey;
     max-width: 60%;
-    margin: 1rem 0;
-    padding: .5rem;
-    font-size: 1.2rem;
+    padding: .8rem 1.2rem;
+    font-size: 1.4rem;
     width: auto;
     margin-right: 2rem;
+}
+
+.messagesContainer__body__chat.small-gap {
+    margin-bottom: .1rem;
+}
+
+.messagesContainer__body__chat.big-gap {
+    margin-bottom: 1rem;
 }
 
 .messagesContainer__body__chat--user {
     background: grey;
     color: white;
+    align-self: flex-start;
 }
-
 
 .messagesContainer__body__chat--admin {
     background: var(--color-primary);
-    color: var(--color-white);
+    color: var(--color-white);    
+    align-self: flex-end;
+}
+
+
+
+.messagesContainer__body__chatContainer:hover .messagesContainer__body__chat--user + .messagesContainer__body__chat__detail {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.messagesContainer__body__chatContainer:hover .messagesContainer__body__chat--admin + .messagesContainer__body__chat__detail {
+    display: flex;
+    margin: .3rem 0;
 }
 
 .messagesContainer__body__chat__convoDate {
     text-align: center;
     font-size: 1.2rem;
+    margin-bottom: 1rem;
 
 }
 .messagesContainer__body__chat__detail {
-    display: flex;
+    display: none;
     flex-direction: column;
     transform: translateY(-6px);
-    color: var(--color-grey);
-    
+    color: var(--color-grey);   
+    transition: all .3s ease-in;
+}
+
+.messagesContainer__body__chat--admin + .messagesContainer__body__chat__detail {
+    align-self: flex-end;
+    transform: translateX(-2rem);
+}
+
+.messagesContainer__body__chat__detail.show {
+    display: flex;
 }
 
 

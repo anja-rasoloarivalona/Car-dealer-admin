@@ -3,17 +3,22 @@ import React, {Fragment} from 'react';
 const MessagesContainerList = props => {
 
     let messages = props.messages;
-
     let displayedDate = '';
+
+    let chatMessageGap;
+    let currentSenderType;
+
 
     //Initialize date and store it
     let date = messages[0].timeStamp;
     let shortDate = messages[0].timeStamp.slice(0 , 5);
 
-    let messagesList = messages.map((message, index, array) => {        
-        let currentDate = array[index].timeStamp.slice(0 , 5);
-       
+    currentSenderType = messages[0].senderType;
 
+
+    let messagesList = messages.map((message, index, array) => {     
+
+        let currentDate = array[index].timeStamp.slice(0 , 5);
         if(index === 0){
             //Display the first date
                 displayedDate = date
@@ -26,19 +31,36 @@ const MessagesContainerList = props => {
             } else {
                 displayedDate = ''
             }
-        }   
-        return (
-            <div key={message._id}>
+        }
 
-            {displayedDate !== '' && (<div className="messagesContainer__body__chat__convoDate">{displayedDate}</div>)
+        if( index + 1 < array.length  && array[index + 1].senderType === currentSenderType ){
+            chatMessageGap = 'small'
+        } else {
+            chatMessageGap = 'big'
+            if(index + 1 < array.length){
+                currentSenderType = array[index + 1].senderType
             }
+            
+        }
 
-            <div className={`messagesContainer__body__chat messagesContainer__body__chat--${message.senderType === 'user' ? 'user' : 'admin'}`}>
-                {message.message}
-            </div>
 
-            {props.displayDetails && (                                  
-                <div className="messagesContainer__body__chat__detail">
+        
+        
+        return (
+            <div key={message._id} className="messagesContainer__body__chatContainer" >
+
+                {displayedDate !== '' && (<div className="messagesContainer__body__chat__convoDate">{displayedDate}</div>)
+                }
+
+                <div className={`messagesContainer__body__chat 
+                                messagesContainer__body__chat--${message.senderType === 'user' ? 'user' : 'admin'}
+                                ${chatMessageGap === 'small' ? 'small-gap': 'big-gap'}`}>
+                    {message.message}
+                </div>
+
+                                        
+                <div className={`messagesContainer__body__chat__detail
+                                ${props.displayDetails ? 'show':''}`}>
                     {
                         message.senderType === 'user' && (
                             <Fragment>
@@ -59,7 +81,7 @@ const MessagesContainerList = props => {
                             </Fragment>                                                       
                     )}
                 </div>
-                )}
+
             </div>
         )
     })
