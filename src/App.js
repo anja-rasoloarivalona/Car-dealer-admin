@@ -93,6 +93,7 @@ class App extends Component {
                             <Route exact path='/car/:prodId' component={Car}/>
                             <Route path='/publicity' component={Publicity}/>
                             <Route path='/users' component={Users}/>
+                            <Route path='/stats' component={Stats}/>
                             <Route path='/user/:userId' component={UserAccount}/>
                             <Route path='/messages' render={(props) => <Messages {...props} playNotificationSound={this.playNotificationSound}/>}
                             />

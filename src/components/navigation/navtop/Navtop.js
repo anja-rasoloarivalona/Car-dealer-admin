@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import './Navtop.css';
-import Button from '../../../components/button/Button';
-
-
 
 class Navtop extends Component {
 
@@ -37,7 +34,6 @@ class Navtop extends Component {
         })
         .then(resData => {
             this.setState({ users: resData.users})
-            console.log('resss', resData)
         })
         .catch(err => {
             console.log(err);

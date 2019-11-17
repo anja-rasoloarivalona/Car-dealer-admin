@@ -1,6 +1,116 @@
 .stats {
-    grid-column: 1 / -1;
-    grid-row: 3 - 4;
-    height: 100vh;
+    grid-column: 2 / 3;
+    grid-row: 2 /3;
+    padding: 1rem 2rem;
+    padding-left: 4rem;
+}
+
+.stats__productViews {
+    display: flex;
+    flex-direction: column;
+}
+
+.stats__productViews__title {
+    margin-bottom: 2rem;
+    background: violet;
+    padding: 1rem 0;
+    padding-left: 1rem;
+}
+
+.stats__productViews__Container {
+    align-self: center;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.stats__productViews__list {
+    list-style: none;
+    width: 55%;
+    margin-right: 6rem;
+}
+
+.stats__productViews__list__item {
+    display: flex;
+    align-items: center;
+    margin-bottom: .5rem;
+    padding: 1rem .5rem;
+    cursor: pointer;
+}
+
+.stats__productViews__list__item.active,
+.stats__productViews__list__item.active:hover {
+    background: rgb(243, 241, 241);
+}
+
+.stats__productViews__list__item:hover {
+    background: rgb(219, 219, 219);
+}
+
+.stats__productViews__list__item__made {
+    margin-right: 2rem;
+    width: 5rem;
+}
+
+.stats__productViews__list__item__viewBar {
+    flex: 1;
+    height: 5px;
+    margin-right: 2rem;
+    border-radius: 3px;
+    position: relative;
+} 
+
+.stats__productViews__list__item__viewBar__inner {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 3px;
+}
+
+
+.stats__productViews__byMades {
+    width: 35%;
+}
+
+.stats__productViews__byMades__title {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 .5rem;
+} 
+
+.stats__productViews__byMades__title span:first-child {
+    margin-right: 4rem;
+}
+
+.stats__productViews__byMades__list {
+    list-style: none;
+
+}
+
+.stats__productViews__byMades__list__item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 .5rem;
+}
+
+.stats__productViews__byMades__list__item__model {
+    width: 6rem;
+}
+
+.stats__productViews__byMades__list__item__viewBar {
+    width: 15rem;
+    height: 3px;
+    margin-right: 2rem;
+    position: relative;
+    flex: 1;
+}
+
+.stats__productViews__byMades__list__item__viewBar__inner {
+    position: absolute;
+    left: 0;
+    height: 100%;
     background: red;
 }
