@@ -7,8 +7,8 @@ class Stats extends Component {
     state = {
         productsStats: null,
         maxProductViews: 0,
-        selectedMadeInProductViews: null,
-        maxModelViewsForSelectedMade: 0,
+        selectedBrandInProductViews: null,
+        maxModelViewsForSelectedBrand: 0,
         loading: true
     }
     componentDidMount(){
@@ -31,18 +31,18 @@ class Stats extends Component {
         .then(resData => {
 
             let maxProductViews = 0;
-            let selectedMadeInProductViews = Object.keys(resData.stats)[0];
-            let maxModelViewsForSelectedMade = 0;
+            let selectedBrandInProductViews = Object.keys(resData.stats)[0];
+            let maxModelViewsForSelectedBrand = 0;
 
-          Object.keys(resData.stats[selectedMadeInProductViews].models).forEach(model => {
-              if(resData.stats[selectedMadeInProductViews].models[model] > maxModelViewsForSelectedMade){
-                  maxModelViewsForSelectedMade = resData.stats[selectedMadeInProductViews].models[model]
+          Object.keys(resData.stats[selectedBrandInProductViews].models).forEach(model => {
+              if(resData.stats[selectedBrandInProductViews].models[model] > maxModelViewsForSelectedBrand){
+                  maxModelViewsForSelectedBrand = resData.stats[selectedBrandInProductViews].models[model]
               }
           })  
 
-            Object.keys(resData.stats).forEach(made => {
-                if(resData.stats[made].views > maxProductViews){
-                    maxProductViews = resData.stats[made].views
+            Object.keys(resData.stats).forEach(brand => {
+                if(resData.stats[brand].views > maxProductViews){
+                    maxProductViews = resData.stats[brand].views
                 }
             })
 
@@ -50,8 +50,8 @@ class Stats extends Component {
                 productsStats: resData.stats,
                 maxProductViews: maxProductViews,
                 loading: false,
-                selectedMadeInProductViews: selectedMadeInProductViews,
-                maxModelViewsForSelectedMade: maxModelViewsForSelectedMade
+                selectedBrandInProductViews: selectedBrandInProductViews,
+                maxModelViewsForSelectedBrand: maxModelViewsForSelectedBrand
 
             }, () => console.log(this.state))
            
@@ -61,22 +61,22 @@ class Stats extends Component {
         });
     }
 
-    selectMadeInProductViewsHandler = made => {
+    selectBrandInProductViewsHandler = brand => {
         let stats = this.state.productsStats; 
-        let maxModelViewsForSelectedMade = 0;
-        Object.keys(stats[made].models).forEach(model => {
-            if(stats[made].models[model] > maxModelViewsForSelectedMade){
-                maxModelViewsForSelectedMade = stats[made].models[model]
+        let maxModelViewsForSelectedBrand = 0;
+        Object.keys(stats[brand].models).forEach(model => {
+            if(stats[brand].models[model] > maxModelViewsForSelectedBrand){
+                maxModelViewsForSelectedBrand = stats[brand].models[model]
             }
         }) 
-        this.setState({ selectedMadeInProductViews: made,
-                        maxModelViewsForSelectedMade: maxModelViewsForSelectedMade})
-    }
+        this.setState({ selectedBrandInProductViews: brand,
+                        maxModelViewsForSelectedBrand: maxModelViewsForSelectedBrand})
+        }
 
 
     render() {
 
-        const {maxProductViews, productsStats, loading, selectedMadeInProductViews, maxModelViewsForSelectedMade} = this.state;
+        const {maxProductViews, productsStats, loading, selectedBrandInProductViews, maxModelViewsForSelectedBrand} = this.state;
 
         let stats = <Loader />
         if(!loading){
@@ -91,45 +91,45 @@ class Stats extends Component {
                                 
                     <ul className="stats__productViews__list">
                         <h2 className="stats__productViews__title">Par marque</h2>  
-                        {Object.keys(productsStats).map(made => (
+                        {Object.keys(productsStats).map(brand => (
                             <li className={`stats__productViews__list__item
-                                            ${selectedMadeInProductViews === made ? 'active' : ''}`}
-                                onClick={() => this.selectMadeInProductViewsHandler(made)}>
-                                <div className="stats__productViews__list__item__made">
-                                    {made}
+                                            ${selectedBrandInProductViews === brand ? 'active' : ''}`}
+                                onClick={() => this.selectBrandInProductViewsHandler(brand)}>
+                                <div className="stats__productViews__list__item__brand">
+                                    {brand}
                                 </div>
 
                                 <div className="stats__productViews__list__item__viewBar">
                                     <div className="stats__productViews__list__item__viewBar__inner"
-                                        style={{ width: `${(productsStats[made].views / maxProductViews) * 100}%`}}></div>
+                                        style={{ width: `${(productsStats[brand].views / maxProductViews) * 100}%`}}></div>
                                 </div>
                                 <div className="stats__productViews__list__item__viewCounter">
-                                    {productsStats[made].views}
+                                    {productsStats[brand].views}
                                 </div>
                             </li>
                         ))}
                     </ul>
-                    <div className="stats__productViews__byMades">
+                    <div className="stats__productViews__byBrand">
                         <h2 className="stats__productViews__title">Par modèle</h2>  
-                        <h3 className="stats__productViews__byMades__title">
+                        <h3 className="stats__productViews__byBrand__title">
                             <span>
-                                {selectedMadeInProductViews} 
+                                {selectedBrandInProductViews} 
                             </span>
                             <span>
-                                {productsStats[selectedMadeInProductViews].views}
+                                {productsStats[selectedBrandInProductViews].views}
                             </span>
                         </h3>
-                        <ul className="stats__productViews__byMades__list">
-                            {Object.keys(productsStats[selectedMadeInProductViews].models).map(model => (
-                                <li className="stats__productViews__byMades__list__item">
-                                    <div className="stats__productViews__byMades__list__item__model">{model}</div> 
-                                    <div className="stats__productViews__byMades__list__item__viewBar">
-                                        <div className="stats__productViews__byMades__list__item__viewBar__inner"
-                                             style={{ width: `${ productsStats[selectedMadeInProductViews].models[model] / maxModelViewsForSelectedMade * 100 }%`}}>
+                        <ul className="stats__productViews__byBrand__list">
+                            {Object.keys(productsStats[selectedBrandInProductViews].models).map(model => (
+                                <li className="stats__productViews__byBrand__list__item">
+                                    <div className="stats__productViews__byBrand__list__item__model">{model}</div> 
+                                    <div className="stats__productViews__byBrand__list__item__viewBar">
+                                        <div className="stats__productViews__byBrand__list__item__viewBar__inner"
+                                             style={{ width: `${ productsStats[selectedBrandInProductViews].models[model] / maxModelViewsForSelectedBrand * 100 }%`}}>
                                         </div>
                                     </div>
-                                    <div className="stats__productViews__byMades__list__item__viewCounter">
-                                        {productsStats[selectedMadeInProductViews].models[model]}
+                                    <div className="stats__productViews__byBrand__list__item__viewCounter">
+                                        {productsStats[selectedBrandInProductViews].models[model]}
                                     </div>
                                 </li>
                             ))}
