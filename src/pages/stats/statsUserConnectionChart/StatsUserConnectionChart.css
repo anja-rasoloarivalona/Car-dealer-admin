@@ -1,0 +1,70 @@
+.stats__userConnection__container {
+    display: flex;
+    align-self: center;
+    width: 80%;
+}
+
+.stats__userConnection__chartContainer {
+    position: relative;
+    width: 60rem;
+}
+
+.stats__userConnection__filter {
+    width: 25rem;
+    margin-right: 6rem;
+}
+
+.stats__userConnection__filter__title {
+    background: violet;
+    padding: 1rem 0;
+    padding-left: 1rem;
+}
+
+.stats__userConnection__filter__list {
+    list-style: none;
+}
+
+.stats__userConnection__filter__list__item {
+    padding: .5rem 1rem;
+    border-bottom: 1px solid var(--color-grey);
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    transition: all .3s ease-in;
+}
+
+.stats__userConnection__filter__list__item.active {
+    background: green;
+}
+
+.stats__userConnection__filter__byMonthList {
+    list-style: none;
+    position: absolute;
+    top: calc(100% + .7rem);
+    right: 0;
+    width: 50%;
+    display: none;
+}
+
+.stats__userConnection__filter__byMonthList__item.active {
+    background: brown;
+}
+
+.stats__userConnection__filter__byMonthList.shown {
+    display: block;
+}
+
+.stats__userConnection__filter__byMonthList__item {
+    padding: .5rem 0;
+    padding-left: .5rem;
+}
+
+.stats__userConnection__filter__list__item__key {
+  
+}
+
+.stats__userConnection__filter__list__item__value {  
+    
+}

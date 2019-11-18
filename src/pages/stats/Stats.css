@@ -8,6 +8,7 @@
 .stats__productViews {
     display: flex;
     flex-direction: column;
+    margin-bottom: 5rem;
 }
 
 .stats__productViews__title {
@@ -113,4 +114,9 @@
     left: 0;
     height: 100%;
     background: red;
+} 
+
+.stats__usersConnection {
+    display: flex;
+    flex-direction: column;
 }

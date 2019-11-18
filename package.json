@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chart.js": "^2.9.3",
     "filepond": "^4.7.1",
     "filepond-plugin-image-preview": "^4.4.0",
     "firebase": "^6.6.2",
     "react": "^16.9.0",
+    "react-chartjs-2": "^2.8.0",
     "react-dom": "^16.9.0",
     "react-filepond": "^7.0.1",
     "react-gesture-gallery": "^1.1.0",
