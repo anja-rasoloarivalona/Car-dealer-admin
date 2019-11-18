@@ -134,10 +134,9 @@ class Stats extends Component {
                         </div>
                     </div>             
                 </section>
-                <section className="stats__usersConnection">
-                    <h1 className="app__primary__title">Users Connection</h1>
-                    <StatsUserConnectionChart />
-                </section>
+
+                <StatsUserConnectionChart />
+              
             </Fragment>
             
         )} 
