@@ -1,0 +1,98 @@
+.suppliers {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;  
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.suppliers__form {
+    width: 80vw;
+}
+
+.suppliers__form__cta {
+    width: 80vw;
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.suppliers__form__add-responsible {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.suppliers__form__add-responsible__title {
+    text-transform: uppercase;
+    margin-right: 4rem;
+}
+
+.suppliers__form__add-responsible__cta {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-grey);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.suppliers__form__responsible {
+    width: 63%;
+    margin-bottom: 3rem; 
+    
+}
+.suppliers__form__responsible__rank {
+    text-transform: uppercase;
+    background: rgb(240, 240, 240);
+    padding: 1rem 0;
+    padding-left: .5rem;
+}
+
+
+.suppliers__form__responsible__input {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    padding-left: .5rem;
+}
+
+.suppliers__form__responsible__input label {
+    width: 14rem;
+    font-weight: 600;
+    order: -1;
+}
+
+.suppliers__form__responsible__input input, .suppliers__form__responsible__input select {
+    height: 80%;
+    width: 50%;
+    padding-left: .5rem;
+    border: none;
+    border-bottom: 1px solid var(--color-grey); 
+}
+
+.suppliers__form__responsible__input input:focus, .suppliers__form__responsible__input select:focus {
+    outline: none;
+    border-bottom: 2px solid var(--color-primary)
+}
+
+
+.suppliers__form__responsible__input input::placeholder, .suppliers__form__responsible__input select::placeholder {
+    color: var(--color-grey);
+}
+
+.suppliers__form__responsible__input input:not(:placeholder-shown), .suppliers__form__responsible__input select:not(:placeholder-shown){
+    background: rgb(232, 240, 254);
+}
+
+.suppliers__form__responsible__input select {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+    cursor: pointer;
+}

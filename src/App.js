@@ -15,6 +15,7 @@ import Auth from './pages/auth/Auth';
 import Users from './pages/users/Users'
 import Messages from './pages/messages/Messages';
 import UserAccount from './pages/userAccount/userAccount';
+import Suppliers from './pages/suppliers/Suppliers';
 
 /*----COMPONENTS---------*/
 import Navtop from './components/navigation/navtop/Navtop';
@@ -95,6 +96,7 @@ class App extends Component {
                             <Route path='/users' component={Users}/>
                             <Route path='/stats' component={Stats}/>
                             <Route path='/user/:userId' component={UserAccount}/>
+                            <Route path='/fournisseurs' component={Suppliers}/>
                             <Route path='/messages' render={(props) => <Messages {...props} playNotificationSound={this.playNotificationSound}/>}
                             />
                             {

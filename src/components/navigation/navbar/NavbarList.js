@@ -23,5 +23,10 @@ export const NAV_LINKS = [
         path: 'users',
         text: 'Users',
         icon: 'users'
+    },
+    {
+        path: 'fournisseurs',
+        text: 'Fournisseurs',
+        icon: 'hand-shake'
     }
 ]
