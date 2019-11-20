@@ -3,8 +3,115 @@
     grid-row: 2 / 3;  
     padding-top: 2rem;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
+
+.suppliers__title {
+    width: 80vw;
+    position: relative;
+}
+
+.suppliers__addButton {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: var(--color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1.3rem;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: lowercase;
+    color: var(--color-white);
+    
+}
+.suppliers__list {
+    width: 80vw;
+    margin-bottom: 2rem;
+    list-style: none; 
+}
+
+.suppliers__list__item {
+    border: 1px solid var(--color-grey);
+    margin-bottom: 3rem;
+}
+
+.suppliers__list__item__header {
+    background: var(--color-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 0;
+}
+
+.suppliers__list__item__header__cta {
+    display: flex;
+    
+}
+
+.suppliers__list__item__header__cta__btn {
+    padding: .7rem 0;
+    background: yellow;
+    width: 7rem;
+    margin: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.suppliers__list__item > * {
+    padding-left: .5rem;
+}
+
+.suppliers__list__item__info {
+    margin: .5rem 0;
+}
+
+
+.suppliers__list__item__nav {
+    background: var(--color-dark);
+    display: flex;
+    margin-top: 1rem;
+    height: 3rem;
+    padding-left: 0rem;
+}
+
+.suppliers__list__item__nav__item {
+    height: 100%;
+    width: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    cursor: pointer;
+}
+
+.suppliers__list__item__nav__item.active {
+    background: var(--color-primary);
+}
+
+.suppliers__list__item__responsiblesTable {
+    width: 100%;
+}
+
+.suppliers__list__item__responsiblesTable thead th,
+.suppliers__list__item__responsiblesTable__row__data {
+    padding: 1rem 0;
+    padding-left: .5rem;
+}
+
+
+
+
 
 .suppliers__form {
     width: 80vw;
