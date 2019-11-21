@@ -19,3 +19,8 @@ export {
     setLoginStateToTrue,
     setLoginStateToFalse,
 } from './auth'
+
+
+export {
+    setSuppliers
+} from './suppliers'

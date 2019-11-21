@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import './Suppliers.css';
 import Loader from '../../components/loader/Loader';
 import SuppliersList from './SuppliersList';
-import SuppliersForm from './SuppliersForm'
+import SuppliersForm from './SuppliersForm';
+
+import { connect } from 'react-redux'
 
 class Suppliers extends Component {
 
@@ -38,8 +40,14 @@ class Suppliers extends Component {
     }
 
     componentDidMount(){
-        this.fetchSuppliers()
+        let suppliers = this.props.suppliers;
+        if(suppliers){
+            this.setState({ suppliers: this.props.suppliers, loading: false })
+        } else {
+            this.fetchSuppliers()
+        }
     }
+
 
     fetchSuppliers = () => {
         let url = 'http://localhost:8000/suppliers';  
@@ -333,7 +341,7 @@ class Suppliers extends Component {
         const {addSupplierForm, responsiblesForm, suppliers, loading, currentView, editingMode} = this.state;
 
         let suppliersList = <Loader />
-        if(!loading){
+        if(!loading && suppliers){
             suppliersList = <SuppliersList suppliers={suppliers}
                                            supplierNavigationHandler={this.supplierNavigationHandler}
                                            supplierCurrentViewHandler={this.supplierCurrentViewHandler} 
@@ -365,4 +373,10 @@ class Suppliers extends Component {
 }
 
 
-export default Suppliers;
+const mapStateToProps = state => {
+    return {
+        suppliers: state.suppliers.suppliers
+    }
+}
+
+export default connect(mapStateToProps)(Suppliers);

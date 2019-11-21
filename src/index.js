@@ -11,13 +11,15 @@ import thunk from 'redux-thunk';
 import productsReducer from './store/reducers/products';
 import navReducer from './store/reducers/nav';
 import authReducer from './store/reducers/auth';
+import suppliersReducer from './store/reducers/suppliers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
 
 const rootReducer = combineReducers({
     products: productsReducer,
     nav: navReducer,
-    auth: authReducer
+    auth: authReducer,
+    suppliers: suppliersReducer
 })
 
 const store = createStore(

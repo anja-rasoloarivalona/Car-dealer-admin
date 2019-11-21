@@ -4,7 +4,7 @@ const SuppliersList = props => {
 
     let suppliers = props.suppliers;
 
-
+   
     return (
         <ul className="suppliers__list">
                     <h1 className="app__primary__title suppliers__title">
