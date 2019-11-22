@@ -4,7 +4,8 @@ import Loader from '../../components/loader/Loader';
 import SuppliersList from './SuppliersList';
 import SuppliersForm from './SuppliersForm';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions'
 
 class Suppliers extends Component {
 
@@ -68,11 +69,14 @@ class Suppliers extends Component {
 
             let suppliers = resData.suppliers;
 
+            console.log('fgwegweg', suppliers)
+
             suppliers.forEach(supplier => {
                 supplier.currentView = 'contacts'
             })
 
-            this.setState({suppliers: suppliers, loading: false }, () => console.log(this.state))
+            this.setState({suppliers: suppliers, loading: false })
+            this.props.setSuppliers(suppliers)
       
         })
         .catch( err => {
@@ -372,6 +376,11 @@ class Suppliers extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        setSuppliers: suppliers => dispatch(actions.setSuppliers(suppliers))
+    }
+}
 
 const mapStateToProps = state => {
     return {
@@ -379,4 +388,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Suppliers);
+export default connect(mapStateToProps, mapDispatchToProps)(Suppliers);

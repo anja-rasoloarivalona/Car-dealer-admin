@@ -74,7 +74,7 @@ export const formGeneral = [
 
     {
         id: 'yearOfRelease',
-       // value: '2008',
+        value: '2008',
         placeholder: 'année de mise en circulation',
         control: 'select',
         type: 'text',

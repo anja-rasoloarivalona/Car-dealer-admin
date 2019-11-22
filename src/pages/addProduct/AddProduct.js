@@ -37,15 +37,40 @@ class AddProduct extends Component {
 
     productBeingEditedCurrentUrlImagesWithChekedOption: [],
     selectedImages: [],
-    cancelImageDeletingAllowed: false
+    cancelImageDeletingAllowed: false,
 
   }; 
 
   componentDidMount() { 
-
     
+    let suppliers = this.props.suppliers
 
-    const initFormGeneral = formGeneral.map( a => ({...a}));
+    if(suppliers){
+        this.preparesDataHandler(suppliers)
+    } else {
+      this.fetchSuppliers()
+    }
+  }
+
+  preparesDataHandler = suppliers => {
+
+    let suppliersName = [];
+    suppliers.forEach(supplier => {
+      suppliersName.push(supplier.name)
+    })
+
+    let updatedFormGeneral = [...formGeneral, {
+        id: 'supplier',
+        value: suppliersName[0],
+        placeholder: 'fournisseur',
+        control: 'select',
+        type: 'text',
+        formType: "general",
+        label: "fournisseur",
+        options: suppliersName
+    }]
+
+    const initFormGeneral = updatedFormGeneral.map( a => ({...a}));
     const initFormTech = formTech.map(a => ({...a}));
     const initFormDesign = formDesign.map(a => ({...a}));
 
@@ -58,14 +83,29 @@ class AddProduct extends Component {
     this.setState({fullForm: INIT_FULL_FORM, fullFormPart: INIT_FULL_FORM_PART })
     return 
     
-
     } else {
 
       let prod = this.props.productBeingEdited;
-      let general = prod.general[0]
+
+
+      let supplierId = prod.supplier;
+      let supplierName;
+      
+      let general = prod.general[0];
+
+      if(supplierId){
+        supplierName = this.props.suppliers.find(supplier => supplier._id === supplierId).name;
+        general.supplier = supplierName;
+      }
+      
+
+      
       let tech = prod.tech[0]
       let design = prod.design[0]
+
+
       let newFullForm = {...general, ...tech, ...design};
+
   
       let productBeingEditedCurrentUrlImagesWithChekedOption = [];
       
@@ -80,14 +120,44 @@ class AddProduct extends Component {
         productBeingEditedCurrentUrlImages: this.props.productBeingEdited.imageUrls,
         productBeingEditedID: this.props.productBeingEdited._id,
         productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption,
-        fullFormPart: INIT_FULL_FORM_PART
+        fullFormPart: INIT_FULL_FORM_PART,
+
+        loading: false
       })
-    }
-
-    
-
- 
+    } 
   }
+
+  fetchSuppliers = () => {
+    let url = 'http://localhost:8000/suppliers';  
+
+    fetch(url, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(res => {
+        if(res.status !== 200 && res.status !== 201){
+            throw new Error('Could not fetch suppliers')
+        }
+
+        return res.json()
+    })
+    .then(resData => {
+
+        let suppliers = resData.suppliers;
+
+        suppliers.forEach(supplier => {
+            supplier.currentView = 'contacts'
+        })
+
+      this.preparesDataHandler(suppliers)
+      this.props.setSuppliers(suppliers)
+  
+    })
+    .catch( err => {
+        console.log(err)
+    })
+}
 
   
 
@@ -134,13 +204,13 @@ class AddProduct extends Component {
   senData = () => {
 
     
+    let suppliers = this.props.suppliers;
 
     const { fullForm, featuresList, urlImages, newFullForm } = this.state;
 
+    let supplierName = fullForm.find(i => i.id === 'supplier').value;
 
-
-    console.log("fetch going....");
-
+    let supplierId = suppliers.find(i => i.name === supplierName)._id
 
     const formData = new FormData();
 
@@ -153,6 +223,8 @@ class AddProduct extends Component {
         formData.append('features', featuresList);
         formData.append('imageUrls', urlImages);
         formData.append('albumId', this.state.albumId);
+        formData.append('supplierId', supplierId)
+
 
         method = 'POST';
         url = "http://localhost:8000/admin/add-product";
@@ -183,17 +255,20 @@ class AddProduct extends Component {
           }
 
       }
-          
+
         for(let i in newFullForm){
           formData.append(`${i}`, `${newFullForm[i]}`)
         };
         formData.append('features', featuresList);
         formData.append('albumId', this.state.albumId);
         formData.append('imageUrls', productBeingEditedUrlImages);
-        formData.append('productBeingEditedID', this.state.productBeingEditedID )
+        formData.append('productBeingEditedID', this.state.productBeingEditedID );
+
         method = 'PUT';
         url = "http://localhost:8000/admin/edit-product"
     }
+
+
 
     fetch(url, {
       headers: {
@@ -228,6 +303,8 @@ class AddProduct extends Component {
         this.setState({loading: false})
         console.log(err);
       });
+
+
   };
 
   uploadHandler = async e => {
@@ -390,10 +467,6 @@ class AddProduct extends Component {
       this.setState({featuresList: newList})
   }
 
-  over = e => {
-    e.preventDefault();
-    console.log(this.state)
-  }
 
   selectDeleteHandler = urlSelected => {
 
@@ -483,6 +556,8 @@ class AddProduct extends Component {
 
 
     const fullFormPart = this.state.fullFormPart;
+
+
 
 
     let addProduct;
@@ -577,7 +652,9 @@ const mapStateToProps = state => {
       editingMode: state.products.editingMode,
       productBeingEdited: state.products.productRequested,
 
-      productBeingEditedId: state.products.productRequestedId
+      productBeingEditedId: state.products.productRequestedId,
+
+      suppliers: state.suppliers.suppliers
   }
 }
 
@@ -587,7 +664,9 @@ const madDispacthToProps = dispatch => {
         toggleEditingMode: () => dispatch(actions.toggleEditingMode()),
 
         setProductRequested: (prod) => dispatch(actions.setRequestedProduct(prod)),
-        setProductRequestedId: (id) => dispatch(actions.setRequestedProductId(id))
+        setProductRequestedId: (id) => dispatch(actions.setRequestedProductId(id)),
+
+        setSuppliers: suppliers => dispatch(actions.setSuppliers(suppliers))
   }
 }
 export default connect(mapStateToProps, madDispacthToProps)(AddProduct);
