@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import "./AddProduct.css";
 import uuid from 'uuid/v4';
+
+
 import { formGeneral } from "./forms/formGeneral";
 import { formTech } from "./forms/formTech";
 import { formDesign } from "./forms/formDesign";
+import { formSupplier } from './forms/formSupplier';
+
 import FormFeature from './forms/formFeature/FormFeature';
 import Filepicker from './forms/filePicker/FilePicker';
 import { storage } from "../../firebase";
@@ -23,7 +27,7 @@ class AddProduct extends Component {
 
     /*We need all inputs in one array to send the date easiliy */
     fullForm: [],
-    /*We need to store each array into an array to develop the UI easily */
+    /*We need to store each array into an array to build the UI easily */
     fullFormPart: [],  
 
     featuresList: [],
@@ -41,72 +45,121 @@ class AddProduct extends Component {
 
   }; 
 
-  componentDidMount() { 
-    
-    let suppliers = this.props.suppliers
+  componentDidMount() {   
+    let suppliers = this.props.suppliers;
 
+    //Before adding or updating a product, we need the list of suppliers
     if(suppliers){
+        //The list of suppliers has already been initialized in redux
         this.preparesDataHandler(suppliers)
     } else {
+      //The list of suppliers has not been initialized yet in redux 
       this.fetchSuppliers()
     }
   }
 
-  preparesDataHandler = suppliers => {
-
-    let suppliersName = [];
-    suppliers.forEach(supplier => {
-      suppliersName.push(supplier.name)
+  fetchSuppliers = () => {
+    let url = 'http://localhost:8000/suppliers';  
+    fetch(url, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
     })
+    .then(res => {
+        if(res.status !== 200 && res.status !== 201){
+            throw new Error('Could not fetch suppliers')
+        }
+        return res.json()
+    })
+    .then(resData => {
+        let suppliers = resData.suppliers;
+        //We need to set the current view for the suppliers list page
+        suppliers.forEach(supplier => {
+            supplier.currentView = 'contacts'
+        })
+      this.preparesDataHandler(suppliers)
+      this.props.setSuppliers(suppliers)
+  
+    })
+    .catch( err => {
+        console.log(err)
+    })
+  }
 
-    let updatedFormGeneral = [...formGeneral, {
-        id: 'supplier',
-        value: suppliersName[0],
-        placeholder: 'fournisseur',
-        control: 'select',
-        type: 'text',
-        formType: "general",
-        label: "fournisseur",
-        options: suppliersName
-    }]
+  preparesDataHandler = suppliersData => {
 
-    const initFormGeneral = updatedFormGeneral.map( a => ({...a}));
-    const initFormTech = formTech.map(a => ({...a}));
-    const initFormDesign = formDesign.map(a => ({...a}));
+    /*------INITIALIZE THE SUPPLIER SELECT OPTIONS-----*/
+      let suppliers;
+      if(this.props.suppliers){
+        suppliers = this.props.suppliers
+      } else {
+        suppliers = suppliersData
+      }
 
-    const INIT_FULL_FORM = initFormGeneral.concat( initFormTech, initFormDesign);
-    const INIT_FULL_FORM_PART = [ initFormGeneral, initFormTech, initFormDesign];
+      let suppliersName = [];
+      suppliers.forEach(supplier => {
+        suppliersName.push(supplier.name)
+      })
 
+      let updatedFormSupplier = [...formSupplier, {
+          id: 'supplier',
+          value: suppliersName[0],
+          placeholder: 'fournisseur',
+          control: 'select',
+          type: 'text',
+          formType: "general",
+          label: "fournisseur",
+          options: suppliersName
+      }]
+    
 
+    /*------CREATE A DEEP CLONE IF EACH PART OF THE FORM SO WE NEVER MUTATE THE ORIGINAL DATAS------*/
+      const initFormSupplier = updatedFormSupplier.map( a => ({ ...a}))
+      const initFormGeneral = formGeneral.map( a => ({...a}));
+      const initFormTech = formTech.map(a => ({...a}));
+      const initFormDesign = formDesign.map(a => ({...a}));
+
+      //INIT FULL FORM WILL BE USED TO STORE ALL THE DATA TO BE SENT TO THE SERVER
+      const INIT_FULL_FORM = initFormGeneral.concat( initFormSupplier, initFormTech, initFormDesign);
+
+      //INIT FULL FORM PART WILL BE USED TO BUILT THE UI
+      const INIT_FULL_FORM_PART = [ initFormGeneral, initFormSupplier, initFormTech, initFormDesign];
+
+    /*----ONCE ALL THE DATA ARE INITIALIZED, WE NEDD TO CHECK IF WE ARE ADDING OR EDITING A PRODUCT---*/
  
    if(this.props.editingMode === false){
-    this.setState({fullForm: INIT_FULL_FORM, fullFormPart: INIT_FULL_FORM_PART })
-    return 
-    
+        /*  ADDING A NEW PRODUCT */
+          this.setState({fullForm: INIT_FULL_FORM, fullFormPart: INIT_FULL_FORM_PART })
+          return 
     } else {
+        /*EDITING A PRODUCT */
+          let prod = this.props.productBeingEdited;
 
-      let prod = this.props.productBeingEdited;
-
-
-      let supplierId = prod.supplier;
-      let supplierName;
+          let supplierId = prod.supplier.info._id;
+          let general = prod.general;
+          let tech = prod.tech
+          let design = prod.design
       
-      let general = prod.general[0];
+          let supplierName; 
+
+          let supplier = {
+              supplierReference: prod.supplier.reference,
+              supplierPrice: prod.supplier.price,
+              supplierId: supplierId
+          };
 
       if(supplierId){
-        supplierName = this.props.suppliers.find(supplier => supplier._id === supplierId).name;
-        general.supplier = supplierName;
+          supplierName = suppliers.find(supplier => supplier._id === supplierId).name;
+          supplier.supplier = supplierName;
       }
       
 
       
-      let tech = prod.tech[0]
-      let design = prod.design[0]
+     
 
 
-      let newFullForm = {...general, ...tech, ...design};
+      let newFullForm = {...general, ...supplier, ...tech, ...design};
 
-  
       let productBeingEditedCurrentUrlImagesWithChekedOption = [];
       
       this.props.productBeingEdited.imageUrls.forEach( url => {
@@ -127,37 +180,7 @@ class AddProduct extends Component {
     } 
   }
 
-  fetchSuppliers = () => {
-    let url = 'http://localhost:8000/suppliers';  
-
-    fetch(url, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-    .then(res => {
-        if(res.status !== 200 && res.status !== 201){
-            throw new Error('Could not fetch suppliers')
-        }
-
-        return res.json()
-    })
-    .then(resData => {
-
-        let suppliers = resData.suppliers;
-
-        suppliers.forEach(supplier => {
-            supplier.currentView = 'contacts'
-        })
-
-      this.preparesDataHandler(suppliers)
-      this.props.setSuppliers(suppliers)
   
-    })
-    .catch( err => {
-        console.log(err)
-    })
-}
 
   
 
@@ -185,19 +208,21 @@ class AddProduct extends Component {
 
       newForm[indexInput].value = value;
 
+      console.log('new form', newForm)
+
 
       this.setState({
         fullForm: newForm
-        }, () => console.log(this.state.fullForm[0]))
+        })
     }
 
     if(this.props.editingMode === true){
 
       let upDatedNewFullForm = newFullForm;
-    upDatedNewFullForm[input] = value
+          upDatedNewFullForm[input] = value
       this.setState({
         newFullForm: upDatedNewFullForm
-      })
+      }, () => console.log('new full form',this.state.newFullForm))
     }
   };
 
@@ -206,11 +231,30 @@ class AddProduct extends Component {
     
     let suppliers = this.props.suppliers;
 
+
     const { fullForm, featuresList, urlImages, newFullForm } = this.state;
 
-    let supplierName = fullForm.find(i => i.id === 'supplier').value;
+    
+    let supplierName, supplierId;
 
-    let supplierId = suppliers.find(i => i.name === supplierName)._id
+
+    if(this.props.editingMode === true){
+
+       
+
+
+        supplierName = newFullForm.supplier;
+        supplierId = suppliers.find(i => i.name === supplierName)._id;
+
+        console.log( 'new supplier Id ', supplierId);
+
+
+
+    } else {
+      supplierName = fullForm.find(i => i.id === 'supplier').value;
+      supplierId = suppliers.find(i => i.name === supplierName)._id
+    }
+
 
     const formData = new FormData();
 
@@ -263,6 +307,7 @@ class AddProduct extends Component {
         formData.append('albumId', this.state.albumId);
         formData.append('imageUrls', productBeingEditedUrlImages);
         formData.append('productBeingEditedID', this.state.productBeingEditedID );
+        formData.append('supplierId', supplierId)
 
         method = 'PUT';
         url = "http://localhost:8000/admin/edit-product"
@@ -558,8 +603,8 @@ class AddProduct extends Component {
     const fullFormPart = this.state.fullFormPart;
 
 
-
-
+    console.log('full form part', fullFormPart);
+    
     let addProduct;
 
     if(this.state.loading === true) {

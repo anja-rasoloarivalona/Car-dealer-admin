@@ -108,12 +108,12 @@ class Car extends Component {
 
         if(carDetail === 'technical'){
             detail = <Technical 
-                        nbCylinders = {product.tech[0].nbCylinders}
-                        motorSize={product.tech[0].motorSize}
-                        gazol={product.general[0].gazol}
-                        maxSpeed={product.tech[0].maxSpeed}
-                        transmissionType={product.general[0].transmissionType}
-                        nbGearRatios={product.tech[0].nbGearRatios}/>
+                        nbCylinders = {product.tech.nbCylinders}
+                        motorSize={product.tech.motorSize}
+                        gazol={product.general.gazol}
+                        maxSpeed={product.tech.maxSpeed}
+                        transmissionType={product.general.transmissionType}
+                        nbGearRatios={product.tech.nbGearRatios}/>
         }
 
         if(carDetail === 'features'){
@@ -138,7 +138,7 @@ class Car extends Component {
                         </div>
                         
 
-                        <h1 className="car__presentation__title">{product.general[0].title}</h1>
+                        <h1 className="car__presentation__title">{product.general.title}</h1>
                         <div className="car__presentation__gallery">
                             <Gallery
                                 index={this.state.index}

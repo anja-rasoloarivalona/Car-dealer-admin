@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import "./Inventory.css";
-
 import Product from "../../components/product/Product";
-
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import Input from "../../components/formInput/FormInput";
 import IconSvg from "../../utilities/svg/svg";
 import Loader from "../../components/loader/Loader";
-
-
 
 class Inventory extends Component {
 
@@ -17,7 +13,6 @@ class Inventory extends Component {
     sortBy: 'prix croissant',
     products: null,
     loading: true,
-
     displayMode: 'list'
   }
 
@@ -57,12 +52,9 @@ class Inventory extends Component {
         return res.json(); 
       })
       .then(resData => {
-
         let products = resData.products;
         this.props.setProducts(products);
-        this.setState({ products: products, loading: false}, 
-          
-          () => console.log('datas', this.state.products[0].general[0].viewCounter === undefined))
+        this.setState({ products: products, loading: false})
       })
       .catch(err => {
         console.log(err);
@@ -84,7 +76,7 @@ class Inventory extends Component {
                 {products.map(product => {
 
                   let date = new Date(product.createdAt).toLocaleString('fr-FR');
-                  let view = product.general[0].viewCounter;
+                  let view = product.general.viewCounter;
                   if(view === undefined){
                       view = 0
                   }
@@ -96,14 +88,14 @@ class Inventory extends Component {
   
                       <Product
                         id={product._id}
-                        mainImg={product.general[0].mainImgUrl}
-                        made={product.general[0].made}
-                        model={product.general[0].model}
-                        year={product.general[0].year}
-                        price={product.general[0].price}
-                        nbKilometers={product.general[0].nbKilometers}
-                        gazol={product.general[0].gazol}
-                        transmissionType={product.general[0].transmissionType}
+                        mainImg={product.general.mainImgUrl}
+                        made={product.general.made}
+                        model={product.general.model}
+                        year={product.general.year}
+                        price={product.general.price}
+                        nbKilometers={product.general.nbKilometers}
+                        gazol={product.general.gazol}
+                        transmissionType={product.general.transmissionType}
                         goToProd={() => {
                           this.props.setProductRequestedId(product._id);
                           this.props.history.push(`/car/${product._id}`);
@@ -120,8 +112,12 @@ class Inventory extends Component {
                                       <div>{date}</div>
                                   </li>
                                   <li className="inventory__list__item__info__list__item">
+                                      <div>Fournisseur</div>
+                                      <div>{product.supplier ? product.supplier.info.name : ''}</div>
+                                  </li>
+                                  <li className="inventory__list__item__info__list__item">
                                       <div>Prix concessionnaire</div>
-                                      <div>8 000 0000</div>
+                                      <div>{product.supplier ? product.supplier.price : ''}</div>
                                   </li>
                                   <li className="inventory__list__item__info__list__item">
                                       <div>Nombre de vues</div>
