@@ -3,10 +3,7 @@ import "./AddProduct.css";
 import uuid from 'uuid/v4';
 
 
-import { formGeneral } from "./forms/formGeneral";
-import { formTech } from "./forms/formTech";
-import { formDesign } from "./forms/formDesign";
-import { formSupplier } from './forms/formSupplier';
+import { INITIAL_FORM } from './forms/formGeneral'
 
 import FormFeature from './forms/formFeature/FormFeature';
 import Filepicker from './forms/filePicker/FilePicker';
@@ -25,11 +22,6 @@ class AddProduct extends Component {
     albumId: '',
     loading: false,
 
-    /*We need all inputs in one array to send the date easiliy */
-    fullForm: [],
-    /*We need to store each array into an array to build the UI easily */
-    fullFormPart: [],  
-
     featuresList: [],
     featureBeingAdded: '',
     showImage: false,
@@ -37,17 +29,18 @@ class AddProduct extends Component {
     productBeingEdited: {},
     productBeingEditedID: '',
     productBeingEditedCurrentUrlImages: [], 
-    newFullForm: {},
 
     productBeingEditedCurrentUrlImagesWithChekedOption: [],
     selectedImages: [],
     cancelImageDeletingAllowed: false,
 
+    initialForm: null,
+    requestDataSet: null
+
   }; 
 
   componentDidMount() {   
     let suppliers = this.props.suppliers;
-
     //Before adding or updating a product, we need the list of suppliers
     if(suppliers){
         //The list of suppliers has already been initialized in redux
@@ -87,7 +80,6 @@ class AddProduct extends Component {
   }
 
   preparesDataHandler = suppliersData => {
-
     /*------INITIALIZE THE SUPPLIER SELECT OPTIONS-----*/
       let suppliers;
       if(this.props.suppliers){
@@ -95,100 +87,92 @@ class AddProduct extends Component {
       } else {
         suppliers = suppliersData
       }
-
       let suppliersName = [];
       suppliers.forEach(supplier => {
         suppliersName.push(supplier.name)
       })
 
-      let updatedFormSupplier = [...formSupplier, {
-          id: 'supplier',
-          value: suppliersName[0],
-          placeholder: 'fournisseur',
-          control: 'select',
-          type: 'text',
-          formType: "general",
-          label: "fournisseur",
-          options: suppliersName
-      }]
-    
+    /*----INITIALIZE THE FORM--------------*/
 
-    /*------CREATE A DEEP CLONE IF EACH PART OF THE FORM SO WE NEVER MUTATE THE ORIGINAL DATAS------*/
-      const initFormSupplier = updatedFormSupplier.map( a => ({ ...a}))
-      const initFormGeneral = formGeneral.map( a => ({...a}));
-      const initFormTech = formTech.map(a => ({...a}));
-      const initFormDesign = formDesign.map(a => ({...a}));
+     let initialForm = {}
+     Object.keys(INITIAL_FORM).forEach(dataType => {
+          initialForm = {
+            ...initialForm,
+            [dataType] : {
+              ...INITIAL_FORM[dataType],
 
-      //INIT FULL FORM WILL BE USED TO STORE ALL THE DATA TO BE SENT TO THE SERVER
-      const INIT_FULL_FORM = initFormGeneral.concat( initFormSupplier, initFormTech, initFormDesign);
+            } 
+          }
+     })
 
-      //INIT FULL FORM PART WILL BE USED TO BUILT THE UI
-      const INIT_FULL_FORM_PART = [ initFormGeneral, initFormSupplier, initFormTech, initFormDesign];
+    /*----INITIALIZE THE REQUEST DATA SET OBJECT WHICH WILL BE USED TO STORE THE FORM'S VALUE*/
 
-    /*----ONCE ALL THE DATA ARE INITIALIZED, WE NEDD TO CHECK IF WE ARE ADDING OR EDITING A PRODUCT---*/
+    let requestDataSet = {};
+    Object.keys(initialForm).forEach( dataType => {
+          Object.keys(initialForm[dataType]).forEach(data => {
+              requestDataSet = {
+                ...requestDataSet,
+                [data] : initialForm[dataType][data].value
+              }
+          })
+      })
+
+    initialForm.supplier.supplierName.options = suppliersName;
+  
+
+  /*------CHECKING MODE------------*/
  
-   if(this.props.editingMode === false){
-        /*  ADDING A NEW PRODUCT */
-          this.setState({fullForm: INIT_FULL_FORM, fullFormPart: INIT_FULL_FORM_PART })
-          return 
+   if(this.props.editingMode === false){  
+      //ADDING NEW PRODUCT
+      requestDataSet.supplierName = suppliersName[0];
+      return  this.setState({ initialForm : initialForm, requestDataSet: requestDataSet, loading: false})    
     } else {
-        /*EDITING A PRODUCT */
-          let prod = this.props.productBeingEdited;
+      //UDPATING AN EXISTING PRODUCT
+          let product = this.props.productBeingEdited;
 
-          let supplierId = prod.supplier.info._id;
-          let general = prod.general;
-          let tech = prod.tech
-          let design = prod.design
-      
-          let supplierName; 
+          // Setting all the key value pairs for the request data set object
+          Object.keys(product).forEach( dataType => {
+            Object.keys(product[dataType]).forEach(data => {
+              Object.keys(requestDataSet).forEach(reqData => {
+                if(data === reqData){
+                  requestDataSet = {
+                    ...requestDataSet,
+                    [reqData] : product[dataType][data]
+                  }
+                }
+              })
+            })
+          })
 
-          let supplier = {
-              supplierReference: prod.supplier.reference,
-              supplierPrice: prod.supplier.price,
-              supplierId: supplierId
-          };
+          //Setting manually the supplier name as the identifier doesn't match
+          requestDataSet = {
+            ...requestDataSet,
+            supplierName: product.supplier.info.name
+          }
 
-      if(supplierId){
-          supplierName = suppliers.find(supplier => supplier._id === supplierId).name;
-          supplier.supplier = supplierName;
-      }
-      
+          //We need to transform each url (string) into an object with the checked property => We need it to select all the images we want to delete later
+          let productBeingEditedCurrentUrlImagesWithChekedOption = [];
+          product.imageUrls.forEach( url => {
+            productBeingEditedCurrentUrlImagesWithChekedOption = [...productBeingEditedCurrentUrlImagesWithChekedOption, {url: url, checked: false}]
+          })
 
-      
-     
-
-
-      let newFullForm = {...general, ...supplier, ...tech, ...design};
-
-      let productBeingEditedCurrentUrlImagesWithChekedOption = [];
-      
-      this.props.productBeingEdited.imageUrls.forEach( url => {
-        productBeingEditedCurrentUrlImagesWithChekedOption = [...productBeingEditedCurrentUrlImagesWithChekedOption, {url: url, checked: false}]
-      })
-  
-      this.setState({
-        featuresList: this.props.productBeingEdited.features,
-        newFullForm: newFullForm,
-        albumId: this.props.productBeingEdited.albumId,
-        productBeingEditedCurrentUrlImages: this.props.productBeingEdited.imageUrls,
-        productBeingEditedID: this.props.productBeingEdited._id,
-        productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption,
-        fullFormPart: INIT_FULL_FORM_PART,
-
-        loading: false
-      })
+          this.setState({ 
+            initialForm : initialForm, 
+            requestDataSet: requestDataSet,
+            albumId: product.albumId,
+            productBeingEditedCurrentUrlImages: product.imageUrls,
+            productBeingEditedID: product._id,
+            featuresList: product.features,
+            productBeingEditedCurrentUrlImagesWithChekedOption: productBeingEditedCurrentUrlImagesWithChekedOption,
+            loading: false,              
+          })
     } 
-  }
+}
 
-  
-
-  
 
   componentWillUnmount(){
-
     console.log(['UNMOUNTED'])
-
- if(this.props.editingMode === true){
+    if(this.props.editingMode === true){
       this.props.toggleEditingMode()
       this.props.setProductRequestedId('')
       this.props.setProductRequested({})
@@ -196,80 +180,33 @@ class AddProduct extends Component {
   }
 
   inputChangeHandler = (input, value) => {
-
-    const { fullForm, newFullForm } = {...this.state};
-
-
-    if(this.props.editingMode === false) {
-      
-      const indexInput = fullForm.findIndex(i => i.id === input);
-
-      let newForm = [...fullForm]
-
-      newForm[indexInput].value = value;
-
-      console.log('new form', newForm)
-
-
-      this.setState({
-        fullForm: newForm
-        })
-    }
-
-    if(this.props.editingMode === true){
-
-      let upDatedNewFullForm = newFullForm;
-          upDatedNewFullForm[input] = value
-      this.setState({
-        newFullForm: upDatedNewFullForm
-      }, () => console.log('new full form',this.state.newFullForm))
-    }
+      this.setState( prevState => ({
+        ...prevState,
+        requestDataSet : {
+          ...prevState.requestDataSet,
+          [input]: value
+        }
+      })) 
   };
 
-  senData = () => {
-
+  senData = () => {     
+    const { featuresList, urlImages,requestDataSet, images, selectedImages } = this.state;
     
     let suppliers = this.props.suppliers;
-
-
-    const { fullForm, featuresList, urlImages, newFullForm } = this.state;
-
+    let supplierName = requestDataSet.supplierName;
+    let supplierId = suppliers.find(i => i.name === supplierName)._id
     
-    let supplierName, supplierId;
-
-
-    if(this.props.editingMode === true){
-
-       
-
-
-        supplierName = newFullForm.supplier;
-        supplierId = suppliers.find(i => i.name === supplierName)._id;
-
-        console.log( 'new supplier Id ', supplierId);
-
-
-
-    } else {
-      supplierName = fullForm.find(i => i.id === 'supplier').value;
-      supplierId = suppliers.find(i => i.name === supplierName)._id
-    }
-
-
     const formData = new FormData();
-
     let method;
     let url;
 
-
+    
     if(this.props.editingMode === false){
-        fullForm.map(i => formData.append(`${i.id}`, `${i.value}`));
+        Object.keys(requestDataSet).map(  data => formData.append(`${data}`, `${requestDataSet[data]}`));
         formData.append('features', featuresList);
         formData.append('imageUrls', urlImages);
         formData.append('albumId', this.state.albumId);
         formData.append('supplierId', supplierId)
-
-
         method = 'POST';
         url = "http://localhost:8000/admin/add-product";
     }
@@ -278,31 +215,29 @@ class AddProduct extends Component {
 
       let productBeingEditedUrlImages = [];
 
-      if(this.state.images.length === 0 && this.state.selectedImages.length === 0){
+      if(images.length === 0 && selectedImages.length === 0){
         // we don't need need to add neither delete images
         productBeingEditedUrlImages = this.state.productBeingEditedCurrentUrlImages
       } else {
           
-          if(this.state.images.length !== 0 && this.state.selectedImages.length === 0){
+          if(images.length !== 0 && selectedImages.length === 0){
             //we need to add new imgUrls but we don't need to delete
             productBeingEditedUrlImages = [...this.state.productBeingEditedCurrentUrlImages, ...this.state.urlImages]
           } 
 
-          if(  this.state.images.length === 0 && this.state.selectedImages.length !== 0){
+          if(  images.length === 0 && selectedImages.length !== 0){
             //We need to delete the images but we dont need to add new ones
-            productBeingEditedUrlImages = this.state.productBeingEditedCurrentUrlImages.filter( url => !this.state.selectedImages.includes(url) )
+            productBeingEditedUrlImages = this.state.productBeingEditedCurrentUrlImages.filter( url => !selectedImages.includes(url) )
           }
 
-          if(this.state.images.length !== 0 && this.state.selectedImages.length !== 0){
+          if(images.length !== 0 && selectedImages.length !== 0){
             //We need to upload and delete images at the same time
             productBeingEditedUrlImages = [...this.state.productBeingEditedCurrentUrlImages, ...this.state.urlImages].filter( url => !this.state.selectedImages.includes(url) )
           }
 
       }
 
-        for(let i in newFullForm){
-          formData.append(`${i}`, `${newFullForm[i]}`)
-        };
+        Object.keys(requestDataSet).map(  data => formData.append(`${data}`, `${requestDataSet[data]}`));
         formData.append('features', featuresList);
         formData.append('albumId', this.state.albumId);
         formData.append('imageUrls', productBeingEditedUrlImages);
@@ -312,8 +247,6 @@ class AddProduct extends Component {
         method = 'PUT';
         url = "http://localhost:8000/admin/edit-product"
     }
-
-
 
     fetch(url, {
       headers: {
@@ -326,8 +259,6 @@ class AddProduct extends Component {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Creating a product failed");
         }
-
-
         return res.json()
       })
       .then(resData => {
@@ -348,8 +279,6 @@ class AddProduct extends Component {
         this.setState({loading: false})
         console.log(err);
       });
-
-
   };
 
   uploadHandler = async e => {
@@ -367,21 +296,18 @@ class AddProduct extends Component {
       this.setState({ albumId: albumId})
     }
 
-    if(this.state.images.length !== 0){
-
+    if(images.length !== 0){
       try {
         const urls = await Promise.all( images.map(image => 
-
             new Promise((resolve, reject) => {
                 const uploadTask = storage.ref(`${albumId}--${image.name}`).put(image);
                 uploadTask.on('state_changed', 
-                (snapshot) => {
-                    // progress function....
-                },          
-                reject,                   
-                () => {
+                    (snapshot) => {
+                        // progress function....
+                    },          
+                    reject, //REJECTED                
+                    () => {
                     //complete function...
-    
                     storage.ref(`${albumId}--${image.name}`)
                         .getDownloadURL()
                         .then(url => {
@@ -494,7 +420,6 @@ class AddProduct extends Component {
     
   }
 
-
   addFeatureChangeHandler = (input, value) => {
         this.setState({featureBeingAdded: value})
   }
@@ -599,15 +524,11 @@ class AddProduct extends Component {
 
   render() {
 
+    const { initialForm, requestDataSet } = this.state;
 
-    const fullFormPart = this.state.fullFormPart;
-
-
-    console.log('full form part', fullFormPart);
-    
     let addProduct;
 
-    if(this.state.loading === true) {
+    if(this.state.loading === true || initialForm === null || requestDataSet === null) {
       addProduct = <Loader />
     } else {
       addProduct = (
@@ -617,26 +538,32 @@ class AddProduct extends Component {
               <div className={`add-product__part add-product__part--details 
                               ${this.state.showImage === true ? 'hide' : '' }`}>
 
-                {fullFormPart.map(part => (
+                {Object.keys(initialForm).map(dataType => (
 
-                  <div className="add-product__part--details__section" key={part[0].formType}>
-                    <h3 className="add-product__form__title">{part[0].formType}</h3>
-                        {part.map(i => (
-                        <Input
-                            className="add-product__input"
-                            label={i.label}
-                            key={i.id}
-                            id={i.id}
-                            options={i.options}
-                            placeholder={i.placeholder}
-                            control={i.control}
-                            type={i.type}
-                            value={ this.props.editingMode === false ? i.value : this.state.newFullForm[i.id]
-                              }
-                            formType={i.formType}
-                            onChange={this.inputChangeHandler}
-                        />
-                        ))}
+                  <div className="add-product__part--details__section" key={dataType}>
+                    <h3 className="add-product__form__title">{dataType}</h3>
+                        {Object.keys(initialForm[dataType]).map(data => {
+
+                          let info = initialForm[dataType][data];
+                          return (
+                              <Input
+                                  className="add-product__input"
+                                  label={info.label}
+                                  key={info.label}
+                                  id={data}
+                                  options={info.options}
+                                  placeholder={info.placeholder}
+                                  control={info.control}
+                                  type={info.type}
+                                /*  value={ this.props.editingMode === false ? i.value : this.state.newFullForm[i.id]
+                                    }*/
+                                  value = {requestDataSet[data]}
+                                  onChange={this.inputChangeHandler}
+                              />
+                            )
+                        }
+                        
+                        )}
                   </div>
 
                 ))}

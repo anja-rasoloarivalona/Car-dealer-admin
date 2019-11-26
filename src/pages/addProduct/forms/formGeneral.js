@@ -1,138 +1,218 @@
-export const formGeneral = [
-    {
-        id: 'title',
-        value: '',
-        placeholder: 'titre',
-        control: 'input',
-        type: 'text',
-        formType: "general",
-        label: 'titre'
+export const INITIAL_FORM = {
+    general : {
+        title: {
+            valueType: 'text',
+            control: 'input',
+            label: 'titre',
+            placeholder: 'titre',
+            value: ''
+        },
+
+        brand: {
+            valueType: 'text',
+            control: 'input',
+            label: 'marque',
+            placeholder: 'marque',
+            value: ''
+        },
+
+        model: {
+            valueType: 'text',
+            control: 'input',
+            label: 'modèle',
+            placeholder: 'modèle',
+            value: ''
+        },
+
+        year: {
+            valueType: 'text',
+            control: 'select',
+            label: 'année',
+            placeholder: 'année',
+            value: '2008',
+            options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
+        },
+
+        price: {
+            valueType: 'number',
+            control: 'input',
+            label: 'prix',
+            placeholder: 'prix',
+            value: 0
+        },
+            
+
+        nbKilometers: {
+            valueType: 'number',
+            control: 'input',
+            label: 'Nb km',
+            placeholder: 'Nombre de kilomètres',
+            value: 0
+        },
         
+        gazol: {
+            valueType: 'text',
+            control: 'select',
+            label: 'carburant',
+            placeholder: 'essence',
+            value: 'essence',
+            options: ['essence', 'diesel']
+        },
+
+        yearOfRelease: {
+            valueType: 'text',
+            control: 'select',
+            label: 'mise en circulation',
+            placeholder: 'année de mise en circulation',
+            value: '2008',
+            options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
+        },
+
+        nbOwners: {
+            valueType: 'number',
+            control: 'select',
+            label: 'nb proprios',
+            placeholder: 'nombre de propriétaires',
+            value: 0,
+            options: [0, 1, 2, 3, 4, 5, 6]
+        },
+
+        serialNumber: {
+            valueType: 'text',
+            control: 'input',
+            label: 'numéro de série',
+            placeholder: 'numéro de série',
+            value: ''
+        },
+
+        generalState: {
+            valueType: 'text',
+            control: 'input',
+            label: 'état général',
+            placeholder: 'état général',
+            value: ''
+        },
+
+        publicity: {
+            valueType: 'number',
+            control: 'select',
+            label: 'publicité',
+            placeholder: 'oui ou non',
+            value: 'oui',
+            options: ['oui', 'non']
+        },
+
+        homePage: {
+            valueType: 'number',
+            control: 'select',
+            label: "page d'accueil",
+            placeholder: 'oui ou non',
+            value: 'oui',
+            options: ['oui', 'non']
+        },
     },
 
-    {
-        id: 'made',
-        value: '',
-        placeholder: 'marque',
-        control: 'input',
-        type: 'text',
-        formType: "general",
-        label: 'marque'
+    supplier : {
+        reference: {
+            valueType: 'text',
+            control: 'input',
+            label: 'référence',
+            placeholder: 'référence',
+            value: ''
+        },
+
+        supplierPrice : {
+            valueType: 'number',
+            control: 'input',
+            label: 'prix fournisseur',
+            placeholder: 'prix fournisseur',
+            value: 0
+        },
+
+        supplierName : {
+            valueType: 'text',
+            control: 'select',
+            label: 'fournisseur',
+            placeholder: 'fournisseur',
+            value: '',
+            options: []
+        }
+
+
     },
 
-    {
-        id: 'model',
-        value: '',
-        placeholder: 'modèle',
-        control: 'input',
-        type: 'text',
-        formType: "general",
-        label: 'modèle'
+    tech : {
+        transmissionType : {
+            valueType: 'text',
+            control: 'select',
+            label: 'boîte',
+            placeholder: 'manuelle ou automatique',
+            value: 'manuelle',
+            options: ['manuelle', 'automatique']  
+        },
+
+        nbGearRatios : {
+            valueType: 'number',
+            control: 'select',
+            label: 'nb rapports',
+            placeholder: 'nombre de rapports',
+            value: 5,
+            options: [5, 6]  
+        },
+
+        nbCylinders : {
+            valueType: 'number',
+            control: 'select',
+            label: 'nb cylindres',
+            placeholder: 'nombre de cylindres',
+            value: 2,
+            options: [2, 3, 4, 5, 6, 7,8,9,10,11,12]
+        },
+
+        motorSize: {
+            valueType: 'text',
+            control: 'input',
+            label: 'taille moteur',
+            placeholder: 'taille du moteur',
+            value: ''
+        },
+
+        maxSpeed: {
+            valueType: 'text',
+            control: 'input',
+            label: 'vitesse maximum',
+            placeholder: 'vitesse max',
+            value: ''
+        },
+
+
+
     },
 
-    {
-        id: 'year',
-        value: '2008',
-        placeholder: 'année',
-        control: 'select',
-        type: 'text',
-        formType: "general",
-        label: 'année',
-        options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
-    },
+    design: {
+        intColor: {
+            valueType: 'text',
+            control: 'input',
+            label: 'couleur intérieure',
+            placeholder: 'couleur intérieure',
+            value: ''
+        },
 
-    {
-        id: 'price',
-        value: '',
-        placeholder: 'prix',
-        control: 'input',
-        type: 'number',
-        formType: "general",
-        label: 'prix'
-    },
-
-    {
-        id: 'nbKilometers',
-        value: '',
-        placeholder: 'Nombre de kilomètres',
-        control: 'input',
-        type: 'number',
-        formType: "general",
-        label: 'Nb km'
-    },
-
-    {
-        id: 'gazol',
-        value: 'essence',
-        placeholder: 'essence ou diesel',
-        control: 'select',
-        type: 'text',
-        formType: "general",
-        label: 'carburant',
-        options: ['essence', 'diesel']
-    },
-
-    {
-        id: 'yearOfRelease',
-        value: '2008',
-        placeholder: 'année de mise en circulation',
-        control: 'select',
-        type: 'text',
-        formType: "general",
-        label: 'mise en circulation',
-        options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
-    },
-
-    {
-        id: 'nbOwners',
-        value: 0,
-        placeholder: 'nombre de propriétaires',
-        control: 'select',
-        type: 'number',
-        formType: "general",
-        label: 'nb proprios',
-        options: [0, 1, 2, 3, 4, 5, 6]
-    },
-
-    {
-        id: 'serialNumber',
-        value: '',
-        placeholder: 'numéro de série',
-        control: 'input',
-        type: 'text',
-        formType: "general",
-        label: 'numéro de série'
-    },
-
-    {
-        id: 'generalState',
-        value: '',
-        placeholder: 'état général',
-        control: 'input',
-        type: 'text',
-        formType: "general",
-        label: 'état général'
-    },
-
-    {
-        id: 'publicity',
-        value: 'oui',
-        placeholder: 'oui ou non',
-        control: 'select',
-        type: 'text',
-        formType: "general",
-        label: 'publicité',
-        options: ['oui', 'non']
-    },
-
-    {
-        id: 'homePage',
-        value: 'oui',
-        placeholder: 'oui ou non',
-        control: 'select',
-        type: 'text',
-        formType: "general",
-        label: "page d'accueil",
-        options: ['oui', 'non']
+        extColor: {
+            valueType: 'text',
+            control: 'input',
+            label: 'couleur extérieure',
+            placeholder: 'couleur extérieure',
+            value: ''
+        },
     }
-]
+
+    
+}
+
+   
+
+
+
+
+
