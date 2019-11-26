@@ -91,7 +91,8 @@ class Stats extends Component {
                             {Object.keys(productsStats).map(brand => (
                                 <li className={`stats__productViews__list__item
                                                 ${selectedBrandInProductViews === brand ? 'active' : ''}`}
-                                    onClick={() => this.selectBrandInProductViewsHandler(brand)}>
+                                    onClick={() => this.selectBrandInProductViewsHandler(brand)}
+                                    key={brand}>
                                     <div className="stats__productViews__list__item__brand">
                                         {brand}
                                     </div>
