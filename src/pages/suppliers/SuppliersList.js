@@ -26,7 +26,8 @@ const SuppliersList = props => {
                                          onClick={() => props.editSupplierHandler(supplier)}>
                                         Edit
                                     </div>
-                                    <div className="suppliers__list__item__header__cta__btn suppliers__list__item__header__cta__btn--delete">
+                                    <div className="suppliers__list__item__header__cta__btn suppliers__list__item__header__cta__btn--delete"
+                                        onClick={() => props.deleteSupplierHandler(supplier._id)}>
                                         Delete
                                     </div>
                                 </div>

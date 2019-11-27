@@ -84,6 +84,38 @@ class Suppliers extends Component {
         })
     }
 
+    deleteSupplierHandler = supplierId => {
+
+        console.log('supplier delete', supplierId)
+
+        const {suppliers} = this.state;
+
+        let url = 'http://localhost:8000/suppliers/delete-supplier/' + supplierId;
+        let method = 'DELETE'
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res =>  {
+            if(res.status !== 200 && res.status !== 201){
+                throw new Error('Could not delete supplier')
+            }
+            return res.json()
+        })
+        .then( resData => {
+            console.log(resData);
+            let newSuppliersList = suppliers.filter(supplier => supplier._id !== supplierId);
+            this.props.setSuppliers(newSuppliersList)
+            this.setState({ suppliers: newSuppliersList})
+        })
+        .catch( err => {
+            console.log(err)
+        })
+    }
+
     addSupplierHandler = (e, addSupplierForm, responsiblesForm) => {
         e.preventDefault();
 
@@ -127,22 +159,28 @@ class Suppliers extends Component {
 
             let newSuppliersList = [];
 
+            let newSupplier = {
+                ...resData.supplier,
+                currentView: 'contacts'
+            }
+
             if(editingMode){
               let editedSupplierIndex = suppliers.findIndex(supplier => supplier._id === resData.supplier._id);
               newSuppliersList = [...suppliers];
-              newSuppliersList[editedSupplierIndex] = resData.supplier
+              newSuppliersList[editedSupplierIndex] = newSupplier
 
             } else {       
                 if(suppliers !== null){
                      newSuppliersList = [
                         ...suppliers,
-                        resData.supplier
+                        newSupplier
                     ]
                 } else {
-                    newSuppliersList = [resData.supplier]
+                    newSuppliersList = [newSupplier]
                 }
             }
 
+            this.props.setSuppliers(newSuppliersList)
             this.setState({ suppliers: newSuppliersList, currentView: 'suppliersList' }, () => this.resetFormHandler())
 
         })
@@ -185,7 +223,7 @@ class Suppliers extends Component {
             return {
                 responsiblesForm: updatedForm
             }
-        }, () => console.log('test', this.state))
+        })
     }
 
 
@@ -234,9 +272,6 @@ class Suppliers extends Component {
     }
 
     resetFormHandler = () => {
-
-        console.log('reseting form')
-
       let  addSupplierForm = {
             name: {
                 value: ''
@@ -350,7 +385,8 @@ class Suppliers extends Component {
                                            supplierNavigationHandler={this.supplierNavigationHandler}
                                            supplierCurrentViewHandler={this.supplierCurrentViewHandler} 
                                            
-                                           editSupplierHandler={this.editSupplierHandler}/>
+                                           editSupplierHandler={this.editSupplierHandler}
+                                           deleteSupplierHandler={this.deleteSupplierHandler}/>
         }
 
         let suppliersForm =  <SuppliersForm addSupplierForm ={addSupplierForm}
