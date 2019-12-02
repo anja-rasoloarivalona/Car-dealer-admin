@@ -125,11 +125,11 @@ class Inventory extends Component {
                                   </li>
                                   <li className="inventory__list__item__info__list__item">
                                       <div>Suivis par</div>
-                                      <div>9 users</div>
+                                      <div>{product.followers.length}</div>
                                   </li>
                                   <li className="inventory__list__item__info__list__item">
                                       <div>Numéro de référence</div>
-                                      <div>Xpojgweli</div>
+                                      <div>{product.supplier.reference}</div>
                                   </li>
                               </ul>
                             </div>
