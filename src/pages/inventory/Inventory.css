@@ -3,37 +3,6 @@
     grid-row: 2 / 3;  
 }
 
-.inventory__filter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 5rem;
-    background: rgb(224, 224, 224);    
-}
-
-.inventory__filter__searchBar {
-    width: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.inventory__filter__searchBar input {
-    width: 30rem;
-    height: 3rem;
-    padding-left: .5rem;
-}
-
-.inventory__filter__searchBar svg {
-    width: 3rem;
-    height: 3rem;
-    padding: .8rem;
-    background: var(--color-primary);
-    fill: var(--color-white);
-}
-
-
-
 .inventory__list {
     width: 100%;
     list-style: none;
@@ -94,14 +63,14 @@
     padding-left: 6rem;
 }
 
-.inventory__controller__sort {
+.inventory__controller__section {
     margin-right: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.inventory__controller__sort__key {
+.inventory__controller__section__key {
     margin-right: 1rem;
     font-size: 1.2rem;
 }
