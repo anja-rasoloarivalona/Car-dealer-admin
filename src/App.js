@@ -42,8 +42,8 @@ class App extends Component {
       const expiryDate = localStorage.getItem('woto-admin-expiryData');
       const connectedAdminId = localStorage.getItem('woto-admin-adminId');
       const connnectedAdminName = localStorage.getItem('woto-admin-adminName');
-     
-      this.setState({ loading: false})
+
+      this.initializeDatasHandler()
 
       if(!token || !expiryDate){
         console.log('NO TOKEN');
@@ -56,6 +56,34 @@ class App extends Component {
       }
 
       this.props.setLoginStateToTrue(true, token, connectedAdminId, connnectedAdminName)
+  }
+
+  initializeDatasHandler = () => {
+    let url = 'http://localhost:8000/init';  
+    fetch(url, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(res => {
+        if(res.status !== 200 && res.status !== 201){
+            throw new Error('Could not fetch suppliers')
+        }
+        return res.json()
+    })
+    .then(resData => {
+        let suppliers = resData.suppliers;
+        //We need to set the current view for the suppliers list page
+        suppliers.forEach(supplier => {
+            supplier.currentView = 'contacts'
+        })
+      this.props.setSuppliers(suppliers);
+      this.props.setBrandsAndModels(resData.brandsAndModels);
+      this.setState({ loading: false})
+    })
+    .catch( err => {
+        console.log(err)
+    })
   }
 
   playNotificationSound = () => {
@@ -140,7 +168,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setLoginStateToTrue: (isAuth, token, adminId, adminName) => dispatch(actions.setLoginStateToTrue(isAuth, token, adminId, adminName)),
-    setLoginStateToFalse: () => dispatch(actions.setLoginStateToFalse())
+    setLoginStateToFalse: () => dispatch(actions.setLoginStateToFalse()),
+
+
+    setBrandsAndModels: data => dispatch(actions.setBrandsAndModels(data)),
+    setSuppliers: data => dispatch(actions.setSuppliers(data))
   }
 }
 

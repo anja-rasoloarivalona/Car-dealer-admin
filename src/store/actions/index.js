@@ -2,7 +2,8 @@ export {
     setRequestedProduct,
     setRequestedProductId,
     toggleEditingMode,
-    setProducts
+    setProducts,
+    setBrandsAndModels
 } from './products'
 
 

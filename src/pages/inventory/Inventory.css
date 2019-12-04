@@ -58,11 +58,17 @@
 .inventory__controller {
     height: 10rem;
     display: flex;
-    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     position: relative;
     padding-left: 6rem;
 }
 
+.inventory__controller__container {
+    background: red;
+    display: flex;
+    margin: 1rem 0;
+}
 .inventory__controller__section {
     margin-right: 3rem;
     display: flex;

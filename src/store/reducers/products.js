@@ -6,7 +6,8 @@ const initialState = {
     productRequested: {},
     productRequestedId: '',
     editingMode: false,
-    products: []
+    products: [],
+    brandsAndModels: null
 }
 
 
@@ -15,7 +16,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_REQUESTED_PRODUCT : return updatedObject(state, {productRequested: action.product});
         case actionTypes.SET_REQUESTED_PRODUCT_ID: return updatedObject(state, {productRequestedId: action.id});
         case actionTypes.TOGGLE_EDITING_MODE: return updatedObject(state, {editingMode: !state.editingMode});
-        case actionTypes.SET_PRODUCTS: return updatedObject(state, {products: action.products})
+        case actionTypes.SET_PRODUCTS: return updatedObject(state, {products: action.products});
+        case actionTypes.SET_BRANDS_AND_MODELS: return updatedObject(state, {brandsAndModels: action.brandsAndModels})
 
         default: return state
     }

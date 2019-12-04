@@ -15,69 +15,24 @@ class Inventory extends Component {
     products: null,
     loading: true,
     displayMode: 'grid',
-    suppliers: null,
+ 
 
     requestedSupplier: 'all',
     requestedSupplierId: null,
 
-    parsedQuery : null
+    parsedQuery : null,
+    brandAndModelsData: null
   }
 
   componentDidMount(){
-    let suppliers = this.props.suppliers;
-
-    let parsedQuery = queryString.parse(this.props.location.search);
-
-    let supplierId = parsedQuery.supplier;
-
-    if(suppliers){
-      if(supplierId !== undefined){
-        let supplierName = suppliers.find(supplier => supplier._id === supplierId).name
-        this.setState({ suppliers: suppliers, requestedSupplierId: supplierId, requestedSupplier: supplierName})
-      } else {
-        this.setState({ suppliers })
-      }  
-      this.fetchProductsHandler(suppliers, this.state.sortBy, parsedQuery)
-
-    } else {
-      this.fetchSuppliers(parsedQuery)
-    }
+    this.fetchProductsHandler(this.state.sortBy);    
   }
 
-  fetchSuppliers = (query) => {
-    let url = 'http://localhost:8000/suppliers';  
-    fetch(url, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-    .then(res => {
-        if(res.status !== 200 && res.status !== 201){
-            throw new Error('Could not fetch suppliers')
-        }
-        return res.json()
-    })
-    .then(resData => {
-        let suppliers = resData.suppliers;
-        //We need to set the current view for the suppliers list page
-        suppliers.forEach(supplier => {
-            supplier.currentView = 'contacts'
-        })
-      this.props.setSuppliers(suppliers)
-      this.setState({ suppliers})
-      this.fetchProductsHandler( suppliers, this.state.sortBy, query)
-  
-    })
-    .catch( err => {
-        console.log(err)
-    })
-  }
 
   sortByHandler = sortBy => {
 
     let parsedQuery = queryString.parse(this.props.location.search);
-
-
+    
     this.fetchProductsHandler(this.props.suppliers, sortBy, parsedQuery)
     this.setState({ sortBy })
   }
@@ -86,21 +41,32 @@ class Inventory extends Component {
 
     let suppliers = this.props.suppliers;
     let supplierId;
-
     let query = {}
 
     if(supplierName !== 'all'){
       supplierId = suppliers.find(supplier => supplier.name === supplierName)._id
       query = {
         ...query,
-        supplier: supplierId
+        supplierId: supplierId,
+        supplierName: supplierName
       }
-      this.fetchProductsHandler(suppliers, this.state.sortBy, query)
-      this.setState({ requestedSupplier: supplierName, requestedSupplierId: supplierId})
+
+      this.fetchProductsHandler(this.state.sortBy, query)
+
+
+     // this.setState({ requestedSupplier: supplierName, requestedSupplierId: supplierId})
 
     } else {
-      this.fetchProductsHandler(suppliers, this.state.sortBy, query)
-      this.setState({ requestedSupplier: supplierName, requestedSupplierId: null})
+
+      query = {
+        ...query,
+        supplierId: 'all',
+        supplierName: supplierName
+      }
+      this.fetchProductsHandler(this.state.sortBy, query)
+
+
+     // this.setState({ requestedSupplier: supplierName, requestedSupplierId: null})
     }
     
   }
@@ -117,21 +83,29 @@ class Inventory extends Component {
     this.setState({ displayMode})
   }
 
-  fetchProductsHandler = (suppliers, sortBy, query) => {
+  fetchProductsHandler = (sortBy, query) => {
+    let parsedQuery = queryString.parse(this.props.location.search);
 
     let url =  new URL('http://localhost:8000/product');
-
     let params = {
         sortBy: sortBy
     }
 
-    if(query){
-      params = {
-        ...params,
-        supplier: query.supplier
+    if(query){     
+        params = {
+          ...params,
+          supplier: query.supplierId
+        }
+    } else {
+      if(parsedQuery){
+        params = {
+          ...params,
+          supplier: parsedQuery.supplier
+        }
       }
     }
 
+    
     url.search = new URLSearchParams(params).toString()
 
     fetch(url, {
@@ -146,30 +120,44 @@ class Inventory extends Component {
         return res.json(); 
       })
       .then(resData => {
+
         let products = resData.products;
         this.props.setProducts(products);
-        this.setState({ products: products, loading: false})
-        
 
-        let supplierId = null;
 
         if(query){
-            supplierId = query.supplier;
-        }
-      
-          if(supplierId !== undefined && supplierId !== 'all' && supplierId !== null){
+          this.setState({requestedSupplierId: query.supplierId, requestedSupplier: query.supplierName, products: products, loading: false})
 
-            let supplierName = suppliers.find(supplier => supplier._id === supplierId).name
-            this.setState({ requestedSupplierId: supplierId, requestedSupplier: supplierName})
+
+          this.props.history.push({
+            search: `?sortBy=${sortBy}&supplier=${query.supplierId}`
+          })
+        } else {
+
+          let supplierId = null;
+          let supplierName;
+
+          if(parsedQuery){
+            supplierId = parsedQuery.supplier;
+          }
+          let suppliers = this.props.suppliers;
+
+
+          if(supplierId !== undefined && supplierId !== 'all' && supplierId !== null ){
+            supplierName = suppliers.find(supplier => supplier._id === supplierId).name 
+            this.setState({requestedSupplierId: supplierId, requestedSupplier: supplierName, products: products, loading: false})
             this.props.history.push({
-              search: `?sortBy=${this.state.sortBy}&supplier=${supplierId}`
+              search: `?sortBy=${sortBy}&supplier=${supplierId}`
             })
+
           } else {
+            this.setState({ products: products, loading: false});
             this.props.history.push({
-              search: `?sortBy=${this.state.sortBy}&supplier=all`
+              search: `?sortBy=${sortBy}&supplier=all`
             })
           }
-            
+        }
+
       })
       .catch(err => {
         console.log(err);
@@ -179,7 +167,8 @@ class Inventory extends Component {
 
   render() {
 
-    const { products, loading, displayMode, sortBy, requestedSupplier, suppliers } = this.state;
+    const { products, loading, displayMode, sortBy, requestedSupplier} = this.state;
+    const suppliers = this.props.suppliers;
 
     let productsList = <Loader />
 
@@ -266,7 +255,8 @@ class Inventory extends Component {
 
               <div className="inventory__controller">
 
-                  <div className="inventory__controller__section">
+                <div className="inventory__controller__container">
+                    <div className="inventory__controller__section">
                       <div className="inventory__controller__section__key">Trier par</div>
                       <select value={sortBy}
                               onChange={e => this.sortByHandler(e.target.value)}>
@@ -275,9 +265,8 @@ class Inventory extends Component {
                         <option value="popularité">Popularité</option>
                         <option value="date">Date</option>
                       </select>
-                  </div>
-
-                  <div className="inventory__controller__section">
+                    </div>
+                    <div className="inventory__controller__section">
                       <div className="inventory__controller__section__key">Fournisseur</div>
                       <select value={requestedSupplier}
                           onChange={e => this.selectSupplierHandler(e.target.value)}>
@@ -287,6 +276,13 @@ class Inventory extends Component {
                           ))}
                       </select>
                   </div>
+                </div>
+
+                <div className="inventory__controller__container">
+                      <div>yeg</div>
+                </div>
+
+                  
 
                   <div className={`inventory__controller__displayMode 
                                   ${displayMode === 'list' ? 'active': ''}`}
@@ -306,23 +302,19 @@ class Inventory extends Component {
 const mapStateToProps = state => {
   return {
     products: state.products.products,
-    suppliers: state.suppliers.suppliers
+    suppliers: state.suppliers.suppliers,
+    brandsAndModels: state.products.brandsAndModels
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setProductRequestedId: (prodId) =>dispatch(actions.setRequestedProductId(prodId)),
-    setProducts: (products) => dispatch(actions.setProducts(products)),
-    setSuppliers: suppliers => dispatch(actions.setSuppliers(suppliers))
-
+    setProducts: (products) => dispatch(actions.setProducts(products))
     };
 
 };
 
 
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Inventory);
+export default connect(mapStateToProps,mapDispatchToProps)(Inventory);
