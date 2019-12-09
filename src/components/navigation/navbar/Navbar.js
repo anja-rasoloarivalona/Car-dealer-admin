@@ -58,7 +58,7 @@ class Navbar extends Component {
                     }
                     
 
-                    <NavLink to="/"  exact className={`navbar__list__item 
+                    <NavLink exact to="/" className={`navbar__list__item 
                                             ${this.props.showFullNavbar === true ? '' : 'hide'}`} >
                         <IconSvg icon="inventory"/>
                         <span className="navbar__list__item__text">Inventaire</span>

@@ -68,9 +68,6 @@ class Suppliers extends Component {
         .then(resData => {
 
             let suppliers = resData.suppliers;
-
-            console.log('fgwegweg', suppliers)
-
             suppliers.forEach(supplier => {
                 supplier.currentView = 'contacts'
             })

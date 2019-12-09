@@ -113,9 +113,9 @@ class App extends Component {
                         */
                       }                
                         <Switch>
-                            <Route path='/' exact component={Inventory}/>
+                            <Route exact path='/' component={Inventory}/>
                             <Route path='/ajouter' component={Add}/>
-                            <Route exact path='/car/:prodId' component={Car}/>
+                            <Route path='/car/:prodId' component={Car}/>
                             <Route path='/publicity' component={Publicity}/>
                             <Route path='/users' component={Users}/>
                             <Route path='/stats' component={Stats}/>
