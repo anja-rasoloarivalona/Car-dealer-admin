@@ -1,23 +1,30 @@
 .car {
     grid-column: 2 / 3;
-    margin-top: 5rem;
+    grid-row: 2/ 3;
     width: 85%;
     justify-self: center;
     position: relative;
+    margin-top: 5rem;
+}
+
+.car__backBtn {
+    position: absolute;
+    top: -3rem;
+    padding: 1rem 4rem;
+    border-radius: 3px;
+    border: 1px solid var(--color-grey);
+    color: var(--color-grey);
+    cursor: pointer;
 }
 
 .car__controller {
     position: absolute;
     top: 1.5rem;
     right: 0rem;
-
     display: flex;
 
 }
 
-.car a {
-    
-}
 
 .car__presentation__title {
     font-size: 3rem;

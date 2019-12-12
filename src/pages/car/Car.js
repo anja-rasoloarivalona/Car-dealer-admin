@@ -23,8 +23,9 @@ class Car extends Component {
         loading: false
     }
 
- 
-
+    componentDidMount(){
+        console.log('did mount', this.props)
+    }
 
     imageSlideHandler = () => {
     let {index, images, initiatlIndex} =  this.state;
@@ -40,7 +41,7 @@ class Car extends Component {
             }, 2500)
     }
 
-   UNSAFE_componentWillMount(){
+    UNSAFE_componentWillMount(){
 
         let prodId;
 
@@ -126,6 +127,11 @@ class Car extends Component {
         } else {
             productRequested = (
                 <div className="car">
+
+                        <div className="car__backBtn"
+                              onClick={() => this.props.history.goBack()}>
+                            Back
+                        </div>
 
                         <div className="car__controller">
                             <Button link= {{pathname: '/ajouter'}} color="primary"

@@ -28,3 +28,4 @@ export const substractANotification = userId => {
         userId: userId
     }
 }
+

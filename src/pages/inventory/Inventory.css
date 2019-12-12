@@ -7,7 +7,7 @@
 
 .inventory__list {
 
-    width: 80%;
+    width: 85%;
     list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, 25rem);
@@ -23,7 +23,6 @@
     align-items: center;
     margin: 2rem 0;
 
-    background: red;
 }
 
 .inventory__list.list {

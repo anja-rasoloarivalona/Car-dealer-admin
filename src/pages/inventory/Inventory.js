@@ -80,7 +80,6 @@ class Inventory extends Component {
       }
     }
 
-
     let parsedQueryDataSet = queryString.parse(this.props.location.search);
     parsedQueryDataSet = {
       ...parsedQueryDataSet,
@@ -88,9 +87,6 @@ class Inventory extends Component {
     }
 
     if(Object.keys(parsedQueryDataSet).length > 1){
-
-      console.log('did mount and parsed');
-
       Object.keys(parsedQueryDataSet).forEach(parsedQuery => {
         Object.keys(query).forEach(stateQuery => {
             if(parsedQuery === stateQuery){
@@ -137,8 +133,9 @@ class Inventory extends Component {
           }
         }
       }
-
+      this.props.setCurrentPage(parseInt(parsedQueryDataSet.page)) 
     }
+  
     this.fetchProductsHandler(query)
   }
 
@@ -343,7 +340,6 @@ class Inventory extends Component {
             delete query[key]
           }
         })
-       
         this.setState({ query: query, products: products, loading: false});
         this.props.history.push({ 
               search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}&page=${query.page}`
