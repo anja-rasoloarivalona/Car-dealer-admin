@@ -141,6 +141,40 @@ class Inventory extends Component {
     this.fetchProductsHandler(query)
   }
 
+  resetHandler = () => {
+    let query = this.state.query;
+    let resetQuery = {
+      sortBy: 'prix_croissant',
+      supplierId: null,
+      supplierName: 'all',
+      brand: 'all',
+      model: 'all',
+      price: {
+        scope: {
+          min: query.price.scope.min,
+          max: query.price.scope.max
+        },
+        value: {
+          min: query.price.scope.min,
+          max: query.price.scope.max
+        }
+      },
+      year: {
+        scope: {
+          min: 2008,
+          max: 2020
+        },
+        value: {
+          min: 2008,
+          max: 2020
+        }
+      }
+    }
+
+    this.fetchProductsHandler(resetQuery)
+
+  }
+
   componentWillMount(){
     document.addEventListener('mousedown', this.handleClick, false)
   }
@@ -472,7 +506,6 @@ class Inventory extends Component {
                     </div>
                 </div>
 
-
                 <div className="inventory__controller__container">
 
                     <div className="inventory__controller__section"
@@ -525,11 +558,17 @@ class Inventory extends Component {
                     </div>
                 </div>
 
-                  <div className={`inventory__controller__displayMode 
+                <div className="inventory__controller__shortcut">
+                  <div className={`inventory__controller__shortcut__button inventory__controller__shortcut__button--displayMode
                                   ${displayMode === 'list' ? 'active': ''}`}
                       onClick={this.toggleDisplayMode}>
                         Afficher données
-                  </div>
+                  </div> 
+                  <div className="inventory__controller__shortcut__button inventory__controller__shortcut__button--reset"
+                      onClick={this.resetHandler}>
+                        Reset
+                  </div>              
+                </div>
               </div>
 
               {productsList}

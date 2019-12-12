@@ -145,41 +145,41 @@
     background: var(--color-grey);
 }
 
-.inventory__controller__displayMode {
+.inventory__controller__shortcut {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 6rem;
-    margin: auto;
+    right: 5rem;
+    top: 2rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 0 2rem;
-    height: 3rem;
-    text-transform: uppercase;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid var(--color-grey);
-    color: var(--color-grey);
-    transition: all .3s ease-in
 }
 
-.inventory__controller__displayMode.active {
-    background: var(--color-primary);
-    color: var(--color-white);
-    border: 1px solid var(--color-primary);
+.inventory__controller__shortcut__button {
+    background: var(--color-white);
+    width: 13rem;
+    margin: 0 1rem;
+    padding: 1rem 2rem;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid var(--color-grey);
+    color: var(--color-grey);
+    cursor: pointer;
+    transition: all .3s ease-in;
 }
+
+.inventory__controller__shortcut__button.active,
+.inventory__controller__shortcut__button:active {
+    background: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    color: var(--color-white);
+}
+
+
 
 
 
 .inventory__controller__section .input-range__label--value > .input-range__label-container {
     display: none;
 }   
-
-
-
-
-
 
 .input-range__label-container {
     display: none;
