@@ -44,7 +44,8 @@ class Inventory extends Component {
           max: 2020
         }
       }
-    }
+    },
+    displayedSelector : null
   }
 
   componentDidMount(){    
@@ -139,6 +140,35 @@ class Inventory extends Component {
     }
     this.fetchProductsHandler(query)
   }
+
+  componentWillMount(){
+    document.addEventListener('mousedown', this.handleClick, false)
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener('mousedown', this.handleClick, false)
+  }
+
+  handleClick = e => {         
+    if(this.sortBySelectorOuter && this.sortBySelectorOuter.contains(e.target)){
+        return
+    }
+    if(this.brandSelectorOuter && this.brandSelectorOuter.contains(e.target)){
+      return
+    }
+    if(this.supplierSelectorOuter && this.supplierSelectorOuter.contains(e.target)){
+      return
+    }
+    if(this.modelSelectorOuter && this.modelSelectorOuter.contains(e.target)){
+      return
+    }
+    this.handleClickOutside()
+  }
+
+  handleClickOutside = () => {
+    this.setState({ displayedSelector: null })
+  }
+
 
   changeInputHandler = (input, value) => {
     this.setState( prevState => ({
@@ -287,10 +317,18 @@ class Inventory extends Component {
       });
   }
 
+  toggleSelectorHandler = selector => {
+    if(this.state.displayedSelector === null || selector !== this.state.displayedSelector){
+      this.setState({ displayedSelector: selector})
+    } else {
+      this.setState({ displayedSelector: null})
+    }   
+  }
+
 
   render() {
 
-    const { query, loading, products, displayMode } = this.state;
+    const { query, loading, products, displayMode, displayedSelector } = this.state;
     const suppliers = this.props.suppliers;
     const brandsAndModels = this.props.brandsAndModels;
     let productsList = <Loader />
@@ -376,28 +414,45 @@ class Inventory extends Component {
               <div className="inventory__controller">
 
                 <div className="inventory__controller__container">
-                    <div className="inventory__controller__section">
+
+
+                    <div className="inventory__controller__section"
+                         ref={outer => this.sortBySelectorOuter = outer}
+                         onClick={() => this.toggleSelectorHandler('sortBy')}>
                       <div className="inventory__controller__section__key">Trier par</div>
-                      <select value={query.sortBy}
-                              onChange={e => this.sortByHandler(e.target.value)}>
-                        <option value="prix_croissant">Prix croissant</option>
-                        <option value="prix_décroissant">Prix décroissant</option>
-                        <option value="popularité">Popularité</option>
-                        <option value="date">Date</option>
-                      </select>
+                      <div className="inventory__controller__section__value">
+                          <span>{query.sortBy.split('_').length > 1 ? `${query.sortBy.split('_')[0]} ${query.sortBy.split('_')[1]}` : query.sortBy}</span>
+                          <ul className={`inventory__controller__section__list
+                                        ${displayedSelector === 'sortBy' ? 'active':''}`}>
+                            <li className="inventory__controller__section__list__item" onClick={() => this.sortByHandler('prix_croissant')}>prix croissant</li>
+                            <li className="inventory__controller__section__list__item" onClick={() => this.sortByHandler('prix_décroissant')}>prix décroissant</li>
+                            <li className="inventory__controller__section__list__item" onClick={() => this.sortByHandler('popularité')}>popularité</li>
+                            <li className="inventory__controller__section__list__item" onClick={() => this.sortByHandler('date')}>date</li>
+                        </ul>
+                      </div>
+
+                      
+
                     </div>
-                    <div className="inventory__controller__section">
+
+
+                    <div className="inventory__controller__section"
+                          ref={outer => this.brandSelectorOuter = outer}
+                          onClick={() => this.toggleSelectorHandler('brand')}>
                       <div className="inventory__controller__section__key">Marque</div>
-                      <select value={query.brand}
-                              onChange={e => this.selectBrandHandler(e.target.value)}>
-                          <option value="all">Toutes</option>
-                          {
-                            Object.keys(brandsAndModels).map(brand => (
-                              <option key={brand} value={brand}>{brand}</option>
-                            ))
-                          }
-                      </select>
+                      <div className="inventory__controller__section__value">
+                          <span>{query.brand === 'all' ? 'Toutes' : query.brand}</span>
+                          <ul className={`inventory__controller__section__list
+                                        ${displayedSelector === 'brand' ? 'active':''}`}>
+                              <li className="inventory__controller__section__list__item" onClick={() => this.selectBrandHandler('all')}>Toutes</li>
+                               {Object.keys(brandsAndModels).map(brand => (
+                              <li key={brand} className="inventory__controller__section__list__item" onClick={() => this.selectBrandHandler(brand)}>{brand}</li>
+                              ))}
+                          </ul>
+                      </div>
                     </div>
+
+
                    
                   <div className="inventory__controller__section inventory__controller__section--input-range">
                         <div className="inventory__controller__section__keyContainer">
@@ -417,31 +472,39 @@ class Inventory extends Component {
                     </div>
                 </div>
 
+
                 <div className="inventory__controller__container">
-                    <div className="inventory__controller__section">
+
+                    <div className="inventory__controller__section"
+                         ref={outer => this.supplierSelectorOuter = outer}
+                         onClick={() => this.toggleSelectorHandler('supplier')}>
                         <div className="inventory__controller__section__key">Fournisseur</div>
-                        <select value={query.supplierName}
-                            onChange={e => this.selectSupplierHandler(e.target.value)}>
-                              <option value='all'>Tous</option>
-                            {suppliers && suppliers.map(supplier => (
-                              <option key={supplier._id} value={supplier.name}>{supplier.name}</option>
-                            ))}
-                        </select>
+                        <div className="inventory__controller__section__value">
+                              <span>{query.supplierName === 'all' ? 'Tous' : query.supplierName}</span>
+                               <ul className={`inventory__controller__section__list
+                                    ${displayedSelector === 'supplier' ? 'active':''}`}>
+                                    <li className="inventory__controller__section__list__item" onClick={() => this.selectSupplierHandler('all')}>Tous</li>
+                                    {suppliers && suppliers.map(supplier => (
+                                    <li key={supplier._id} className="inventory__controller__section__list__item" onClick={() => this.selectSupplierHandler(supplier.name)}>{supplier.name}</li>
+                                    ))}
+                               </ul>
+                        </div>
                     </div>
                    
-                    <div className="inventory__controller__section">
+                    <div className="inventory__controller__section"
+                         ref={outer => this.modelSelectorOuter = outer}
+                         onClick={() => this.toggleSelectorHandler('model')}>
                       <div className="inventory__controller__section__key">Modèle</div>
-                      <select value={query.model}
-                              onChange={e => this.selectModelHandler(e.target.value)}>
-                          <option value="all">Tous</option>
-
-
-                          {query.brand !== 'all' && query.brand !==  undefined &&
-                            Object.keys(brandsAndModels[query.brand].datas).map(model => (
-                              <option key={model} value={model}>{model}</option>
-                            ))
-                          }
-                      </select>
+                      <div className="inventory__controller__section__value">
+                            <span>{query.model === 'all' ? 'Tous' : query.model}</span>
+                            <ul className={`inventory__controller__section__list
+                                ${displayedSelector === 'model' ? 'active':''}`}>
+                                <li className="inventory__controller__section__list__item" onClick={() => this.selectModelHandler('all')}>Tous</li>
+                                {query.brand !== 'all' && query.brand !==  undefined && Object.keys(brandsAndModels[query.brand].datas).map(model => (
+                                <li key={model} className="inventory__controller__section__list__item" onClick={() => this.selectModelHandler(model)}>{model}</li>
+                                ))}
+                            </ul>           
+                      </div>
                     </div>
 
                     <div className="inventory__controller__section inventory__controller__section--input-range">
