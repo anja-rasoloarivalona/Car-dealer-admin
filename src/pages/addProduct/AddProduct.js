@@ -40,53 +40,12 @@ class AddProduct extends Component {
   }; 
 
   componentDidMount() {   
-    let suppliers = this.props.suppliers;
-    //Before adding or updating a product, we need the list of suppliers
-    if(suppliers){
-        //The list of suppliers has already been initialized in redux
-        this.preparesDataHandler(suppliers)
-    } else {
-      //The list of suppliers has not been initialized yet in redux 
-      this.fetchSuppliers()
-    }
+    this.preparesDataHandler()
   }
 
-  fetchSuppliers = () => {
-    let url = 'http://localhost:8000/suppliers';  
-    fetch(url, {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    })
-    .then(res => {
-        if(res.status !== 200 && res.status !== 201){
-            throw new Error('Could not fetch suppliers')
-        }
-        return res.json()
-    })
-    .then(resData => {
-        let suppliers = resData.suppliers;
-        //We need to set the current view for the suppliers list page
-        suppliers.forEach(supplier => {
-            supplier.currentView = 'contacts'
-        })
-      this.preparesDataHandler(suppliers)
-      this.props.setSuppliers(suppliers)
-  
-    })
-    .catch( err => {
-        console.log(err)
-    })
-  }
-
-  preparesDataHandler = suppliersData => {
+  preparesDataHandler = ()=> {
     /*------INITIALIZE THE SUPPLIER SELECT OPTIONS-----*/
-      let suppliers;
-      if(this.props.suppliers){
-        suppliers = this.props.suppliers
-      } else {
-        suppliers = suppliersData
-      }
+      let suppliers = this.props.suppliers
       let suppliersName = [];
       suppliers.forEach(supplier => {
         suppliersName.push(supplier.name)
@@ -403,6 +362,7 @@ class AddProduct extends Component {
     });
   };
 
+
   showImageFormHandler = e => {
       e.preventDefault();
       window.scrollTo(0, 0);
@@ -417,7 +377,6 @@ class AddProduct extends Component {
       if(this.state.showImage === true){
         this.setState({showImage: false});
       }
-    
   }
 
   addFeatureChangeHandler = (input, value) => {
@@ -535,11 +494,9 @@ class AddProduct extends Component {
         <section className="add-product">
             <form className="add-product__form">
 
-              <div className={`add-product__part add-product__part--details 
-                              ${this.state.showImage === true ? 'hide' : '' }`}>
-
+              {this.state.showImage !== true && (
+                <div className={`add-product__part add-product__part--details `}>
                 {Object.keys(initialForm).map(dataType => (
-
                   <div className="add-product__part--details__section" key={dataType}>
                     <h3 className="add-product__form__title">{dataType}</h3>
                         {Object.keys(initialForm[dataType]).map(data => {
@@ -565,9 +522,7 @@ class AddProduct extends Component {
                         
                         )}
                   </div>
-
                 ))}
-
                 <div className="add-product__part--details__section">
                     <h3 className="add-product__form__title">options</h3>
                     <FormFeature featuresList={this.state.featuresList}
@@ -577,7 +532,6 @@ class AddProduct extends Component {
                                 deleteFeature= {this.deleteFeature}
                     />
                 </div>
-                
                 <div className="add-product__form__controller">
                     <Button onClick={this.showImageFormHandler}>
                         next
@@ -585,9 +539,10 @@ class AddProduct extends Component {
                     
                 </div>
               </div>
-              
-              <div className={`add-product__part add-product__part--image 
-                              ${this.state.showImage === true ? 'show' : '' }`}>
+              )}
+
+              {this.state.showImage === true && (
+                <div className={`add-product__part add-product__part--image `}>
                     <h3 className="add-product__form__title">Images</h3>          
                     <Filepicker filesHandler={this.filesHandler}
                                 productBeingEditedCurrentImages={this.state.productBeingEditedCurrentUrlImagesWithChekedOption}
@@ -609,7 +564,9 @@ class AddProduct extends Component {
                                 State
                             </Button>
                     </div>  
-              </div>        
+              </div> 
+              )}      
+
             </form>
           </section>
       )

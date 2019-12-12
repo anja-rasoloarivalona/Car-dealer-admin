@@ -12,6 +12,8 @@
     position: fixed;
     top: 5rem;
 
+    z-index: 10;
+
     transition: all .3s ease-in-out;
 }
 

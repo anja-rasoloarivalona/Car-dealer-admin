@@ -12,42 +12,31 @@
 
 .add-product__form {
     width: 80vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    height: 100%;
     position: relative;
-    overflow: hidden;
-
 }
 
 .add-product__part {
-    
-    width: 100%;
-    
+    width: 100%;  
+    position: absolute;
+    top: 0; 
 }
 
 .add-product__part--details {
-    transform: none;
-    transition: all .3s ease-in-out;
+        /*transition: all .3s ease-in-out;*/
 }
 
-.add-product__part--details.hide {
-    transform: translateX(-100%);
-}
 
 .add-product__part--image {
     min-height: 30vh;
-    position: absolute;
-    top: 0;
     z-index: 1;
-    transform: translateX(100%);
     transition: all .3s ease-in-out;
 }
 
-.add-product__part--image.show {
-    transform: none;
-} 
+
+
+
+
 
 .add-product__form__title {
     font-size: 1.8rem;
