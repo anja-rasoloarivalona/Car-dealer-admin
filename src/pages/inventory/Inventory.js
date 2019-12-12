@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import Loader from "../../components/loader/Loader";
 import queryString from 'querystring';
-
+import Paginator from '../../components/paginator/Paginator';
 import InputRange from "react-input-range";
 import 'react-input-range/lib/css/index.css';
 
@@ -19,6 +19,7 @@ class Inventory extends Component {
     loading: true,
     displayMode: 'grid',
     query: {
+      page: 1,
       sortBy: 'prix_croissant',
       supplierId: null,
       supplierName: 'all',
@@ -142,8 +143,10 @@ class Inventory extends Component {
   }
 
   resetHandler = () => {
+    
     let query = this.state.query;
     let resetQuery = {
+      page: 1,
       sortBy: 'prix_croissant',
       supplierId: null,
       supplierName: 'all',
@@ -343,7 +346,7 @@ class Inventory extends Component {
        
         this.setState({ query: query, products: products, loading: false});
         this.props.history.push({ 
-              search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}`
+              search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}&page=${query.page}`
         })   
       })
       .catch(err => {
@@ -359,6 +362,38 @@ class Inventory extends Component {
     }   
   }
 
+  paginationHandler = direction => {
+
+
+    let query = this.state.query
+    
+    if(direction === 'next'){
+        query = {
+          ...query,
+          page: this.props.currentPage + 1
+        }
+        this.props.setCurrentPage(this.props.currentPage + 1)
+    }
+
+    if(direction === 'previous'){
+      query = {
+        ...query,
+        page: this.props.currentPage - 1
+      }
+      this.props.setCurrentPage(this.props.currentPage - 1)
+    }
+
+    if(direction !== 'previous' && direction !== 'next'){
+      query = {
+        ...query,
+        page: direction
+      }
+      this.props.setCurrentPage(direction)
+    }
+
+    this.fetchProductsHandler(query)
+  }
+
 
   render() {
 
@@ -370,6 +405,12 @@ class Inventory extends Component {
     
     if(!loading){
       productsList = (
+        <Paginator 
+            onRequestPreviousPage={this.paginationHandler.bind(this, 'previous')}
+            onRequestNextPage={this.paginationHandler.bind(this, 'next')}
+            lastPage={Math.ceil(this.props.totalProducts / this.props.itemsPerPage)}
+            currentPage={this.props.currentPage}
+            onRequestPageNumber={this.paginationHandler}>
             <ul className={`inventory__list 
                 ${displayMode === 'grid' ? '': 'list'}`}>
                 {products.map(product => {
@@ -439,6 +480,7 @@ class Inventory extends Component {
                 }
                 )}
               </ul>
+        </Paginator>
       )
     }
 
@@ -581,14 +623,19 @@ const mapStateToProps = state => {
   return {
     products: state.products.products,
     suppliers: state.suppliers.suppliers,
-    brandsAndModels: state.products.brandsAndModels
+    brandsAndModels: state.products.brandsAndModels,
+    totalProducts : state.products.totalProducts,
+    itemsPerPage: state.paginator.itemsPerPage,
+    currentPage: state.paginator.currentPage,
+    
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setProductRequestedId: (prodId) =>dispatch(actions.setRequestedProductId(prodId)),
-    setProducts: (products) => dispatch(actions.setProducts(products))
+    setProducts: (products) => dispatch(actions.setProducts(products)),
+    setCurrentPage: currentPage => dispatch(actions.setCurrentPage(currentPage))
     };
 
 };

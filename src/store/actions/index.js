@@ -3,7 +3,8 @@ export {
     setRequestedProductId,
     toggleEditingMode,
     setProducts,
-    setBrandsAndModels
+    setBrandsAndModels,
+    setTotalProducts
 } from './products'
 
 
@@ -25,3 +26,8 @@ export {
 export {
     setSuppliers
 } from './suppliers'
+
+
+export {
+    setCurrentPage
+} from './paginator'

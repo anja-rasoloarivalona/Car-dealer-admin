@@ -12,6 +12,7 @@ import productsReducer from './store/reducers/products';
 import navReducer from './store/reducers/nav';
 import authReducer from './store/reducers/auth';
 import suppliersReducer from './store/reducers/suppliers';
+import paginatorReducer from './store/reducers/paginator';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
 
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     products: productsReducer,
     nav: navReducer,
     auth: authReducer,
-    suppliers: suppliersReducer
+    suppliers: suppliersReducer,
+    paginator: paginatorReducer
 })
 
 const store = createStore(

@@ -79,6 +79,7 @@ class App extends Component {
         })
       this.props.setSuppliers(suppliers);
       this.props.setBrandsAndModels(resData.brandsAndModels);
+      this.props.setTotalProducts(resData.totalProducts)
       this.setState({ loading: false})
     })
     .catch( err => {
@@ -172,7 +173,9 @@ const mapDispatchToProps = dispatch => {
 
 
     setBrandsAndModels: data => dispatch(actions.setBrandsAndModels(data)),
-    setSuppliers: data => dispatch(actions.setSuppliers(data))
+    setSuppliers: data => dispatch(actions.setSuppliers(data)),
+
+    setTotalProducts : data => dispatch(actions.setTotalProducts(data))
   }
 }
 

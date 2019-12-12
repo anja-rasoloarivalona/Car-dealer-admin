@@ -35,3 +35,10 @@ export const setBrandsAndModels = data => {
         brandsAndModels: data
     }
 }
+
+export const setTotalProducts = data => {
+    return {
+        type: actionTypes.SET_TOTAL_PRODUCTS,
+        totalProducts: data
+    }
+}
