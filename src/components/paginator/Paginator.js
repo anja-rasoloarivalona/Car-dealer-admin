@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Paginator.css';
+import IconSvg from '../../utilities/svg/svg'
 
 
 class Paginator extends Component {
@@ -26,14 +27,14 @@ class Paginator extends Component {
         return (
             <div className="paginator">
                 {this.props.children}
-                <div className="paginator__controls flex-centered-row">
+                <div className="paginator__controls">
 
                    
 
                     <button className="paginator__control"
                             disabled={ this.props.currentPage === 1 ? true : false}
                             onClick={this.props.onRequestPreviousPage}>
-                                previous
+                               <IconSvg icon="arrow-left"/>
                     </button>
 
                     {pageNumbersButton}
@@ -41,7 +42,7 @@ class Paginator extends Component {
                     <button className="paginator__control"
                             disabled={ this.props.currentPage === this.props.lastPage ? true : false}
                             onClick={this.props.onRequestNextPage}>
-                               next
+                              <IconSvg icon="arrow-right"/>
                     </button>
             </div>
             

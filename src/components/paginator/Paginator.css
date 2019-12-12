@@ -7,6 +7,8 @@
 
 .paginator__controls {
     height: 12rem;
+    display: flex;
+    align-items: center;
   }
   
   .paginator__control {
@@ -22,6 +24,16 @@
 
     margin-right:-1px; 
     margin-bottom:-1px;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .paginator__control svg {
+    width: 1rem;
+    height: 1rem;
   }
 
   .paginator__control:disabled {
