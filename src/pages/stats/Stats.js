@@ -30,7 +30,6 @@ class Stats extends Component {
             return res.json();
         })
         .then(resData => {
-
             let maxProductViews = 0;
             let selectedBrandInProductViews = Object.keys(resData.stats)[0];
             let maxModelViewsForSelectedBrand = 0;

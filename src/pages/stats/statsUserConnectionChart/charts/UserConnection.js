@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-
+import { daysInMonth } from '../../../../utilities/daysInMonth';
 class UserConnection extends Component {
     state = {
 
@@ -26,16 +26,25 @@ class UserConnection extends Component {
     }
 
     selectUsersConnectionFilterByMonth = monthAndYear => {   
+
             let dataset = this.state.globalStatsDataSet;
-            let filterByMonth = monthAndYear;
+            let month = monthAndYear.split('-')[0];
+            let year = monthAndYear.split('-')[1]
+            let daysInMonthCounter = daysInMonth( parseInt(month), parseInt(year));
+
+            let tempLabels = [];
+            let day;
+            for(day = 1 ; day < daysInMonthCounter + 1; day++ ){
+                tempLabels.push( `${day}-${month}-${year}`)
+            }
+
             let filterByMonthData = {};
-
             dataset.forEach(data => {
-                let monthAndYear = data.start.slice(3, 10);
+    
+                let monthAndYearData = data.start.slice(3, 10);
                 let fullDate = data.start.split(' ')[0];
-            
 
-                if(monthAndYear === filterByMonth){
+                if(monthAndYearData === monthAndYear){
                     if(!Object.keys(filterByMonthData).includes(fullDate)){
                         filterByMonthData[fullDate] = 1
                     }else {
@@ -43,19 +52,35 @@ class UserConnection extends Component {
                     }
                 }
             })
-            let numberOfConnectionsData = [];
-            let labels = [];
-            
-            Object.keys(filterByMonthData).forEach(data => {
-                numberOfConnectionsData.push(filterByMonthData[data])
-                labels.push(data.slice(0, 5))
-            })
 
+            let finalData = {}
+
+            tempLabels.forEach( dateLabels => {
+                if(Object.keys(filterByMonthData).includes(dateLabels)){
+                    finalData = {
+                        ...finalData,
+                        [dateLabels]: filterByMonthData[dateLabels]
+                    } 
+                } else {
+                    finalData = {
+                        ...finalData,
+                        [dateLabels] : 0
+                    }
+                }
+            })
+      
+
+            let numberOfConnectionsData = [];
+            let labels = [];       
+            Object.keys(finalData).forEach(data => {
+                numberOfConnectionsData.push(finalData[data])
+                labels.push(data.split('-')[0])
+            })
             let data = {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Number of connections',
+                        label: `Number of connections - ${month}/${year}`,
                         data: numberOfConnectionsData,
                         backgroundColor: 'transparent'
                     }
