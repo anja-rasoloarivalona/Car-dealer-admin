@@ -83,7 +83,7 @@
   
 }
 
-.car__presentation__nav li {
+.car__presentation__nav__item {
     height: 100%;
     width: 13rem;
     text-transform: uppercase;
@@ -98,12 +98,12 @@
     cursor: pointer;
 }
 
-.car__presentation__nav li.active {
+.car__presentation__nav__item.active {
     background: var(--color-white);
     color: var(--color-dark);
 }
 
-.car__presentation__nav a.active::before {
+.car__presentation__nav__item.active::before {
     content: '';
     position: absolute;
     top: -.5rem;

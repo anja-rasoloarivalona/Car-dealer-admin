@@ -17,15 +17,15 @@ class Car extends Component {
     state = {
         index: 0,
         initiatlIndex: 0,
-        carDetail: 'overview',
+        requestedSection: 'overview',
 
         product: {},
-        loading: false
+        loading: true
     }
 
-    componentDidMount(){
-        console.log('did mount', this.props)
-    }
+   /* componentDidMount(){
+        //console.log('did mount', this.props)
+    }*/
 
     imageSlideHandler = () => {
     let {index, images, initiatlIndex} =  this.state;
@@ -41,7 +41,7 @@ class Car extends Component {
             }, 2500)
     }
 
-    UNSAFE_componentWillMount(){
+    componentDidMount(){
 
         let prodId;
 
@@ -53,8 +53,6 @@ class Car extends Component {
 
         let url = "http://localhost:8000/admin/" + prodId;
         let method = 'GET';
-
-        this.setState({loading: true})
         
         fetch(url, {
             headers: {
@@ -92,22 +90,22 @@ class Car extends Component {
     }
 
     detailRequestHandler = detail => {
-        this.setState({ carDetail: detail})
+        this.setState({ requestedSection: detail})
     }
 
     render() {
 
-        let {carDetail, product, loading } = this.state;
+        let {requestedSection, product, loading } = this.state;
 
         let productRequested; 
 
         let detail;
 
-        if(carDetail === 'overview'){
+        if(requestedSection === 'overview'){
             detail = <Overview />
         }
 
-        if(carDetail === 'technical'){
+        if(requestedSection === 'technical'){
             detail = <Technical 
                         nbCylinders = {product.tech.nbCylinders}
                         motorSize={product.tech.motorSize}
@@ -117,13 +115,13 @@ class Car extends Component {
                         nbGearRatios={product.tech.nbGearRatios}/>
         }
 
-        if(carDetail === 'features'){
+        if(requestedSection === 'features'){
             detail = <Features />
         }
 
 
         if(loading ===  true){
-            productRequested = 'loading'
+            productRequested = <div>loading</div>
         } else {
             productRequested = (
                 <div className="car">
@@ -167,15 +165,19 @@ class Car extends Component {
                         </div>
                         
                         <ul className="car__presentation__nav">
-                            <li className="car__presentation__nav__item"
+
+                            <li className={`car__presentation__nav__item
+                                            ${requestedSection === 'overview' ? 'active': ''}`}
                                 onClick={() => this.detailRequestHandler('overview')}>
                                 Overview
                             </li>
-                            <li  className="car__presentation__nav__item"
+                            <li  className={`car__presentation__nav__item
+                                            ${requestedSection === 'technical' ? 'active': ''}`}
                                 onClick={() => this.detailRequestHandler('technical')}>
                                 Technical
                             </li>
-                            <li  className="car__presentation__nav__item"
+                            <li  className={`car__presentation__nav__item
+                                            ${requestedSection === 'features' ? 'active': ''}`}
                                 onClick={() => this.detailRequestHandler('features')}>
                                 Features
                             </li>
