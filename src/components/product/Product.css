@@ -2,8 +2,13 @@
     width: 25rem;
     height: 25rem;
     list-style: none;   
+    cursor: pointer;
+    transition: all .3s ease-in;
 }
 
+.product:hover {
+    transform: scale(1.03);
+}
 .product__img {
     object-fit: cover;
     width: 100%;
