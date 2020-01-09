@@ -11,7 +11,7 @@ const product = props => {
             
             <div className="product__details">
                 <div className="product__details__model">
-                    <span>{props.made} {props.model}</span>
+                    <span>{props.brand} {props.model}</span>
                     <span>{props.year}</span>
                 </div>
                 <div className="product__details__price">

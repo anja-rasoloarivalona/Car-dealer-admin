@@ -222,8 +222,8 @@ class Inventory extends Component {
     if(input === 'price'){
       query = {
         ...this.state.query,
-        minPrice: value.min,
-        maxPrice: value.max
+        priceMin: value.min,
+        priceMax: value.max
       }
     }
     if(input === 'year') {
@@ -233,6 +233,8 @@ class Inventory extends Component {
         maxYear : value.max
       }
     }
+
+    console.log('change complete', input, value)
     this.fetchProductsHandler(query)
   }
 
@@ -316,7 +318,7 @@ class Inventory extends Component {
 
     let url =  new URL('http://localhost:8000/product/admin');
     url.search = new URLSearchParams(query).toString();
-
+    console.log('query from fetch', query)
     fetch(url, {
       headers: {
         "Content-Type": "application/json"
@@ -329,17 +331,11 @@ class Inventory extends Component {
         return res.json(); 
     })
     .then(resData => {
-        let products = resData.products;
+        const {products, totalProducts} = resData
+        this.props.setTotalProducts(totalProducts)
         this.props.setProducts(products);
 
-        let queryKeys = Object.keys(query);
-        let keysToBeDeleted = ['minPrice', 'maxPrice', 'minYear', 'maxYear'];
 
-        keysToBeDeleted.forEach(key => {
-          if(queryKeys.includes(key)){
-            delete query[key]
-          }
-        })
         this.setState({ query: query, products: products, loading: false});
         this.props.history.push({ 
               search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}&page=${query.page}`
@@ -425,7 +421,7 @@ class Inventory extends Component {
                       <Product
                         id={product._id}
                         mainImg={product.general.mainImgUrl}
-                        made={product.general.made}
+                        brand={product.general.brand}
                         model={product.general.model}
                         year={product.general.year}
                         price={product.general.price}
@@ -632,7 +628,7 @@ const mapDispatchToProps = dispatch => {
     setProductRequestedId: (prodId) =>dispatch(actions.setRequestedProductId(prodId)),
     setProducts: (products) => dispatch(actions.setProducts(products)),
     setCurrentPage: currentPage => dispatch(actions.setCurrentPage(currentPage)),
- 
+    setTotalProducts: (totalProducts) => dispatch(actions.setTotalProducts(totalProducts))
     };
 
 };
