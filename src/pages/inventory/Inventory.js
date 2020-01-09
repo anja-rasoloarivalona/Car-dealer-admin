@@ -234,7 +234,7 @@ class Inventory extends Component {
       }
     }
 
-    console.log('change complete', input, value)
+
     this.fetchProductsHandler(query)
   }
 
@@ -318,7 +318,7 @@ class Inventory extends Component {
 
     let url =  new URL('http://localhost:8000/product/admin');
     url.search = new URLSearchParams(query).toString();
-    console.log('query from fetch', query)
+
     fetch(url, {
       headers: {
         "Content-Type": "application/json"
@@ -421,6 +421,7 @@ class Inventory extends Component {
                       <Product
                         id={product._id}
                         mainImg={product.general.mainImgUrl}
+                        title={product.general.title}
                         brand={product.general.brand}
                         model={product.general.model}
                         year={product.general.year}
@@ -430,7 +431,7 @@ class Inventory extends Component {
                         transmissionType={product.general.transmissionType}
                         goToProd={() => {
                           this.props.setProductRequestedId(product._id);
-                          this.props.history.push(`/car/${product._id}`);
+                          this.props.history.push(`/inventory/${product._id}`);
                         }}
                       />
   

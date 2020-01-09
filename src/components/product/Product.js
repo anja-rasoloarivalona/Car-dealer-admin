@@ -6,16 +6,22 @@ import IconSvg from '../../utilities/svg/svg';
 const product = props => {
     return (
         <article className="product">
-            <img src={props.mainImg} alt="main img" className="product__img"
-                 onClick={props.goToProd}/>
+            <div className="product__imgContainer">
+                <div className="product__imgContainer__hoverLayer"></div>
+                <img src={props.mainImg} alt="main img" className="product__img"
+                    onClick={props.goToProd}/>
+                    <IconSvg icon="search"/>
+            </div>
+            
             
             <div className="product__details">
                 <div className="product__details__model">
-                    <span>{props.brand} {props.model}</span>
+                   {/*<span>{props.brand} {props.model}</span>*/} 
+                   <span>{props.title}</span>
                     <span>{props.year}</span>
                 </div>
                 <div className="product__details__price">
-                    {props.price} MRU
+                    {props.price.toLocaleString()} MRU
                 </div>           
             </div>
 

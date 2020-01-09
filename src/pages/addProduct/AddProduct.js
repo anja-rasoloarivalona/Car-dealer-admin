@@ -89,6 +89,8 @@ class AddProduct extends Component {
       //UDPATING AN EXISTING PRODUCT
           let product = this.props.productBeingEdited;
 
+          console.log(product);
+
           // Setting all the key value pairs for the request data set object
           Object.keys(product).forEach( dataType => {
             Object.keys(product[dataType]).forEach(data => {
@@ -106,6 +108,7 @@ class AddProduct extends Component {
           //Setting manually the supplier name as the identifier doesn't match
           requestDataSet = {
             ...requestDataSet,
+            price: product.general.price,
             supplierName: product.supplier.info.name
           }
 
@@ -114,6 +117,8 @@ class AddProduct extends Component {
           product.imageUrls.forEach( url => {
             productBeingEditedCurrentUrlImagesWithChekedOption = [...productBeingEditedCurrentUrlImagesWithChekedOption, {url: url, checked: false}]
           })
+
+          console.log(requestDataSet)
 
           this.setState({ 
             initialForm : initialForm, 
