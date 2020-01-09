@@ -4,7 +4,8 @@ export {
     toggleEditingMode,
     setProducts,
     setBrandsAndModels,
-    setTotalProducts
+    setTotalProducts,
+    addTotalProducts
 } from './products'
 
 

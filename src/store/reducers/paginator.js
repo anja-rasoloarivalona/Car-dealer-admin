@@ -4,7 +4,7 @@ import {updatedObject} from '../utility'
 
 const initialState = {
     currentPage: 1,
-    itemsPerPage: 6
+    itemsPerPage: 8
 }
 
 const reducer = (state = initialState, action) => {

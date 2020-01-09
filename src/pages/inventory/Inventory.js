@@ -631,7 +631,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setProductRequestedId: (prodId) =>dispatch(actions.setRequestedProductId(prodId)),
     setProducts: (products) => dispatch(actions.setProducts(products)),
-    setCurrentPage: currentPage => dispatch(actions.setCurrentPage(currentPage))
+    setCurrentPage: currentPage => dispatch(actions.setCurrentPage(currentPage)),
+ 
     };
 
 };

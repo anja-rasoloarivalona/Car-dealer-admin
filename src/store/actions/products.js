@@ -42,3 +42,9 @@ export const setTotalProducts = data => {
         totalProducts: data
     }
 }
+
+export const addTotalProducts = () => {
+    return {
+        type: actionTypes.ADD_TOTAL_PRODUCTS
+    }
+}

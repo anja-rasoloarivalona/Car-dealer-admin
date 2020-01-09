@@ -223,6 +223,7 @@ class AddProduct extends Component {
       .then(resData => {
         this.props.setProductRequested(resData.product)
         this.props.setProductRequestedId(resData.product._id)
+        this.props.addTotalProducts()
         return resData
       })
       .then( resData => {
@@ -595,7 +596,9 @@ const madDispacthToProps = dispatch => {
         setProductRequested: (prod) => dispatch(actions.setRequestedProduct(prod)),
         setProductRequestedId: (id) => dispatch(actions.setRequestedProductId(id)),
 
-        setSuppliers: suppliers => dispatch(actions.setSuppliers(suppliers))
+        setSuppliers: suppliers => dispatch(actions.setSuppliers(suppliers)),
+
+        addTotalProducts: () => dispatch(actions.addTotalProducts())
   }
 }
 export default connect(mapStateToProps, madDispacthToProps)(AddProduct);
