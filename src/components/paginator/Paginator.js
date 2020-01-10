@@ -13,14 +13,14 @@ class Paginator extends Component {
 
         const pageNumbersButton = pageNumbers.map( i => {
             return (
-                <button 
+                <div 
                         onClick={this.props.onRequestPageNumber.bind(this, i)}
                         key={i}
                         id={i}
                         className={["paginator__control", 
                                 this.props.currentPage === i ? 'active' : ' '].join(' ')}>
                     {i}
-                </button>
+                </div>
             )
         })
 
@@ -31,19 +31,19 @@ class Paginator extends Component {
 
                    
 
-                    <button className="paginator__control"
-                            disabled={ this.props.currentPage === 1 ? true : false}
+                    <div className={`paginator__control
+                                ${this.props.currentPage === 1 ? 'disabled': ''}`}
                             onClick={this.props.onRequestPreviousPage}>
                                <IconSvg icon="arrow-left"/>
-                    </button>
+                    </div>
 
                     {pageNumbersButton}
 
-                    <button className="paginator__control"
-                            disabled={ this.props.currentPage === this.props.lastPage ? true : false}
+                    <div className={`paginator__control
+                                ${this.props.currentPage === this.props.lastPage ? 'disabled': ''}`}
                             onClick={this.props.onRequestNextPage}>
                               <IconSvg icon="arrow-right"/>
-                    </button>
+                    </div>
             </div>
             
         </div>
