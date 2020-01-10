@@ -8,6 +8,17 @@ export const setRequestedProduct = data => {
     }
 }
 
+export const setSavedProductsQueriesToTrue = () => {
+    return {
+        type: actionTypes.SET_SAVED_PRODUCTS_QUERIES_TO_TRUE
+    }
+}
+export const setProductsQueries = data => {
+    return {
+        type: actionTypes.SET_PRODUCTS_QUERIES,
+        data: data
+    }
+}
 
 export const setRequestedProductId = data => {
     return {

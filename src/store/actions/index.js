@@ -5,7 +5,9 @@ export {
     setProducts,
     setBrandsAndModels,
     setTotalProducts,
-    addTotalProducts
+    addTotalProducts,
+    setProductsQueries,
+    setSavedProductsQueriesToTrue
 } from './products'
 
 

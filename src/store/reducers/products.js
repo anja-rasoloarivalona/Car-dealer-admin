@@ -8,7 +8,10 @@ const initialState = {
     editingMode: false,
     products: [],
     brandsAndModels: null,
-    totalProducts: null
+    totalProducts: null,
+
+    productsQueries: null,
+    savedProductsQueries: false
 }
 
 
@@ -20,7 +23,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_PRODUCTS: return updatedObject(state, {products: action.products});
         case actionTypes.SET_BRANDS_AND_MODELS: return updatedObject(state, {brandsAndModels: action.brandsAndModels});
         case actionTypes.SET_TOTAL_PRODUCTS: return updatedObject(state, {totalProducts: action.totalProducts});
-        case actionTypes.ADD_TOTAL_PRODUCTS: return updatedObject(state, {totalProducts: state.totalProducts + 1})
+        case actionTypes.ADD_TOTAL_PRODUCTS: return updatedObject(state, {totalProducts: state.totalProducts + 1});
+        case actionTypes.SET_PRODUCTS_QUERIES: return updatedObject(state, {productsQueries: action.data});
+        case actionTypes.SET_SAVED_PRODUCTS_QUERIES_TO_TRUE: return updatedObject(state, {savedProductsQueries: true})
     
         default: return state
     }

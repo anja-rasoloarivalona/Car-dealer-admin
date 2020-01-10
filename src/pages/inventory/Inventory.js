@@ -49,9 +49,13 @@ class Inventory extends Component {
     displayedSelector : null
   }
 
-  componentDidMount(){    
-    let query = this.state.query;
+  componentDidMount(){
+    
+    if(this.props.savedProductsQueries === true){
+      this.fetchProductsHandler(this.props.productsQueries)
+    } else {
 
+    let query = this.state.query;
     let queryMinPrice = 0
     let queryMaxPrice = 0
 
@@ -135,8 +139,8 @@ class Inventory extends Component {
       }
       this.props.setCurrentPage(parseInt(parsedQueryDataSet.page)) 
     }
-  
     this.fetchProductsHandler(query)
+    }
   }
 
   resetHandler = () => {
@@ -334,7 +338,8 @@ class Inventory extends Component {
         const {products, totalProducts} = resData
         this.props.setTotalProducts(totalProducts)
         this.props.setProducts(products);
-
+        this.props.setProductsQueries(query);
+        this.props.setSavedProductsQueriesToTrue();
 
         this.setState({ query: query, products: products, loading: false});
         this.props.history.push({ 
@@ -605,7 +610,9 @@ class Inventory extends Component {
                   </div>              
                 </div>
               </div>
-
+              <div className="inventory__counter">
+                  Search results : {this.props.totalProducts}
+              </div>               
               {productsList}
       </div>
     )
@@ -620,6 +627,8 @@ const mapStateToProps = state => {
     totalProducts : state.products.totalProducts,
     itemsPerPage: state.paginator.itemsPerPage,
     currentPage: state.paginator.currentPage,
+    productsQueries: state.products.productsQueries,
+    savedProductsQueries: state.products.savedProductsQueries
     
   }
 }
@@ -629,7 +638,9 @@ const mapDispatchToProps = dispatch => {
     setProductRequestedId: (prodId) =>dispatch(actions.setRequestedProductId(prodId)),
     setProducts: (products) => dispatch(actions.setProducts(products)),
     setCurrentPage: currentPage => dispatch(actions.setCurrentPage(currentPage)),
-    setTotalProducts: (totalProducts) => dispatch(actions.setTotalProducts(totalProducts))
+    setTotalProducts: (totalProducts) => dispatch(actions.setTotalProducts(totalProducts)),
+    setProductsQueries: (data) => dispatch(actions.setProductsQueries(data)),
+    setSavedProductsQueriesToTrue: () => dispatch(actions.setSavedProductsQueriesToTrue())
     };
 
 };
