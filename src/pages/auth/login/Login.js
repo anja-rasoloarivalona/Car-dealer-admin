@@ -5,7 +5,7 @@ import './Login.css';
 import { validator} from '../../../utilities/validators';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
-import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
+
 
 
  class Login extends Component {
@@ -20,8 +20,6 @@ import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
                 value: ''
             }
         },
-
-        error: null,
     }
 
     inputChangeHandler = (input, value) => {
@@ -43,18 +41,15 @@ import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
     loginHandler = (e, loginFormData) => {
         e.preventDefault();
         this.props.setLoadingToTrue();
+        this.props.setError(null)
 
-        if(loginFormData){
-            const errors = validator(
-                loginFormData.email,
-                loginFormData.password
-            )
+  
 
+      if(loginFormData){
+            const errors = validator(loginFormData)
             if(errors.length > 0){
-                this.setState({ error: errors})
+                this.props.setError(errors);
                 this.props.setLoadingToFalse()
-                this.props.setErrors()
-
                 return 
             }
         }
@@ -71,6 +66,8 @@ import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
             })
         })
         .then( res => {
+            console.log('reeees');
+
             if(res.status === 422){
                 throw new Error('validation failed')
             }
@@ -103,82 +100,67 @@ import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
 
         })
         .catch( err => {
-            let error = []
-            error.push(err.message)
-            this.setState({ error: error})
+            this.props.setError(err)
             this.props.loginFailed()
             this.props.setLoadingToFalse()
-            this.props.setErrors()
+           
         })
 
 
     }
 
-    closeErrorHandler = () => {
-        this.setState({ error: null});
-        this.props.resetErrors()
-    }
+
 
     
 
 
-    render() {
+    render() {     
+        return (
+            <form className= 'auth__form auth__form--login' 
+                   onSubmit={e => this.loginHandler(e, this.state.loginForm)}
+                   noValidate
+                   autoComplete="off">
+                <ul className="auth__input__list">
 
-        let form;
+                            <Input  type='email'
+                                control='input'
+                                label='email'
+                                id='email'
+                                value={this.state.loginForm['email'].value}
+                                onChange={this.inputChangeHandler}
+                                placeholder='email'
+                                border
+                                required={true}/>
 
-        if(this.state.error) {
-            form = <ErrorHandler error = {this.state.error}
-                    onCloseError={this.closeErrorHandler}/>
-        }
-         else {
-             form = (
-                <form className= 'auth__form auth__form--login' 
-                       onSubmit={e => this.loginHandler(e, this.state.loginForm)}
-                       noValidate
-                       autoComplete="off">
-                    <ul className="auth__input__list">
+                        <Input  type='password'
+                                control='input'
+                                label='mot de passe'
+                                id='password'
+                                value={this.state.loginForm['password'].value}
+                                onChange={this.inputChangeHandler}
+                                placeholder='mot de passe'
+                                border
+                                required={true}
+                                autoComplete = 'new-password'/>
+                </ul>
 
-                                <Input  type='email'
-                                    control='input'
-                                    label='email'
-                                    id='email'
-                                    value={this.state.loginForm['email'].value}
-                                    onChange={this.inputChangeHandler}
-                                    placeholder='email'
-                                    border
-                                    required={true}/>
-
-                            <Input  type='password'
-                                    control='input'
-                                    label='mot de passe'
-                                    id='password'
-                                    value={this.state.loginForm['password'].value}
-                                    onChange={this.inputChangeHandler}
-                                    placeholder='mot de passe'
-                                    border
-                                    required={true}
-                                    autoComplete = 'new-password'/>
-                    </ul>
-
-                    <div className='login__options'>
-                        <div className="login__options--1" >
-                            Mot de passe oublié
-                        </div>
-                        <div className="login__options--1">
-                            Pas encore membre ?
-                        </div>
+                <div className='login__options'>
+                    <div className="login__options--1" >
+                        Mot de passe oublié
                     </div>
-
-                    <div className="auth__button">
-                        <Button color='primary' type='submit'>
-                            Login
-                        </Button>
+                    <div className="login__options--1">
+                        Pas encore membre ?
                     </div>
-                
-            </form>
-             )
-         }
-        return form
+                </div>
+
+                <div className="auth__button">
+                    <Button color='primary' type='submit'>
+                        Login
+                    </Button>
+                </div>
+            
+        </form>
+         )
     }
 }
 
@@ -186,7 +168,8 @@ import ErrorHandler from '../../../components/errorHandler/ErrorHandler';
 const mapDispatchToProps = dispatch => {
     return {
         loginSucceeded: (data) => dispatch(actions.loginSucceeded(data)),
-        loginFailed: () => dispatch(actions.loginFailed())
+        loginFailed: () => dispatch(actions.loginFailed()),
+        setError: (data) => dispatch(actions.setError(data))
     }
 }
 

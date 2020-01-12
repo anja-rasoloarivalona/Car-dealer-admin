@@ -40,7 +40,7 @@ const setLoginStateToFalse = state => {
 const reducer = (state = initialState, action) => {
     switch (action.type){
         case actionTypes.LOGIN_SUCCEDED: return loginSucced(state, action);
-        case actionTypes.LOGIN_FAILED: return;
+        case actionTypes.LOGIN_FAILED: return state;
         case actionTypes.SET_LOGIN_STATE_TO_TRUE: return setLoginStateToTrue(state, action);
         case actionTypes.SET_LOGIN_STATE_TO_FALSE: return setLoginStateToFalse(state);
 

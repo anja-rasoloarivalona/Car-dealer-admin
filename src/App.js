@@ -22,7 +22,7 @@ import Navtop from './components/navigation/navtop/Navtop';
 import Navbar from './components/navigation/navbar/Navbar';
 import Chat from './components/chat/Chat';
 import notification from './assets/notification.mp3'
-
+import ErrorHandler from './components/errorHandler/ErrorHandler';
 
 
 import * as actions from './store/actions'
@@ -100,13 +100,16 @@ class App extends Component {
     } else {
         
       if(!this.props.token || !this.props.adminId || !this.props.auth || !this.props.adminName) {
-          app = <Auth />
+          app = (
+            <div className="fullScreen">
+              <Auth />
+            </div>
+          )
         } else {
             app = (
       
               <Fragment>       
                         <Navbar />  
-                        
                         <audio src={notification} ref={ref => this.player = ref}  />
                       {
                         /*
@@ -148,6 +151,7 @@ class App extends Component {
     return (
             <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>
                     <Navtop />
+                    {this.props.errors !== null && <ErrorHandler />}
                     {app}
             </div>
       )
@@ -162,7 +166,8 @@ const mapStateToProps = state => {
     auth: state.auth.auth,
     token: state.auth.auth,
     adminId: state.auth.adminId,
-    adminName: state.auth.adminName
+    adminName: state.auth.adminName,
+    errors: state.error.errors
 
   }
 }

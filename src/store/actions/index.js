@@ -34,3 +34,7 @@ export {
 export {
     setCurrentPage
 } from './paginator'
+
+export {
+    setError
+} from './error'

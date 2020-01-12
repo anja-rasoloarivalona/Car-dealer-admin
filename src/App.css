@@ -65,3 +65,11 @@ body {
 .app__secondary__title {
 
 }
+
+.fullScreen {
+  width: 100vw;
+  margin-top: 5rem;
+  height: calc(100vh - 5rem);
+  position: relative;
+
+}

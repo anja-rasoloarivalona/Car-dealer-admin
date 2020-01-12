@@ -17,8 +17,6 @@ class Auth extends Component {
     }
 
 
-
-
     setRequestedForm = requested => {
         this.setState({ requestedForm: requested})
     }
@@ -31,27 +29,9 @@ class Auth extends Component {
         this.setState( { loading: false})
     }
 
-    setErrors = () => {
-        this.setState({ error: true})
-    }
-
-    resetErrors = () => {
-        this.setState({ error: false})
-    }
-
-
-
-
-
     render() {
-
-        let auth;
-
-        if(this.state.loading === true){
-            auth = <Loader fullView />
-        } else {
-            auth =(
-                <section className="auth">
+        return (
+            <section className="auth">
                   
                   <div className="auth__container">
 
@@ -85,18 +65,14 @@ class Auth extends Component {
                       {
                           this.state.requestedForm === 'login' && (
                               <Login setLoadingToTrue={this.setLoadingToTrue}
-                                        setLoadingToFalse = {this.setLoadingToFalse}
-                                        setErrors={this.setErrors}
-                                        resetErrors={this.resetErrors}/>
+                                     setLoadingToFalse = {this.setLoadingToFalse}/>
                           )
                       }
                       
                       
                   </div>
           </section>
-            )
-        }
-        return auth
+        )
     }
 }
 

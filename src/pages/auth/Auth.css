@@ -2,14 +2,9 @@
     grid-column: 1 / -1;
     grid-row: 2 / 3;
     height: calc(100vh - 5rem);
-
-    
     display: flex;
     align-items: center;
     justify-content: center;
-
-   
-
 }
 
 .auth__controller {

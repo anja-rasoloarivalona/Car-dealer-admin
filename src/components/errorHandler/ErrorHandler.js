@@ -1,21 +1,60 @@
-import React, { Fragment} from 'react';
-import Backdrop from '../backdrop/Backdrop';
-import Modal from '../modal/Modal';
+import React, { Component } from 'react'
+import './ErrorHandler.css'
+import * as actions from '../../store/actions';
+import { connect } from 'react-redux'
+import IconSvg from '../../utilities/svg/svg';
+import Button from '../button/Button'
 
-const errorHandler = props => 
-    (   
-        <Fragment>
-            {props.error && (
-                <Backdrop onClick={props.onCloseError}/>
-            )}
+class ErrorHandler extends Component {
 
-            {props.error && (
-                <Modal title='Oops something went wrong'
-                        onCloseModal = {props.onCloseError}>
-                    <p>{props.error[0]}</p>
-                </Modal>
-            )}
-        </Fragment>
-    )
+    componentDidMount(){
+      setTimeout(this.closeErrorHandler, 8000);
+     
+    }
 
-export default errorHandler
+    closeErrorHandler = () => {
+        this.props.setError(null)
+    }
+    render() {
+        let errorHandler = null;
+        if(this.props.errors){
+            errorHandler = (
+                <div className='error'> 
+                    <div className="error__header">
+                        <span>Something went wrong</span>
+                        <IconSvg icon="error" />
+                    </div>        
+                    {this.props.errors && this.props.errors.map( (error, index) => (
+                    <div key={index}
+                         className="error__text">
+                        {error}
+                    </div>
+                ))}
+
+                <div className="error__cta">
+                    <Button color='primary'
+                            onClick={() => this.closeErrorHandler()}>
+                        OK
+                    </Button>
+                </div>
+               
+            </div>
+            )
+        }
+        return errorHandler; 
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        errors: state.error.errors
+    }
+}
+
+const mapDispatchToProps = dispacth => {
+    return {
+        setError: (data) => dispacth(actions.setError(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorHandler)
