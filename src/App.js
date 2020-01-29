@@ -3,7 +3,6 @@ import './App.css';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Loader from './components/loader/Loader';
 
-
 /*-----------PAGES---------*/
 import Inventory from './pages/inventory/Inventory';
 import Publicity from './pages/publicity/Publicity';
