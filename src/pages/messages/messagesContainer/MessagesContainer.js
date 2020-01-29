@@ -30,7 +30,7 @@ class MessagesContainer extends Component {
         this.setState({
             messages: this.props.messages, 
             userId: this.props.userId
-        });
+        }, () => console.log(this.state));
 
         this.scrollToBottom();
 

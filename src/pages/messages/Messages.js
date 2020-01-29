@@ -8,8 +8,6 @@ import * as actions from '../../store/actions';
 import Loader from '../../components/loader/Loader';
 
  class Messages extends Component {
-
-
     state = {
         messages: null,    
         requestedMessageUserId: null,
@@ -20,8 +18,6 @@ import Loader from '../../components/loader/Loader';
     componentDidMount(){
      let url = "http://localhost:8000/messages";
      let method = "GET";
-
-
         fetch(url, {
             method: method,
             headers: {
@@ -40,30 +36,21 @@ import Loader from '../../components/loader/Loader';
                 this.setState({ messages: resData.messages,
                     requestedMessageUserId: resData.messages[0]._id},
                     () => this.fetchUserMessages(resData.messages[0]._id))
-            } else return
-            
+            } else return         
         })
         .catch( err => {
             console.log(err)
-        })   
-        
-        
-        
+        })          
     }
 
     changeConvoHandler = userId => {
         this.fetchUserMessages(userId)
     }
 
-    fetchUserMessages = userId => {
-        
+    fetchUserMessages = userId => {    
       let url = "http://localhost:8000/messages/admin-update/" + userId;
       let method = "POST";
-
       let timeStamp = timeStampGenerator();
-
-      console.log('fetccching')
-
         fetch(url, {
             method: method,
             headers: {
@@ -82,12 +69,11 @@ import Loader from '../../components/loader/Loader';
         })
         .then(resData => {
             this.setState({ 
-                userMessages: resData.messages.messages, 
+                userMessages: resData.user.messages, 
                 requestedMessageUserId: userId,
                 loading: false})
-
+            
             this.props.substractANotification(userId)
-
         })
         .catch( err => {
             console.log(err)

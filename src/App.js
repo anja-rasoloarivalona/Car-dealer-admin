@@ -54,7 +54,8 @@ class App extends Component {
         return
       }
 
-      this.props.setLoginStateToTrue(true, token, connectedAdminId, connnectedAdminName)
+      this.props.setLoginStateToTrue(true, token, connectedAdminId, connnectedAdminName);
+     // this.props.history.push('/inventory')
   }
 
   initializeDatasHandler = () => {
@@ -186,4 +187,4 @@ const mapDispatchToProps = dispatch => {
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
