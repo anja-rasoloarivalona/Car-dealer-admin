@@ -1,15 +1,13 @@
 import React from 'react';
 import './Product.css';
-
 import IconSvg from '../../utilities/svg/svg';
 
 const product = props => {
     return (
-        <article className="product">
+        <article className="product" onClick={props.goToProd}>
             <div className="product__imgContainer">
                 <div className="product__imgContainer__hoverLayer"></div>
-                <img src={props.mainImg} alt="main img" className="product__img"
-                    onClick={props.goToProd}/>
+                <img src={props.mainImg} alt="main img" className="product__img"/>
                     <IconSvg icon="search"/>
             </div>
             

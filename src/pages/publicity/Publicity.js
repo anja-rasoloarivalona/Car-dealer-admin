@@ -2,36 +2,74 @@ import React, { Component } from 'react'
 import './Publicity.css';
 import { connect } from 'react-redux';
 import Product from '../../components/product/Product';
+import Loader from '../../components/loader/Loader';
+import * as actions from '../../store/actions';
 
 class Publicity extends Component {
 
+    state = {
+        pubProducts: null,
+        homePageProducts: null,
+        loading: true
+    }
+    componentDidMount(){
+        this.setState({ loading: true})
+        let url = 'http://localhost:8000/product/publicity'; 
+        fetch(url, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(res => {
+            if(res.status !== 200 && res.status !== 201){
+                throw new Error('Could not fetch suppliers')
+            }
+            return res.json()
+        })
+        .then(resData => {
+            this.setState({
+                pubProducts: resData.publicity,
+                homePageProducts: resData.home,
+                loading: false
+            })
+        })
+        .catch( err => {
+            console.log(err)
+            this.setState({ loading: false})
+        })
+    }
 
+    requestProductDetails = id => {
+        console.log('id', id);
+
+        this.props.setProductRequestedId(id);
+        this.props.history.push(`/inventory/${id}`);
+    }
     render() {
-
-        const pubProducts = this.props.products.filter( i => i.general[0].publicity === 'oui');
-        const homepageProducts = this.props.products.filter( i => i.general[0].homePage === 'oui');
-
-        return (
+        const {pubProducts, homePageProducts, loading} = this.state;
+        let publicity = <Loader />
+        if(!loading){
+            publicity = (
             <div className="publicity">
                 <section className="publicity__section--main publicity__section">
                     <h1 className="publicity__title">Publicity</h1>
-
-                    <ul className="publicity__main__list">
-
-                        
+                    <ul className="publicity__main__list">               
                                 {
-                                    pubProducts.map( product => (
-                                        <li>
-                                            <Product  id={product._id}
-                                            key={product.general[0].mainImgUrl}
-                                            mainImg={product.general[0].mainImgUrl}
-                                            made={product.general[0].made}
-                                            model={product.general[0].model}
-                                            year={product.general[0].year}
-                                            price={product.general[0].price}
-                                            nbKilometers={product.general[0].nbKilometers}
-                                            gazol={product.general[0].gazol}
-                                            transmissionType={product.general[0].transmissionType}/>
+                                   pubProducts && pubProducts.map( product => (
+                                        <li key={product._id}>
+                                            <Product  
+                                                id={product._id}
+                                                mainImg={product.general.mainImgUrl}
+                                                title={product.general.title}
+                                                brand={product.general.brand}
+                                                model={product.general.model}
+                                                year={product.general.year}
+                                                price={product.general.price}
+                                                nbKilometers={product.general.nbKilometers}
+                                                gazol={product.general.gazol}
+                                                transmissionType={product.general.transmissionType}
+                                                goToProd={() => this.requestProductDetails(product._id)}
+                                            />
                                         </li>
                                     ))
                                 }
@@ -39,38 +77,36 @@ class Publicity extends Component {
 
                         
                     </ul>
-                    
-                    
-
-
                 </section>
                 <section className="publicity__section--inventory publicity__section">
                     <h1 className="publicity__title">Home Page</h1>
-                    <ul className="publicity__main__list">
-                  
+                    <ul className="publicity__main__list">                
                                 {
-                                    homepageProducts.map( product => (
-                                        <li>
-                                            <Product  id={product._id}
-                                            key={product.general[0].mainImgUrl}
-                                            mainImg={product.general[0].mainImgUrl}
-                                            made={product.general[0].made}
-                                            model={product.general[0].model}
-                                            year={product.general[0].year}
-                                            price={product.general[0].price}
-                                            nbKilometers={product.general[0].nbKilometers}
-                                            gazol={product.general[0].gazol}
-                                            transmissionType={product.general[0].transmissionType}/>
-                                        </li>
+                                   homePageProducts && homePageProducts.map( product => (
+                                    <li key={product._id}>
+                                        <Product  
+                                            id={product._id}
+                                            mainImg={product.general.mainImgUrl}
+                                            title={product.general.title}
+                                            brand={product.general.brand}
+                                            model={product.general.model}
+                                            year={product.general.year}
+                                            price={product.general.price}
+                                            nbKilometers={product.general.nbKilometers}
+                                            gazol={product.general.gazol}
+                                            transmissionType={product.general.transmissionType}
+                                            
+                                        />
+                                    </li>
                                     ))
-                                }
-                      
-
-                        
+                                } 
                     </ul>
                 </section>
             </div>
-        )
+            )
+        }
+
+        return publicity
     }
 }
 
@@ -80,6 +116,12 @@ const mapStateToProps = state => {
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        setProductRequestedId: (prodId) => dispatch(actions.setRequestedProductId(prodId))
+    }
+}
 
 
-export default connect(mapStateToProps)(Publicity);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Publicity);
