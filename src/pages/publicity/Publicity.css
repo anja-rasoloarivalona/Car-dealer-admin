@@ -11,6 +11,30 @@
 .publicity__section {
     width: 80vw;
     padding-top: 2rem;
+    position: relative;
+}
+
+.publicity__section__controller {
+    display: flex;
+    position: absolute;
+    top: 4rem;
+    right: 0;
+    
+}
+.publicity__section__controller svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0 1rem ;
+    cursor: pointer;
+    
+}
+
+.publicity__section__controller__edit {
+    fill: var(--color-primary);
+}
+
+.publicity__section__controller__delete {
+    fill: var(--color-grey);
     
 }
 
@@ -38,9 +62,46 @@
     
     justify-content: center;
     align-items: center;
-    margin: 1rem 0;
-    
+    margin: 1rem 0;  
 }
 
+.publicity__section__cta {
+    display: none;
+    justify-content: center;
+}
+
+.publicity__section__cta.show {
+    display: flex;
+}
+
+.publicity__main__list__item__checkbox {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    height: 2rem;
+    width: 2rem;
+    z-index: 2;
+    background: var(--color-white);
+    border-radius: 4px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.publicity__main__list__item__checkbox svg {
+    width: 70%;
+    height: 70%;
+    fill: green;
+    display: none;
+}
+
+.publicity__main__list__item__checkbox.show {
+    display: flex;
+}
+
+
+.publicity__main__list__item__checkbox.checked svg {
+    display: block;
+}
 
 
