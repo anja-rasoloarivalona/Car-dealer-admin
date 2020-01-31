@@ -5,6 +5,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    position: relative;
     
 }
 
@@ -26,11 +27,12 @@
     height: 2.5rem;
     margin: 0 1rem ;
     cursor: pointer;
+    fill: var(--color-grey);
     
 }
 
 .publicity__section__controller__edit {
-    fill: var(--color-primary);
+    fill: var(--color-primary) !important;
 }
 
 .publicity__section__controller__delete {
@@ -105,3 +107,11 @@
 }
 
 
+.publicity__newProducts {
+    
+}
+
+.publicity__newProducts__title {
+    text-transform: uppercase;
+    padding-left: 2rem;
+}
