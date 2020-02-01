@@ -38,3 +38,18 @@ export {
 export {
     setError
 } from './error'
+
+
+export {
+    setPublicityData,
+    setPublicityEditingMode,
+    setPublicitySelectedPubProducts,
+    setPublicitySelectedHomePageProducts,
+    cancelPublicityEditingMode,
+    deletePublicitySelectedPubProducts,
+    deletePublicitySelectedHomePageProducts,
+    togglePublicitySelector,
+    setPublicitySelectorSelectedProducts,
+    addPublicityPubProducts,
+    addPublicityHomePageProducts
+} from './publicity'

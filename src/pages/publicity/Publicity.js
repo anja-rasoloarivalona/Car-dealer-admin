@@ -8,28 +8,11 @@ import IconSvg from '../../utilities/svg/svg';
 import Button from '../../components/button/Button';
 import PublicitySelector from './PublicitySelector/PublicitySelector';
 
+
 class Publicity extends Component {
 
     state = {
-        pubProducts: null,
-        homePageProducts: null,
-
-
-        init_pubProducts: null,
-        init_homePageProducts: null,
-
         loading: true,
-        editingMode: false,
-
-        publicitySelectedProducts: [],
-        homePageSelectedProducts: [],
-
-        showSelector: false,
-        selectorTitle: null,
-
-        newPubProducts: [],
-        newHomePageProducts: []
-
     }
 
     componentDidMount(){
@@ -52,13 +35,12 @@ class Publicity extends Component {
             return res.json()
         })
         .then(resData => {
-            this.setState({
+            let data = {
                 pubProducts: resData.publicity,
-                init_pubProducts: resData.publicity,
                 homePageProducts: resData.home,
-                init_homePageProducts: resData.home,
-                loading: false
-            })
+            }
+            this.props.setPublicityData(data);
+            this.setState({loading: false})
         })
         .catch( err => {
             console.log(err)
@@ -72,70 +54,64 @@ class Publicity extends Component {
     }
 
     editingModeHandler = mode => {
-        this.setState({ editingMode: mode})
+        let newEditingMode;
+        let currentEditingMode = this.props.editingMode;
+
+
+
+        if(!currentEditingMode){
+            newEditingMode = [mode];
+            this.props.setPublicityEditingMode(newEditingMode);
+        } else {
+            if(!currentEditingMode.includes(mode)){
+                newEditingMode = [...currentEditingMode, mode]
+                this.props.setPublicityEditingMode(newEditingMode);
+            } else {
+                this.cancelHandler(mode)
+            }
+        }
+        
+
+
+
+        
     }
 
     selectHandler = (section, id) => {
-        const {publicitySelectedProducts, homePageSelectedProducts} = this.state;
-
+        const {selectedPubProducts, selectedHomePageProducts} = this.props;
+        let data = [];
         if(section === 'publicity'){
-            if(!publicitySelectedProducts.includes(id)){
-                this.setState(prevState => ({
-                    publicitySelectedProducts: [...prevState.publicitySelectedProducts, id]
-                  }));
+            if(!selectedPubProducts.includes(id)){
+                data = [...selectedPubProducts, id]
             } else {
-                this.setState(prevState => ({
-                    publicitySelectedProducts: prevState.publicitySelectedProducts.filter( prodId => prodId !== id)
-                  }));
+                data = selectedPubProducts.filter(prodId => prodId !== id)
             }  
+            this.props.setPublicitySelectedPubProducts(data)
         }
-
         if(section === 'home page'){
-            if(!homePageSelectedProducts.includes(id)){
-                this.setState(prevState => ({
-                    homePageSelectedProducts: [...prevState.homePageSelectedProducts, id]
-                  }));
+            if(!selectedHomePageProducts.includes(id)){
+                data = [...selectedHomePageProducts, id]
             } else {
-                this.setState(prevState => ({
-                    homePageSelectedProducts: prevState.homePageSelectedProducts.filter( prodId => prodId !== id)
-                  }));
+                data = selectedHomePageProducts.filter(prodId => prodId !== id)
             }  
+            this.props.setPublicitySelectedHomePageProducts(data)
         }
-         
     }
 
     deleteHandler = section => {
         if(section === 'publicity'){
-           let newPublicityProducts =  this.state.pubProducts.filter(product => !this.state.publicitySelectedProducts.includes(product._id));
-           this.setState({
-               pubProducts: newPublicityProducts
-           })
+           let newPublicityProducts =  this.props.currentPubProducts.filter(product => !this.props.selectedPubProducts.includes(product._id));
+           this.props.deletePublicitySelectedPubProducts(newPublicityProducts)
         }
 
         if(section === 'home page'){
-            let newHomePageProducts =  this.state.homePageProducts.filter(product => !this.state.homePageSelectedProducts.includes(product._id));
-            this.setState({
-                homePageProducts: newHomePageProducts
-            })
+            let newHomePageProducts =  this.props.currentHomePageProducts.filter(product => !this.props.selectedHomePageProducts.includes(product._id));
+            this.props.deletePublicitySelectedHomePageProducts(newHomePageProducts)
          }
     }
 
     cancelHandler = section => {
-        if(section === 'publicity'){
-            this.setState({
-                pubProducts: this.state.init_pubProducts,
-                editingMode: false,
-                publicitySelectedProducts: []
-            })
-        }
-
-        if(section === 'home page'){
-            this.setState({
-                homePageProducts: this.state.init_homePageProducts,
-                editingMode: false,
-                homePageSelectedProducts: []
-            })
-        }
+        this.props.cancelPublicityEditingMode(section)
     }
 
     saveHandler = () => {
@@ -188,32 +164,49 @@ class Publicity extends Component {
     }
 
     toggleSelector = section => {
-
-        let newSection = null;
-
-        if(!this.state.showSelector){
-            newSection = section
-        } 
-
-        this.setState(prevState => ({
-            showSelector: !prevState.showSelector,
-            selectorTitle: newSection
-        }));
+        this.props.togglePublicitySelector(section)
     }
 
     addNewPubProducts = products => {
-        if(this.state.selectorTitle === 'publicity'){
-            this.setState({ newPubProducts: products, showSelector: false, editingMode: 'publicity'})
+        let currentEditingMode = this.props.editingMode;
+        let selectorTitle = this.props.selectorTitle
+
+        if(selectorTitle === 'publicity'){
+
+
+            this.props.addPublicityPubProducts(products);  
+
+            if(!currentEditingMode.includes('publicity')){
+                this.editingModeHandler('publicity')
+            }          
         }
 
-        if(this.state.selectorTitle === 'home page'){
-            this.setState({ newHomePageProducts: products, showSelector: false, editingMode: 'home page'})
+        if(selectorTitle === 'home page'){
+            this.props.addPublicityHomePageProducts(products);         
+            if(!currentEditingMode.includes('home page')){
+                this.editingModeHandler('home page')
+            } 
         }
+
+        this.props.togglePublicitySelector()
         
     }
 
     render() {
-        const {pubProducts, homePageProducts, loading, editingMode, publicitySelectedProducts, homePageSelectedProducts, showSelector, newPubProducts,newHomePageProducts, selectorTitle} = this.state;
+        const { loading} = this.state;
+
+        const {
+                currentPubProducts, 
+                currentHomePageProducts, 
+                editingMode,
+                selectedPubProducts,
+                selectedHomePageProducts,
+                showSelector,
+                selectorTitle,
+                newPubProducts,
+                newHomePageProducts
+              } = this.props;
+
         let publicity = <Loader />
         if(!loading){
             publicity = (
@@ -240,7 +233,7 @@ class Publicity extends Component {
                     </div>
                     <ul className="publicity__main__list">               
                                 {
-                                   pubProducts && pubProducts.map( product => (
+                                   currentPubProducts && currentPubProducts.map( product => (
                                         <li key={product._id}>
                                             <Product  
                                                 id={product._id}
@@ -256,8 +249,8 @@ class Publicity extends Component {
                                                 goToProd={() => this.requestProductDetails(product._id)}
                                             >
                                                 <div className={`publicity__main__list__item__checkbox
-                                                                ${publicitySelectedProducts.includes(product._id) ? 'checked': ''}
-                                                                ${editingMode === "publicity" ? 'show': ''}`
+                                                                ${ selectedPubProducts.includes(product._id) ? 'checked': ''}
+                                                                ${editingMode && editingMode.includes("publicity") ? 'show': ''}`
                                                                 }
                                                     onClick={() => this.selectHandler('publicity', product._id)}>
                                                     <IconSvg icon="checked"/>
@@ -303,7 +296,7 @@ class Publicity extends Component {
 
                     
                                 
-                    <div className={`publicity__section__cta ${editingMode === "publicity" ? 'show': ''}`}>
+                    <div className={`publicity__section__cta ${editingMode && editingMode.includes("publicity") ? 'show': ''}`}>
                                 <Button color="primary"
                                         onClick={this.saveHandler}>
                                     Save
@@ -329,7 +322,7 @@ class Publicity extends Component {
                     </div>
                     <ul className="publicity__main__list">                
                                 {
-                                   homePageProducts && homePageProducts.map( product => (
+                                   currentHomePageProducts && currentHomePageProducts.map( product => (
                                     <li key={product._id}>
                                         <Product  
                                             id={product._id}
@@ -345,8 +338,8 @@ class Publicity extends Component {
                                             goToProd={() => this.requestProductDetails(product._id)}
                                         >
                                         <div className={`publicity__main__list__item__checkbox
-                                                        ${homePageSelectedProducts.includes(product._id) ? 'checked': ''}
-                                                        ${editingMode === "home page" ? 'show': ''}`
+                                                        ${selectedHomePageProducts.includes(product._id) ? 'checked': ''}
+                                                        ${editingMode && editingMode.includes("home page") ? 'show': ''}`
                                                         }
                                                 onClick={() => this.selectHandler("home page",product._id)}>
                                             <IconSvg icon="checked"/>
@@ -391,7 +384,7 @@ class Publicity extends Component {
                         )
                     }
 
-                    <div className={`publicity__section__cta ${editingMode === "home page" ? 'show': ''}`}>
+                    <div className={`publicity__section__cta ${editingMode && editingMode.includes("home page") ? 'show': ''}`}>
                                 <Button color="primary"
                                         onClick={this.saveHandler}>
                                     Save
@@ -413,13 +406,38 @@ class Publicity extends Component {
 
 const mapStateToProps = state => {
     return {
-        products: state.products.products
+        INIT_pubProducts: state.publicity.INIT_pubProducts,
+        INIT_homePageProducts: state.publicity.INIT_homePageProducts,
+        currentPubProducts: state.publicity.currentPubProducts,
+        currentHomePageProducts: state.publicity.currentHomePageProducts,
+        selectedPubProducts: state.publicity.selectedPubProducts,
+        selectedHomePageProducts: state.publicity.selectedHomePageProducts,
+
+        newPubProducts: state.publicity.newPubProducts,
+        newHomePageProducts: state.publicity.newHomePageProducts,
+
+        showSelector: state.publicity.showSelector,
+        selectorTitle: state.publicity.selectorTitle,
+        editingMode: state.publicity.editingMode
+
+
+
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        setProductRequestedId: (prodId) => dispatch(actions.setRequestedProductId(prodId))
+        setProductRequestedId: (prodId) => dispatch(actions.setRequestedProductId(prodId)),
+        setPublicityData: data => dispatch(actions.setPublicityData(data)),
+        setPublicityEditingMode: data => dispatch(actions.setPublicityEditingMode(data)),
+        setPublicitySelectedPubProducts: data => dispatch(actions.setPublicitySelectedPubProducts(data)),
+        setPublicitySelectedHomePageProducts: data => dispatch(actions.setPublicitySelectedHomePageProducts(data)),
+        cancelPublicityEditingMode: section => dispatch(actions.cancelPublicityEditingMode(section)),
+        deletePublicitySelectedHomePageProducts: data => dispatch(actions.deletePublicitySelectedHomePageProducts(data)),
+        deletePublicitySelectedPubProducts: data => dispatch(actions.deletePublicitySelectedPubProducts(data)),
+        togglePublicitySelector: section => dispatch(actions.togglePublicitySelector(section)),
+        addPublicityPubProducts: data => dispatch(actions.addPublicityPubProducts(data)),
+        addPublicityHomePageProducts: data => dispatch(actions.addPublicityHomePageProducts(data))
     }
 }
 

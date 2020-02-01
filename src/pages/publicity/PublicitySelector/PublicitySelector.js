@@ -4,18 +4,46 @@ import Loader from '../../../components/loader/Loader';
 import Product from '../../../components/product/Product';
 import Button from '../../../components/button/Button';
 import IconSvg from '../../../utilities/svg/svg';
+import * as actions from '../../../store/actions';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom'
 
 class PublicitySelector extends Component {
 
     state = {
         products: null,
         loading: true,
-        selectedProductsIds: [],
-        selectedProductsDetails: []
     }
 
     componentDidMount(){
-        this.fetchProductsHandler()
+        this.fetchProductsHandler();
+
+        let productsIds = [];
+        let productsDetails = [];
+        let products = [];
+
+        let publicitySelectorType = this.props.selectorTitle;
+
+        if(publicitySelectorType === 'publicity'){
+            products = this.props.newPubProducts
+        }
+
+        if(publicitySelectorType === 'home page'){
+            products = this.props.newHomePageProducts
+        }
+
+        if(products.length > 0){
+            products.forEach(product => {
+                productsIds = [...productsIds, product._id];
+                productsDetails = [...productsDetails, product]
+            })
+            let data = {
+                productsIds, 
+                productsDetails
+            }
+            this.props.setPublicitySelectorSelectedProducts(data)
+        }  
+
     }
 
     fetchProductsHandler = () => {
@@ -42,7 +70,7 @@ class PublicitySelector extends Component {
             this.setState({
                 products: resData.products,
                 loading: false
-            }, () => console.log('yewgw', this.state))
+            })
         })
         .catch( err => {
             console.log(err)
@@ -51,29 +79,32 @@ class PublicitySelector extends Component {
     }
 
     selectHandler = product => {
-        const { selectedProductsIds } = this.state;
-        let id = product._id
-
-        if(!selectedProductsIds.includes(id)){
-
-            this.setState(prevState => ({
-                selectedProductsIds: [...prevState.selectedProductsIds, id],
-                selectedProductsDetails: [...prevState.selectedProductsDetails, product]
-            }));
-
-
+        const { selectorSelectedProductsIds, selectorSelectedProductsDetails } = this.props;
+        let id = product._id;
+        let data = {};
+        if(!selectorSelectedProductsIds.includes(id)){
+            data.productsIds = [...selectorSelectedProductsIds, id];
+            data.productsDetails = [...selectorSelectedProductsDetails, product]
         } else {
-            this.setState(prevState => ({
-                selectedProductsIds: prevState.selectedProductsIds.filter( prodId => prodId !== id),
-                selectedProductsDetails: prevState.selectedProductsDetails.filter( prod => prod._id !== id),
-              }));
-        }   
+            data.productsIds = selectorSelectedProductsIds.filter(prodId => prodId !== id);
+            data.productsDetails = selectorSelectedProductsDetails.filter(product => product._id !== id);
+        }  
+        
+        this.props.setPublicitySelectorSelectedProducts(data)
+    }
+
+    requestProductDetails = id => {
+        this.props.setProductRequestedId(id);
+        this.props.history.push(`/inventory/${id}`);
     }
 
 
     render() {
 
-        const {products, loading, selectedProductsIds, selectedProductsDetails} = this.state;
+        const {products, loading} = this.state;
+
+        const {selectorSelectedProductsIds,  selectorSelectedProductsDetails} = this.props;
+
         let productsList = <Loader />
         if(!loading){
             productsList = (
@@ -93,9 +124,10 @@ class PublicitySelector extends Component {
                                                         nbKilometers={product.general.nbKilometers}
                                                         gazol={product.general.gazol}
                                                         transmissionType={product.general.transmissionType}
+                                                        goToProd={() => this.requestProductDetails(product._id)}
                                                     >
                                                     <div className={`publicitySelector__checkbox 
-                                                                    ${selectedProductsIds.includes(product._id) ? 'checked': ''}`}
+                                                                    ${selectorSelectedProductsIds.includes(product._id) ? 'checked': ''}`}
                                                         onClick={() => this.selectHandler(product)}>
                                                         <IconSvg icon="checked"/>
                                                     </div>
@@ -106,7 +138,7 @@ class PublicitySelector extends Component {
                         </ul>
                         <div className="publicitySelector__cta">
                             <Button color="primary"
-                                    onClick={() => this.props.addNewProducts(selectedProductsDetails)}>
+                                    onClick={() => this.props.addNewProducts(selectorSelectedProductsDetails)}>
                                 Add
                             </Button>
                             <Button color="primary"
@@ -129,4 +161,19 @@ class PublicitySelector extends Component {
     }
 }
 
-export default PublicitySelector
+const mapStateToProps = state => {
+    return {
+        selectorSelectedProductsIds: state.publicity.selectorSelectedProductsIds,
+        selectorSelectedProductsDetails: state.publicity.selectorSelectedProductsDetails,
+        newPubProducts: state.publicity.newPubProducts,
+        newHomePageProducts: state.publicity.newHomePageProducts
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        setProductRequestedId: (prodId) => dispatch(actions.setRequestedProductId(prodId)),
+        setPublicitySelectorSelectedProducts: data => dispatch(actions.setPublicitySelectorSelectedProducts(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PublicitySelector))
