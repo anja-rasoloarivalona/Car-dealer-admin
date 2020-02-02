@@ -6,7 +6,23 @@
     justify-content: center;
 }
 
-.messages__container {
-    width: calc(100% - 20rem);
+
+.messages__navbar {
+    width: 40rem;
+    height: calc(100vh - 5rem);
+    max-height: calc(100vh - 5rem);
 }
 
+.messages__container {
+    height: calc(100vh - 5rem);
+    max-height: calc(100vh - 5rem);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.messages__userInfos {
+    width: 50rem;
+    height: calc(100vh - 5rem);
+    max-height: calc(100vh - 5rem);
+}

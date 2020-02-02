@@ -30,7 +30,7 @@ class MessagesContainer extends Component {
         this.setState({
             messages: this.props.messages, 
             userId: this.props.userId
-        }, () => console.log(this.state));
+        });
 
         this.scrollToBottom();
 
@@ -183,7 +183,7 @@ class MessagesContainer extends Component {
     render() {
         const {displayDetails, messages} = this.state;
         return (
-            <section className="messagesContainer">
+            <Fragment>
 
                 <div className="messagesContainer__body">
 
@@ -193,22 +193,23 @@ class MessagesContainer extends Component {
                     <div ref={el => { this.messagesEnd = el; }}></div>
                 </div>
                 
-   
-                    <textarea className="messagesContainer__textarea"
-                             value={this.state.messageInput}
-                             onChange={(e) => this.messageChangeHandler(e)}
-                             rows = {1}
-                             placeholder='message'
-                             onKeyDown={this.handleKeyDown}
-                             onKeyPress={this.keypress}>
-                             
-                    </textarea>
-                    
-         
-                <div className="messagesContainer__cta">
+                <div className="messagesSender"> 
+                    <div className="messagesSender__cta">
 
+                    </div>
+                    <textarea className="messagesSender__textarea"
+                                value={this.state.messageInput}
+                                onChange={(e) => this.messageChangeHandler(e)}
+                                rows = {1}
+                                placeholder='message'
+                                onKeyDown={this.handleKeyDown}
+                                onKeyPress={this.keypress}>
+                                
+                    </textarea>
                 </div>
-            </section>
+                
+                    
+            </Fragment>
         )
     }
 } 

@@ -1,14 +1,12 @@
 .messagesNavbar {
-    width: 20rem;
+    background: rgb(236, 232, 227);  
     height: 100%;
-    background: rgb(236, 232, 227);
-    
+
 }
 
 .messagesNavbar__list {
-
     list-style: none;
-    height: calc(100vh - 5rem);
+    height: 100%;
     padding: .5rem 0;
     
 

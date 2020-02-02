@@ -6,13 +6,24 @@ import { connect } from 'react-redux';
 import { timeStampGenerator } from '../../utilities/timeStampGenerator';
 import * as actions from '../../store/actions';
 import Loader from '../../components/loader/Loader';
+import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
 
  class Messages extends Component {
     state = {
         messages: null,    
         requestedMessageUserId: null,
         userMessages: null,
-        loading: true
+        loading: true,
+
+        userData: {
+            firstName: '',
+            lastName: '', 
+            email: '',
+            active: null,
+            notes: []
+        },
+
+        
     }
 
     componentDidMount(){
@@ -68,9 +79,23 @@ import Loader from '../../components/loader/Loader';
             return res.json()
         })
         .then(resData => {
+            console.log('user', resData)
+
+            let user = resData.user
+
+            let userData = {
+                ...this.state.userData,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                noteS: user.notes,
+                active: user.active
+            }
             this.setState({ 
                 userMessages: resData.user.messages, 
                 requestedMessageUserId: userId,
+                userData: userData,
                 loading: false})
             
             this.props.substractANotification(userId)
@@ -93,32 +118,36 @@ import Loader from '../../components/loader/Loader';
     
     render() {
 
-        const {userMessages} = this.state;
+        const {userMessages, messages, requestedMessageUserId, loading, userData} = this.state;
 
         let messagesContainer = <Loader />
         if(userMessages){
             messagesContainer = <MessagesContainer 
-                                        messages={this.state.userMessages}
-                                        userId={this.state.requestedMessageUserId}
+                                        messages={userMessages}
+                                        userId={requestedMessageUserId}
                                         updateNavbar={this.updateNavbar}
                                         playNotificationSound={this.props.playNotificationSound}
-                                        loading={this.state.loading}/>
+                                        loading={loading}/>
         }
 
         return (
             <section className="messages">
-                {
-                    this.state.messages && (
-                        <MessagesNavbar messages={this.state.messages}
-                                        requestedMessageUserId={this.state.requestedMessageUserId} 
-                                        onchangeConvoHandler={this.changeConvoHandler}/>
-                    )
-                }
 
-               
+                <div className="messages__navbar">
+                    {messages && (
+                        <MessagesNavbar messages={messages}
+                                        requestedMessageUserId={requestedMessageUserId} 
+                                        onchangeConvoHandler={this.changeConvoHandler}/>
+                    )}
+                </div>
                 <section className="messages__container">
                         {messagesContainer}
                 </section>
+                <div className="messages__userInfos">
+                    {userMessages &&  <MessagesUserInfos user={userData}/>}              
+                </div>
+
+               
                     
                     
                 

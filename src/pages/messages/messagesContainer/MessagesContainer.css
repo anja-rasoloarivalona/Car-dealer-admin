@@ -1,28 +1,13 @@
-.messagesContainer {
-    width: 100%;
-    height: calc(100vh - 5rem);
-    background: green;
-
-    display: flex;
-   
-    justify-content: space-between;
-    flex-direction: column;
-
-    position: relative;
-}
-
 .messagesContainer__body {
-    width: 80%;
-    max-width: 80%;
-    height: calc(100vh - 12rem);
-    background: white;
-    padding: 2rem;
-    padding-top: 5rem;
+    width: 100%;
+    height: calc(100vh - 7rem);
+    background: white; 
     overflow-y: scroll;
     overflow-x: hidden;
     position: relative;
-
-    
+    padding-left: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
 }
 
 
@@ -63,8 +48,6 @@
     align-self: flex-end;
 }
 
-
-
 .messagesContainer__body__chatContainer:hover .messagesContainer__body__chat--user + .messagesContainer__body__chat__detail {
     display: flex;
     margin-top: 1rem;
@@ -100,23 +83,49 @@
 
 
 
-.messagesContainer__textarea {
-    resize: none;
-    width: 80%;
-    min-height: 3rem;
-    max-height: 6rem;
-    padding: .5rem;      
-    position: absolute;
-    bottom: 4.5rem;
+.messagesSender {
+   background: red;
+   height: 7rem;
+   display: flex;
+   align-items: center;
+   position: relative;
 }
 
-.messagesContainer__textarea:focus {
+.messagesSender__cta {
+    width: 25%;
+    background: yellow;
+    height: 3rem;
+}
+
+.messagesSender__textarea {
+    resize: none;
+    width: 70%;
+    min-height: 3rem;
+    max-height: 6rem;
+    padding: .5rem; 
+    padding-left: 1.4rem;     
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: 2rem;
+    margin: auto;
+    border-radius: 1rem;
+    
+}
+
+.messagesSender__textarea:focus {
     outline: none;
 }
 
-.messagesContainer__cta {
-    width: 80%;
-    height: 5rem;
-    background: yellow;
-    display: block;
+
+.messagesSender__textarea::-webkit-scrollbar {
+
+}
+
+.messagesSender__textarea::-webkit-scrollbar-track {
+    background: blue;
+}
+
+.messagesSender__textarea::-webkit-scrollbar-thumb {
+  background: grey;
 }
