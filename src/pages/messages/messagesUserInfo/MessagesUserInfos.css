@@ -15,7 +15,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 }
 
 .messagesUserInfos__header__name {
@@ -41,15 +41,20 @@
 
 .messagesuserInfos__contact {
     width: 80%;
-    background-color: var(--color-white);
+    
     border-radius: 5px;
+    margin-bottom: 3rem;
 }
 
 .messagesUserInfo__contact__group {
     display: flex;
     align-items: center;
     font-size: 1.2rem;
-    padding: 1rem;
+    background: var(--color-white);
+    margin: 1rem 0;
+    height: 3.5rem;
+    padding-left: 1.2rem;
+    border-radius: 5px;
 }
 
 .messagesUserInfo__contact__group svg {
@@ -64,11 +69,7 @@
     height: 3rem;
     display: flex;
     align-items: center;
-    
-    
 }
-
-
 
 .messagesUserInfo__contact__group__value--value {
     position: absolute;
@@ -77,13 +78,147 @@
 
 .messagesUserInfo__contact__group__value--input {
     position: absolute;
-    width: 100%;
+    width: 98%;
     height: 100%;
-   padding-left: 1rem;
-   display: none;
+    padding-left: 1rem;
+    display: none;
 }
 
 .messagesUserInfo__contact__group__value.edit .messagesUserInfo__contact__group__value--input{
     display: block;
 }
 
+.messagesUserInfo__contact__group__value--input:focus {
+    outline: none
+}
+
+.messagesUserInfos__notes {
+    width: 80%;
+}
+
+.messagesUserInfos__notes__title {
+    background-color: var(--color-grey);
+    padding: 1.4rem 0;
+    padding-left: 1rem;
+    border-radius: 5px;
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.messagesUserInfos__notes__title__icon {
+    background: var(--color-white);
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    margin-right: 3rem;
+}
+.messagesUserInfos__notes__title svg {
+    width: 2rem;
+    height: 2rem;
+    fill: var(--color-primary);
+    cursor: pointer;
+}
+
+
+.messagesUserInfos__notes__form {
+    background: red;
+    padding: .5rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.messagesUserInfos__notes__form__title {
+    margin-bottom: 1rem;
+    padding-left: .5rem;
+    font-size: 1.3rem;
+}
+
+.messagesUserInfos__notes__form__input {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: .5rem;
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+.messagesUserInfos__notes__form__input:focus {
+    outline: none
+}
+
+.messagesUserInfos__notes__form__textarea {
+    width: 100%;
+    padding: .5rem;
+    resize: vertical;
+    min-height: 10rem;
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+.messagesUserInfos__notes__form__textarea:focus {
+    outline: none;
+}
+
+.messagesUserInfos__notes__form__cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.messagesUserInfos__notes__list {
+    list-style: none;
+    max-height: 60vh;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.messagesUserInfos__notes__list::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
+.messagesUserInfos__notes__list__item {
+    background: yellow;
+    margin-bottom: 1rem;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.messagesUserInfos__notes__list__item__title {
+    cursor: pointer;
+    background:  var(--color-white);
+    padding: 1rem 0;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.messagesUserInfos__notes__list__item__title__cta {
+    display: none;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 2;
+}
+
+.messagesUserInfos__notes__list__item__title__cta.show  {
+    display: flex;
+}
+.messagesUserInfos__notes__list__item__title svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0 .7rem;
+}
+
+.messagesUserInfos__notes__list__item__text {
+    display: none;
+    padding: .5rem;
+}
+
+.messagesUserInfos__notes__list__item__text.show {
+    display: block;
+}

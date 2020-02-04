@@ -11,19 +11,8 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
  class Messages extends Component {
     state = {
         messages: null,    
-        requestedMessageUserId: null,
-        userMessages: null,
         loading: true,
-
-        userData: {
-            firstName: '',
-            lastName: '', 
-            email: '',
-            active: null,
-            notes: []
-        },
-
-        
+        requestedUser: null,       
     }
 
     componentDidMount(){
@@ -79,25 +68,10 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
             return res.json()
         })
         .then(resData => {
-            console.log('user', resData)
-
-            let user = resData.user
-
-            let userData = {
-                ...this.state.userData,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-                noteS: user.notes,
-                active: user.active
-            }
             this.setState({ 
-                userMessages: resData.user.messages, 
-                requestedMessageUserId: userId,
-                userData: userData,
-                loading: false})
-            
+                requestedUser: resData.user,
+                loading: false
+            })
             this.props.substractANotification(userId)
         })
         .catch( err => {
@@ -118,13 +92,13 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
     
     render() {
 
-        const {userMessages, messages, requestedMessageUserId, loading, userData} = this.state;
+        const {requestedUser, loading, messages} = this.state;
 
         let messagesContainer = <Loader />
-        if(userMessages){
+        if(requestedUser && requestedUser.messages){
             messagesContainer = <MessagesContainer 
-                                        messages={userMessages}
-                                        userId={requestedMessageUserId}
+                                        messages={requestedUser.messages}
+                                        userId={requestedUser._id}
                                         updateNavbar={this.updateNavbar}
                                         playNotificationSound={this.props.playNotificationSound}
                                         loading={loading}/>
@@ -132,11 +106,10 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
 
         return (
             <section className="messages">
-
                 <div className="messages__navbar">
-                    {messages && (
+                    {messages && requestedUser && (
                         <MessagesNavbar messages={messages}
-                                        requestedMessageUserId={requestedMessageUserId} 
+                                        requestedMessageUserId={requestedUser._id} 
                                         onchangeConvoHandler={this.changeConvoHandler}/>
                     )}
                 </div>
@@ -144,20 +117,9 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
                         {messagesContainer}
                 </section>
                 <div className="messages__userInfos">
-                    {userMessages &&  <MessagesUserInfos user={userData}/>}              
+                    {requestedUser &&  <MessagesUserInfos user={requestedUser}/>}              
                 </div>
-
-               
-                    
-                    
-                
-                     
-            
-                 
-        
-                  
-                       
-                
+     
             </section>
         )
     }
