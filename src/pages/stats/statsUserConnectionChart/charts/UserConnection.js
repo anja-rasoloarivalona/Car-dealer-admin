@@ -26,7 +26,6 @@ class UserConnection extends Component {
     }
 
     selectUsersConnectionFilterByMonth = monthAndYear => {   
-
             let dataset = this.state.globalStatsDataSet;
             let month = monthAndYear.split('-')[0];
             let year = monthAndYear.split('-')[1]
@@ -39,12 +38,16 @@ class UserConnection extends Component {
             }
 
             let filterByMonthData = {};
-            dataset.forEach(data => {
-    
-                let monthAndYearData = data.start.slice(3, 10);
-                let fullDate = data.start.split(' ')[0];
 
-                if(monthAndYearData === monthAndYear){
+            dataset.forEach(data => {
+                let monthAndYearData = data.start.slice(3, 10);
+                let fullDate;
+                if(  data.start.split(' ')[0].split('-')[0].slice(0,1) === '0'){
+                    fullDate = fullDate = data.start.split(' ')[0].substring(1);
+                } else {
+                    fullDate = data.start.split(' ')[0];
+                }
+                if(monthAndYearData.trim() == monthAndYear){
                     if(!Object.keys(filterByMonthData).includes(fullDate)){
                         filterByMonthData[fullDate] = 1
                     }else {
@@ -68,7 +71,6 @@ class UserConnection extends Component {
                     }
                 }
             })
-      
 
             let numberOfConnectionsData = [];
             let labels = [];       
@@ -200,7 +202,15 @@ class UserConnection extends Component {
                     <div className="stats__userConnection__chartContainer">
                         <Line 
                             options={{
-                                responsive: true
+                                responsive: true,
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true,
+                                            stepSize: 1
+                                        }
+                                    }]
+                                }
                             }}
                             data={this.state.data}
                         />  

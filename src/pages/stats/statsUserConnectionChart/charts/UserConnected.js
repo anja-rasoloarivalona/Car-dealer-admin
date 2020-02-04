@@ -41,8 +41,13 @@ class UserConnection extends Component {
             let filterByMonthData = {};
             dataset.forEach(data => {
                 let monthAndYearData = data.start.slice(3, 10);
-                let fullDate = data.start.split(' ')[0];
-                if(monthAndYearData === monthAndYear){
+                let fullDate;
+                if(  data.start.split(' ')[0].split('-')[0].slice(0,1) === '0'){
+                    fullDate = fullDate = data.start.split(' ')[0].substring(1);
+                } else {
+                    fullDate = data.start.split(' ')[0];
+                }
+                if(monthAndYearData.trim() === monthAndYear){
                     if(!Object.keys(filterByMonthData).includes(fullDate)){
                         filterByMonthData[fullDate] = [data.userId]
                     } else {
