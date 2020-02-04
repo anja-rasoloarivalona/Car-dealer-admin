@@ -15,6 +15,10 @@ import Spinner from '../../components/spinner/Spinner';
         searchedUserResults: [],
         searchedUserNoResults: false,
         searchingUser: false,
+        query: {
+            status: 'all'
+        },
+        displaySelector: false
     }
 
     componentWillMount(){
@@ -55,15 +59,15 @@ import Spinner from '../../components/spinner/Spinner';
         })        
     }
 
-
     fetchUsersdata = () => {
         let url = "http://localhost:8000/admin/users";
-        let method = "GET";
+        let method = "POST";
         fetch(url, {
             headers: {
                 "Content-Type": "application/json"
             },
-            method: method
+            method: method,
+            body: JSON.stringify({ status: this.state.query.status})
         })
         .then(res => {
              if (res.status !== 200) {
@@ -126,18 +130,31 @@ import Spinner from '../../components/spinner/Spinner';
             } else {
                 this.setState({ searchedUserResults: [], searchedUserNoResults: false})
             }
-        }
-        
-
-    scrollHandler = () => {
-        let scrollPos = window.pageYOffset;
-        this.setState({ scrollPos})
     }
+
+    queryHandler = (input, value) => {
+        this.setState(prevState => ({
+            ...prevState,
+            query: {
+                ...prevState.query,
+                [input]: value
+            }
+        }), () => this.fetchUsersdata())
+    }
+
+    toggleDisplaySelector = () => {
+        this.setState( prevState => ({
+            ...prevState,
+            displaySelector: !prevState.displaySelector
+        }))
+    }
+
+        
 
 
     render() {
 
-        const {users, searchedUser, scrollPos, searchedUserResults, searchedUserNoResults, searchingUser } = this.state;
+        const {users, searchedUser, scrollPos, searchedUserResults, searchedUserNoResults, searchingUser, query, displaySelector } = this.state;
 
         let inputIcon = <IconSvg icon="search"/>
         if(searchingUser){
@@ -155,6 +172,31 @@ import Spinner from '../../components/spinner/Spinner';
                                     onChange={e => this.searchUserHandler(e.target.value)}
                         />
                         {inputIcon}
+                    </div>
+
+                    <div className="users__search__controller"
+                         onClick={this.toggleDisplaySelector}> 
+                        <div className="users__search__controller__key">Status</div>
+                        <div className="users__search__controller__value"> 
+                            <div className="users__search__controller__value__current">{query.status}</div>
+
+                            <ul className={`users__search__controller__list
+                                        ${displaySelector ? 'show' :''}`}>
+                                <li className="users__search__controller__list__item"
+                                    onClick={() => this.queryHandler('status', 'all')}>
+                                    All
+                                </li>
+                                <li className="users__search__controller__list__item"
+                                    onClick={() => this.queryHandler('status', 'active')}>
+                                    Active
+                                </li> 
+                                <li className="users__search__controller__list__item"
+                                    onClick={() => this.queryHandler('status', 'away')}>
+                                    Away
+                                </li>             
+                            </ul>
+
+                        </div>
                     </div>
                     
                     

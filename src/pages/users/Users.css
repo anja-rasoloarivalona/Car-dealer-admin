@@ -15,11 +15,15 @@
     width: 100%;
     padding: 2rem;
     position: relative;
+    background: grey;
+    display: flex;
+    align-items: center;
 }
 
 .users__search__inputContainer {
     position: relative;
     width: 28rem;
+    margin-right: 3rem;
 }
 
 .users__search svg {
@@ -218,4 +222,57 @@ table, th, td {
 
 .users__table__data__icon--message {
     fill: var(--color-primary)
+}
+
+.users__search__controller {
+    margin-right: 3rem;
+    display: flex;
+    align-items: center;
+    width: 20%;
+    height: 4rem; 
+    background: var(--color-white);
+    padding: .5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.users__search__controller__key {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    width: 7rem;  
+}
+
+.users__search__controller__value {
+    width: 100%;
+    position: relative;
+    font-size: 1.2rem; 
+}
+
+.users__search__controller__value__current{
+    text-align: center;
+}
+
+
+.users__search__controller__list {
+    list-style: none;
+    border: 1px solid var(--color-grey);
+    position: absolute;
+    top: 2rem;
+    width: 100%;
+    display: none;
+    z-index: 2;
+    background: var(--color-white);
+}
+
+.users__search__controller__list.show {
+    display: block;
+}
+
+.users__search__controller__list__item {
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.users__search__controller__list__item:hover {
+    background: var(--color-grey);
 }
