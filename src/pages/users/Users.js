@@ -161,10 +161,8 @@ import Spinner from '../../components/spinner/Spinner';
                     
                    
 
-                    {searchedUserResults.length > 0 && (
+                    {!searchedUserNoResults && searchedUserResults.length > 0 && (
                         <ul className="users__search__results">
-
-
                             {searchedUserResults.map(user => (
                                 <li className="users__search__results__item">
                                     <div className="users__search__results__item__avatar">
@@ -176,7 +174,15 @@ import Spinner from '../../components/spinner/Spinner';
                                 </li>
                             ))}
 
-                            
+
+                        </ul>
+                    )}
+
+                    {searchedUserNoResults && (
+                        <ul className="users__search__results">                       
+                                <li className="users__search__results__item users__search__results__item--noResult">
+                                    No user found
+                                </li>
                         </ul>
                     )}
 
