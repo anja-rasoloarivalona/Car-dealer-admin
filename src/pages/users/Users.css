@@ -2,16 +2,111 @@
     grid-column: 2 / 3;
     grid-row: 2 / 3;
     
-
+    
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 2rem;
 
 }
 
+
+.users__search {
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+}
+
+.users__search__inputContainer {
+    position: relative;
+    width: 28rem;
+}
+
+.users__search svg {
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    right: 2rem;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.users__search__inputContainer .lds-ring{
+    width: 1rem !important;
+    height: 1rem !important;
+    position: absolute;
+    right: 2rem;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    transform: translate(-1rem, -1rem);
+}
+ 
+.users__search__input {
+    padding: 1.5rem 0;
+    padding-left: 1rem;
+    width: 28rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-grey)
+}
+
+.users__search__input:focus {
+    outline: none;
+}
+.users__search__input::-webkit-input-placeholder  {
+    color: var(--color-grey)
+}
+
+.users__search__results {
+    position: absolute;
+    top: 8rem;
+    background: var(--color-white);
+    z-index: 2;
+    width: 28rem;
+    list-style: none;
+    border-radius: 5px;
+    box-shadow: 0px 1px 7px 1px rgba(128,125,128,1);
+}
+
+.users__search__results__item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;  
+    cursor: pointer;
+}
+
+.users__search__results__item:hover {
+    background: rgb(247, 245, 245);
+}
+.users__search__results__item:not(:last-child){
+    border-bottom: 1px solid rgb(214, 214, 214);;
+}
+
+
+
+.users__search__results__item__avatar {
+    text-transform: uppercase;
+    background: red;
+    padding: 1rem;
+    border-radius: 50%;
+    font-weight: 600;
+    margin-right: 1.5rem;
+    color: var(--color-white)
+}
+
+.users__search__results__item__name {
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+
+
+
 table, th, td {
     border: 1px solid rgb(233, 232, 232);
-    border-collapse: collapse;
-    
+    border-collapse: collapse;  
+   
 }
 
 
@@ -50,7 +145,6 @@ table, th, td {
     border-radius: 50%;
     color: var(--color-white);
     text-transform: uppercase;
-   
     position: absolute;
     left: 0;
     right: 0;
