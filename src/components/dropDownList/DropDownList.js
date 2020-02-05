@@ -49,8 +49,9 @@ class DropDownList extends Component {
                     <ul className={`drop-down-list__list`}>
                         {list.map(item => 
                             <li className={`drop-down-list__list__item
-                                        ${item.value && this.props.value === item.value ? 'active':''}
-                                        ${this.props.value === item ? 'active' : ''}`}
+                                        ${item.value && this.props.value == item.value ? 'active':''}
+                                        ${item.text && this.props.value == item.text ? 'active':''}
+                                        ${this.props.value == item ? 'active' : ''}`}
                                 key={item.text ? item.text : item}
                                 onClick={() => this.props.selectItemHandler(item.value ? item.value : item)}>
                                 {item.text ? item.text : item}

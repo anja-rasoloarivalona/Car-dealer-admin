@@ -7,7 +7,6 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     text-transform: capitalize; 
-    z-index: 10;
     border: 1px solid transparent
 }
 
@@ -28,6 +27,7 @@
     border-bottom-right-radius: 5px;
     border: 1px solid transparent;
     cursor: pointer;
+    z-index: 10;
 }
 
 .drop-down-list.show .drop-down-list__value {
@@ -51,6 +51,10 @@
     display: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    position: absolute;
+    top: 4rem;
+    z-index: 11;
+    width: 100%;
 }
 
 .drop-down-list.show .drop-down-list__list {

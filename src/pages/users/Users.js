@@ -159,16 +159,13 @@ import DropDownList from '../../components/dropDownList/DropDownList';
 
 
     render() {
-
         const {users, searchedUser, scrollPos, searchedUserResults, searchedUserNoResults, searchingUser, query, displaySelector } = this.state;
-
         let inputIcon = <IconSvg icon="search"/>
         if(searchingUser){
             inputIcon = <Spinner />
         }
         return (
             <section className="users">
-
                 <div className="users__search">
                     <div className="users__search__inputContainer">
                         <input className="users__search__input" 
@@ -179,43 +176,13 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                         />
                         {inputIcon}
                     </div>
-
-                    {/* <div className="users__search__controller"
-                         onClick={this.toggleDisplaySelector}> 
-                        <div className="users__search__controller__key">Status</div>
-                        <div className="users__search__controller__value"> 
-                            <div className="users__search__controller__value__current">{query.status}</div>
-
-                            <ul className={`users__search__controller__list
-                                        ${displaySelector ? 'show' :''}`}>
-                                <li className="users__search__controller__list__item"
-                                    onClick={() => this.queryHandler('status', 'all')}>
-                                    All
-                                </li>
-                                <li className="users__search__controller__list__item"
-                                    onClick={() => this.queryHandler('status', 'active')}>
-                                    Active
-                                </li> 
-                                <li className="users__search__controller__list__item"
-                                    onClick={() => this.queryHandler('status', 'away')}>
-                                    Away
-                                </li>             
-                            </ul>
-
-                        </div>
-                    </div> */}
-
                     <DropDownList 
                         value={query.status}
                         list = {['all', 'active', 'away']}
                         selectItemHandler = {this.queryHandler}
-                    />
-                    
-                    
-                    
-                   
-
-                    {!searchedUserNoResults && searchedUserResults.length > 0 && (
+                    />                   
+                                                          
+                     {!searchedUserNoResults && searchedUserResults.length > 0 && (
                         <ul className="users__search__results">
                             {searchedUserResults.map(user => (
                                 <li className="users__search__results__item">
@@ -227,8 +194,6 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                                     </div>
                                 </li>
                             ))}
-
-
                         </ul>
                     )}
 
@@ -238,9 +203,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                                     No user found
                                 </li>
                         </ul>
-                    )}
-
-                    
+                    )}             
                 </div>
                 <table className="users__table">
                     <thead className={ `users__table__header 
@@ -258,17 +221,13 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                         </tr>
                     </thead>
                     <tbody>
-
-                        {
-                            users.map( user => (
-
+                        {users.map( user => (
                           <tr className="users__table__data"
                               key={user._id}>
                                 <td className="users__table__data__avatar">
                                     <div>
                                         {user.firstName.slice(0, 1)}{user.lastName.slice(0, 1)}
-                                    </div>
-                        
+                                    </div>                        
                                 </td>
                                 <td className="users__table__data__name">
                                     {user.firstName} {user.lastName}
@@ -276,8 +235,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                                 <td className="users__table__data__info">
                                     <div>
                                         {user.email}
-                                    </div>
-                                    
+                                    </div>                                    
                                 </td>
                                 <td className="users__table__data__info">
                                     <div>
@@ -285,12 +243,10 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                                     </div>
                                 </td>
                                 <td className="users__table__data__status">
-
                                     <div className={`users__table__data__status__icon 
                                         ${user.active === true ? 'active': ''}`}>
                                        {user.active === true ? 'active': 'away'}
                                     </div>
-
                                 </td>
                                 <td className="users__table__data__info">
                                     <div>
@@ -299,8 +255,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                                             
                                             user.connection[0] ? user.connection[0].end : 'N.D.'
                                         }
-                                    </div>
-                                    
+                                    </div>                                   
                                 </td>
                                 <td className="users__table__data__icon users__table__data__icon--file">
                                     <IconSvg icon="file"
@@ -310,12 +265,9 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                                     <IconSvg icon="email"/>
                                 </td>
                         </tr>
-                            ))
-                        }
-                        
+                        ))}                    
                     </tbody>
                 </table>
-
             </section>
         )
     }
