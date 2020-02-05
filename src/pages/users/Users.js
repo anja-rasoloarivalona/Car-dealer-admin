@@ -3,6 +3,7 @@ import './Users.css';
 import IconSvg from '../../utilities/svg/svg';
 import openSocket from 'socket.io-client';
 import Spinner from '../../components/spinner/Spinner';
+import DropDownList from '../../components/dropDownList/DropDownList';
 
 
 
@@ -18,7 +19,11 @@ import Spinner from '../../components/spinner/Spinner';
         query: {
             status: 'all'
         },
-        displaySelector: false
+        displaySelector: false,
+
+
+        dpvalue: 'all',
+        showList: false
     }
 
     componentWillMount(){
@@ -34,7 +39,9 @@ import Spinner from '../../components/spinner/Spinner';
         const socket = openSocket('http://localhost:8000');
         socket.on('userLoggedIn', data => {
             let userLoggedInId = data._id;
-            const userLoggedIn = this.state.users.find( i => i._id === userLoggedInId);
+
+            let userLoggedIn = this.state.users.find( user => user._id === userLoggedInId);
+
             userLoggedIn.active = true;
             userLoggedIn.connection = [data.connection[data.connection.length - 1]];
             const newUserStates = this.state.users.filter(i => i._id !== userLoggedInId);
@@ -50,7 +57,8 @@ import Spinner from '../../components/spinner/Spinner';
         socket.on('userLoggedOut', data => {
             let userLoggedInId = data._id;
             let userLoggedInIndex = this.state.users.findIndex( i => i._id === userLoggedInId)
-            const userLoggedIn = this.state.users.find( i => i._id === userLoggedInId);
+            let userLoggedIn = this.state.users.find( i => i._id === userLoggedInId);
+
             userLoggedIn.active = false;
             userLoggedIn.connection = [data.connection[data.connection.length - 1]];
             let newUsersData = [...this.state.users];
@@ -132,12 +140,12 @@ import Spinner from '../../components/spinner/Spinner';
             }
     }
 
-    queryHandler = (input, value) => {
+    queryHandler = value => {
         this.setState(prevState => ({
             ...prevState,
             query: {
                 ...prevState.query,
-                [input]: value
+                status: value
             }
         }), () => this.fetchUsersdata())
     }
@@ -148,8 +156,6 @@ import Spinner from '../../components/spinner/Spinner';
             displaySelector: !prevState.displaySelector
         }))
     }
-
-        
 
 
     render() {
@@ -174,7 +180,7 @@ import Spinner from '../../components/spinner/Spinner';
                         {inputIcon}
                     </div>
 
-                    <div className="users__search__controller"
+                    {/* <div className="users__search__controller"
                          onClick={this.toggleDisplaySelector}> 
                         <div className="users__search__controller__key">Status</div>
                         <div className="users__search__controller__value"> 
@@ -197,7 +203,13 @@ import Spinner from '../../components/spinner/Spinner';
                             </ul>
 
                         </div>
-                    </div>
+                    </div> */}
+
+                    <DropDownList 
+                        value={query.status}
+                        list = {['all', 'active', 'away']}
+                        selectItemHandler = {this.queryHandler}
+                    />
                     
                     
                     

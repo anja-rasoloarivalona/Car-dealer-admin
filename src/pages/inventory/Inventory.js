@@ -572,7 +572,9 @@ class Inventory extends Component {
                             <span>{query.model === 'all' ? 'Tous' : query.model}</span>
                             <ul className={`inventory__controller__section__list
                                 ${displayedSelector === 'model' ? 'active':''}`}>
-                                <li className="inventory__controller__section__list__item" onClick={() => this.selectModelHandler('all')}>Tous</li>
+                                <li className="inventory__controller__section__list__item" onClick={() => this.selectModelHandler('all')}>
+                                  Tous
+                                </li>
                                 {query.brand !== 'all' && query.brand !==  undefined && Object.keys(brandsAndModels[query.brand].datas).map(model => (
                                 <li key={model} className="inventory__controller__section__list__item" onClick={() => this.selectModelHandler(model)}>{model}</li>
                                 ))}
