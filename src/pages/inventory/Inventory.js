@@ -60,7 +60,6 @@ class Inventory extends Component {
     let queryMinPrice = 20000000
     let queryMaxPrice = 0
     let data = this.props.brandsAndModels;
-    console.log('data', data);
         /* START INIT QUERY --- PRICE DATA */
         Object.keys(data).forEach(brand => {
           if(data[brand].price.min < queryMinPrice){
@@ -190,7 +189,6 @@ class Inventory extends Component {
   }
 
   resetHandler = () => {
-    let query = this.state.query;
     let resetQuery = {
       page: 1,
       sortBy: 'increasing_price',
@@ -200,12 +198,12 @@ class Inventory extends Component {
       model: 'all',
       price: {
         scope: {
-          min: query.price.scope.min,
-          max: query.price.scope.max
+          min: this.state.INIT_priceMin,
+          max: this.state.INIT_priceMax
         },
         value: {
-          min: query.price.scope.min,
-          max: query.price.scope.max
+          min: this.state.INIT_priceMin,
+          max: this.state.INIT_priceMax
         }
       },
       year: {
@@ -423,9 +421,6 @@ class Inventory extends Component {
         }     
       } 
     }
-    
-    console.log(query);
-
     this.fetchProductsHandler(query)
   }
 
@@ -464,7 +459,8 @@ class Inventory extends Component {
         this.props.setSavedProductsQueriesToTrue();
         this.setState({ query: query, products: products, loading: false});
         this.props.history.push({ 
-              search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}&page=${query.page}`
+              pathname: '/inventory',
+              search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}&page=${query.page}`,
         })   
       })
       .catch(err => {
@@ -675,7 +671,12 @@ class Inventory extends Component {
                     </div>
                 </div>
                 <div className="inventory__counter">
-                        Search results : {this.props.totalProducts}
+                       <span>
+                          Products found :
+                      </span>  
+                      <div>
+                        {this.props.totalProducts}
+                      </div>
                 </div>               
               {productsList}
       </div>
