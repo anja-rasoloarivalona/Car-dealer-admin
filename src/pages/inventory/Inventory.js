@@ -60,8 +60,7 @@ class Inventory extends Component {
     let queryMinPrice = 20000000
     let queryMaxPrice = 0
     let data = this.props.brandsAndModels;
-
-    console.log('data', data)
+    console.log('data', data);
         /* START INIT QUERY --- PRICE DATA */
         Object.keys(data).forEach(brand => {
           if(data[brand].price.min < queryMinPrice){
@@ -145,7 +144,7 @@ class Inventory extends Component {
               }
             }
 
-            if(query.brand !== 'all'){
+            if(query.brand !== 'all' && query.model === 'all'){
                 query = {
                   ...query,
                   price : {
@@ -165,12 +164,27 @@ class Inventory extends Component {
                 }
             }
 
-
+            if(query.brand !== 'all' && query.model !== 'all'){
+              query = {
+                ...query,
+                price : {
+                  ...query.price,
+                  scope: {
+                    min: data[query.brand].datas[query.model].minPrice,
+                    max: data[query.brand].datas[query.model].maxPrice,
+                  }
+                },
+                year: {
+                  ...query.year,
+                  scope: {
+                    min: data[query.brand].datas[query.model].minYear,
+                    max: data[query.brand].datas[query.model].maxYear,
+                  }
+                }
+              }
+            }
           this.props.setCurrentPage(parseInt(parsedQueryDataSet.page)) 
         }
-
-        console.log(query);
-
     this.fetchProductsHandler(query)
     }
   }
@@ -288,6 +302,8 @@ class Inventory extends Component {
         ...query,
         priceMin: this.state.INIT_priceMin,
         priceMax: this.state.INIT_priceMax,
+        minYear: this.state.INIT_yearMin,
+        maxYear: this.state.INIT_yearMax,
         price: {
           scope: {
             min: this.state.INIT_priceMin,
@@ -314,6 +330,8 @@ class Inventory extends Component {
         ...query,
         priceMin: brandsAndModels[brand].price.min,
         priceMax: brandsAndModels[brand].price.max,
+        minYear: brandsAndModels[brand].year.min,
+        maxYear: brandsAndModels[brand].year.max,
         price: {
           scope: {
             min: brandsAndModels[brand].price.min,
@@ -337,8 +355,6 @@ class Inventory extends Component {
 
       }
     }
-    
-    
     this.fetchProductsHandler(query)
   }
 
@@ -354,6 +370,8 @@ class Inventory extends Component {
           ...query,
           priceMin: brandsAndModels[brand].price.min,
         priceMax: brandsAndModels[brand].price.max,
+        minYear: brandsAndModels[brand].year.min,
+        maxYear: brandsAndModels[brand].year.max,
         price: {
           scope: {
             min: brandsAndModels[brand].price.min,
@@ -380,6 +398,9 @@ class Inventory extends Component {
         ...query, 
         priceMin: brandsAndModels[brand].datas[model].minPrice,
         priceMax: brandsAndModels[brand].datas[model].maxPrice,
+        minYear: brandsAndModels[brand].datas[model].minYear,
+        maxYear: brandsAndModels[brand].datas[model].maxYear,
+
         price: {
           scope: {
             min: brandsAndModels[brand].datas[model].minPrice,
@@ -402,7 +423,8 @@ class Inventory extends Component {
         }     
       } 
     }
-    console.log('fetching',query);
+    
+    console.log(query);
 
     this.fetchProductsHandler(query)
   }
@@ -419,6 +441,7 @@ class Inventory extends Component {
   }
 
   fetchProductsHandler = (query) => {
+  
     this.setState({ loading: true });
     let url =  new URL('http://localhost:8000/product/admin');
     url.search = new URLSearchParams(query).toString();
