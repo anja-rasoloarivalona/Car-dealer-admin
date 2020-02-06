@@ -5,28 +5,24 @@ import {timeStampGenerator} from '../../../utilities/timeStampGenerator';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions'
 import MessagesList from './MessagesContainerList'
-
-
+import AutoSizeTextArea from '../../../components/autosizeTextArea/AutosizeTextArea';
+import IconSvg from '../../../utilities/svg/svg';
 
 class MessagesContainer extends Component {
 
     state = {
         messages: null,
         messageInput: '',
-        userId: ''
+        userId: '',
     }
-
-
 
     componentWillUnmount() {
         this._ismounted = false;
      }
     
     
-    componentDidMount(){
-        
-        this._ismounted = true;
-        
+    componentDidMount(){    
+        this._ismounted = true;  
         this.setState({
             messages: this.props.messages, 
             userId: this.props.userId
@@ -95,15 +91,12 @@ class MessagesContainer extends Component {
 
             }
         })
-
-
         socket.on('userReadNewMessages', data => {
             if(data._id === this.state.userId){           
                 this.setState({ messages: data.messages})
             }
         })
     }
-
 
     componentDidUpdate(prevProps){
         this.scrollToBottom();
@@ -113,25 +106,10 @@ class MessagesContainer extends Component {
         }
     }
     
-
-    messageChangeHandler = (e) => {
-        this.setState({ messageInput: e.target.value})
+    messageChangeHandler = value => {
+        this.setState({ messageInput: value})
     }
 
-
-    handleKeyDown = (e) => {
-       // e.target.style.height = 'inherit';
-       //   e.target.style.height = `${e.target.scrollHeight}px`; 
-       // In case you have a limitation
-        e.target.style.height = `${Math.min(e.target.scrollHeight, '60')}px`
-      }
-
-    keypress = e => {
-        if(e.key === 'Enter'){
-            e.preventDefault();
-            this.sendMessageHandler()   
-        }
-    }
 
     sendMessageHandler = () => {
         let timeStamp = timeStampGenerator();
@@ -182,14 +160,23 @@ class MessagesContainer extends Component {
 
     render() {
         const {displayDetails, messages} = this.state;
+
+        let messagesList;
+
+        if(messages && messages.length > 0){
+            messagesList = (
+                <MessagesList messages={messages} displayDetails={displayDetails}/>
+            ) 
+        } else {
+            messagesList = (
+                <div className="messagesContainer__body__start">Start conversation</div>
+            )
+        }
         return (
             <Fragment>
 
                 <div className="messagesContainer__body">
-
-                    {messages && <MessagesList messages={messages} displayDetails={displayDetails}/>}
-
-                        
+                    {messagesList}
                     <div ref={el => { this.messagesEnd = el; }}></div>
                 </div>
                 
@@ -197,15 +184,18 @@ class MessagesContainer extends Component {
                     <div className="messagesSender__cta">
 
                     </div>
-                    <textarea className="messagesSender__textarea"
-                                value={this.state.messageInput}
-                                onChange={(e) => this.messageChangeHandler(e)}
-                                rows = {1}
-                                placeholder='message'
-                                onKeyDown={this.handleKeyDown}
-                                onKeyPress={this.keypress}>
-                                
-                    </textarea>
+
+                    <AutoSizeTextArea 
+                        value={this.state.messageInput}
+                        placeholder='message'
+                        onChange={this.messageChangeHandler}
+                        className= "messagesSender__textarea"
+                    />
+
+                    <IconSvg icon='send'
+                            onClick={this.sendMessageHandler}
+                    />
+
                 </div>
                 
                     

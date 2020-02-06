@@ -27,7 +27,7 @@ import { connect } from 'react-redux'
         user.notes.forEach(note => {
             note.show = false
         })
-        this.setState({ currentNotes: user.notes}, () => console.log('infos', this.state.currentNotes))
+        this.setState({ currentNotes: user.notes})
     }
 
     componentDidUpdate(prevProps){

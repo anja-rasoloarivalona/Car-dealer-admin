@@ -31,6 +31,10 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
             return res.json()
         })
         .then(resData => {
+
+            console.log('res', resData);
+
+
             if(resData.messages[0].messages.length !== 0){
 
                 this.setState({ messages: resData.messages,
@@ -107,7 +111,7 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
         return (
             <section className="messages">
                 <div className="messages__navbar">
-                    {messages && requestedUser && (
+                    {requestedUser && (
                         <MessagesNavbar messages={messages}
                                         requestedMessageUserId={requestedUser._id} 
                                         onchangeConvoHandler={this.changeConvoHandler}/>
