@@ -201,12 +201,12 @@ import openSocket from 'socket.io-client';
                         <div className="messagesUserInfos__notes__form__title">New note</div>
                         <input className="messagesUserInfos__notes__form__input"
                                value={newNote.title}
-                               placeholder='title' 
+                               placeholder='Title' 
                                onChange={e => this.editNewNoteHandler('title', e.target.value)}       
                         />
                         <textarea className="messagesUserInfos__notes__form__textarea"
                                value={newNote.text}
-                               placeholder='text'  
+                               placeholder='Details...'  
                                onChange={e => this.editNewNoteHandler('text', e.target.value)}
                         />
                         
@@ -226,22 +226,20 @@ import openSocket from 'socket.io-client';
                     {currentNotes && !editingNote && (
                         <ul className="messagesUserInfos__notes__list">
                             {currentNotes.map( note => (
-                                <li key={note._id} className="messagesUserInfos__notes__list__item">
-
-                                    <div className="messagesUserInfos__notes__list__item__title"
+                                <li key={note._id} className={`messagesUserInfos__notes__list__item
+                                                            ${note.show ? 'show' : ''}`}>
+                                    <div className={`messagesUserInfos__notes__list__item__title`}
                                          onClick={() => this.toggleShowNoteHandler(note._id)}>
                                         <span>{note.title}</span>
 
-                                        <div className={`messagesUserInfos__notes__list__item__title__cta
-                                                        ${note.show ? 'show' : ''}` }>
+                                        <div className="messagesUserInfos__notes__list__item__title__cta">
                                             <IconSvg icon="pencil"
                                                      onClick={() => this.updateCurrentNote(note._id, note.title, note.text)}/>
                                             <IconSvg icon="bin" />
                                         </div>
 
                                     </div>
-                                    <p className={`messagesUserInfos__notes__list__item__text
-                                                ${note.show ? 'show' : ''}`}>
+                                    <p className="messagesUserInfos__notes__list__item__text">
                                         {note.text}
                                     </p>
                                 </li>
