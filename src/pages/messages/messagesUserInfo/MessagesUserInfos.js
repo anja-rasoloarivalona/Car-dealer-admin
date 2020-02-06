@@ -3,7 +3,8 @@ import './MessagesUserInfos.css';
 import IconSvg from '../../../utilities/svg/svg';
 import {timeStampGenerator} from '../../../utilities/timeStampGenerator';
 import Button from '../../../components/button/Button';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import openSocket from 'socket.io-client';
 
  class MessagesUserInfos extends Component {
 
@@ -16,10 +17,10 @@ import { connect } from 'react-redux'
             title: '',
             text: ''
         },
-
         userPhone: '',
-
         headerEditingMode: false,
+
+        userStatus: null,
     }
 
     componentDidMount(){
@@ -27,7 +28,22 @@ import { connect } from 'react-redux'
         user.notes.forEach(note => {
             note.show = false
         })
-        this.setState({ currentNotes: user.notes})
+        this.setState({ currentNotes: user.notes, userStatus: user.active})
+
+        const socket = openSocket('http://localhost:8000');
+
+        socket.on('userLoggedIn', data => {
+            let userLoggedInId = data._id;
+            if(userLoggedInId === user._id){
+                this.setState({ userStatus: true})
+            }
+        })
+        socket.on('userLoggedOut', data => {
+            let userLoggedOutId = data._id;
+            if(userLoggedOutId === user._id){
+                this.setState({ userStatus: false})
+            }
+        })  
     }
 
     componentDidUpdate(prevProps){
@@ -36,7 +52,7 @@ import { connect } from 'react-redux'
             user.notes.forEach(note => {
                 note.show = false
             })
-            this.setState({ currentNotes: user.notes}, () => console.log('infos', this.state.currentNotes))
+            this.setState({ currentNotes: user.notes, userStatus: user.active})
         }
     }
 
@@ -138,16 +154,14 @@ import { connect } from 'react-redux'
 
 
     render() {
-        const { currentNotes, headerEditingMode, editingNote, newNote,  } = this.state
+        const { currentNotes, headerEditingMode, editingNote, newNote, userStatus  } = this.state
         const { user } = this.props;
         return (
             <div className="messagesUserInfos">
-
-
                 <header className="messagesUserInfos__header">
                     <div className="messagesUserInfos__header__name">{user.firstName} {user.lastName}</div>
-                    <div className={`messagesUserInfos__header__status ${user.status ? 'active' : 'away'}`}>
-                        {user.status ? 'active' : 'away'}
+                    <div className={`messagesUserInfos__header__status ${userStatus ? 'active' : 'away'}`}>
+                        {userStatus ? 'active' : 'away'}
                     </div>
                 </header>
 

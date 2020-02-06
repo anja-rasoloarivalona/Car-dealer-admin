@@ -14,8 +14,6 @@ class MessagesContainer extends Component {
         messages: null,
         messageInput: '',
         userId: '',
-
-
         showInfo: false,
         showUserInfos: true
     }

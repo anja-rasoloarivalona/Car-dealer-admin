@@ -55,9 +55,9 @@ import DropDownList from '../../components/dropDownList/DropDownList';
             }
         })
         socket.on('userLoggedOut', data => {
-            let userLoggedInId = data._id;
-            let userLoggedInIndex = this.state.users.findIndex( i => i._id === userLoggedInId)
-            let userLoggedIn = this.state.users.find( i => i._id === userLoggedInId);
+            let userLoggedId = data._id;
+            let userLoggedInIndex = this.state.users.findIndex( i => i._id === userLoggedId)
+            let userLoggedIn = this.state.users.find( i => i._id === userLoggedId);
 
             userLoggedIn.active = false;
             userLoggedIn.connection = [data.connection[data.connection.length - 1]];
