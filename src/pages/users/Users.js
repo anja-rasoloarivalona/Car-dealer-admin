@@ -12,7 +12,6 @@ import DropDownList from '../../components/dropDownList/DropDownList';
     state = {
         users: [],
         searchedUser: '', 
-        scrollPos: 0,
         searchedUserResults: [],
         searchedUserNoResults: false,
         searchingUser: false,
@@ -20,10 +19,6 @@ import DropDownList from '../../components/dropDownList/DropDownList';
             status: 'all'
         },
         displaySelector: false,
-
-
-        dpvalue: 'all',
-        showList: false
     }
 
     componentWillMount(){
@@ -206,9 +201,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                     )}             
                 </div>
                 <table className="users__table">
-                    <thead className={ `users__table__header 
-                                        ${ scrollPos > 90 ? 'fixed' : ''}`
-                            }>
+                    <thead className={ `users__table__header `}>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Identity</th>
@@ -259,7 +252,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                                 </td>
                                 <td className="users__table__data__icon users__table__data__icon--file">
                                     <IconSvg icon="file"
-                                            onClick={() => this.props.history.push(`/user/${user._id}`)}/>
+                                            onClick={() => this.props.history.push(`/users/${user._id}`)}/>
                                 </td>
                                 <td className="users__table__data__icon users__table__data__icon--message">
                                     <IconSvg icon="email"/>

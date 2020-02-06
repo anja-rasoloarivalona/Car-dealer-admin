@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 import './userAccount.css';
 import ProductCard from '../../components/product/Product';
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions'
+import * as actions from '../../store/actions';
+import IconSvg from '../../utilities/svg/svg';
+import ConnectionCounter from './userAccountCharts/ConnectionCounter';
 
 class userAccount extends Component {
 
@@ -13,7 +15,6 @@ class userAccount extends Component {
     }
 
     componentDidMount(){
-       // console.log('mu us', this.props.match.params.userId)
        this.fetchUserAccountDetails()
     }
 
@@ -34,7 +35,7 @@ class userAccount extends Component {
          .then(resData => {
              this.setState({ user: resData.user,
                             userFavoriteProducts: resData.favorites,
-                            userViewedProducts: resData.viewedProducts}, () => console.log('user', resData))
+                            userViewedProducts: resData.viewedProducts})
          })
          .catch(err => {
              console.log(err);
@@ -72,60 +73,79 @@ class userAccount extends Component {
         const { user, userFavoriteProducts, userViewedProducts } = this.state;
         let userData;
 
-        if(!user) {
-            userData = <div>Loading...</div>
-        } else {
-            userData = (
+        let userFavoriteProductsList = (
+            <div className="user-account__products-list--noProduct">
+                This user doesn't have favorite products yet
+            </div>
+        ) 
 
-                <Fragment>
-
-                    <div className="user-account">
-
-                        <div className="user-account__id">
-                            <div className="user-account__id__avatar">
-                                {user.firstName.slice(0, 1)}{user.lastName.slice(0, 1)}
-                            </div>
-                            <div className="user-account__id__infos">
-                                <div className="user__account__id__infos__item user__account__id__infos__item--name">{user.firstName} {user.lastName}</div>
-                                <div className="user__account__id__infos__item user__account__id__infos__item--email">{user.email}</div>
-                            </div>
-
-                            <div className="user-account__id__status">
-                                <div className={`user-account__id__status__badge
-                                                ${user.active ? 'active' : 'away'}`}>
-                                    {user.active ? 'active' : 'away'}
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <section className="user-account__favorites">
-                            <h3 className="user-account__section-title">Favorite Products</h3>
-                            <ul className="user-account__products-list">
-                                {
-                                    userFavoriteProducts.map( product => (
+        if(userFavoriteProducts && userFavoriteProducts.length > 0){
+            userFavoriteProductsList = (
+                        <ul className="user-account__products-list">
+                                {userFavoriteProducts.map( product => (
                                         <ProductCard
                                             key={product._id}
                                             id={product._id}
-                                            mainImg={product.general[0].mainImgUrl}
-                                            made={product.general[0].made}
-                                            model={product.general[0].model}
-                                            year={product.general[0].year}
-                                            price={product.general[0].price}
-                                            nbKilometers={product.general[0].nbKilometers}
-                                            gazol={product.general[0].gazol}
-                                            transmissionType={product.general[0].transmissionType}
+                                            mainImg={product.general.mainImgUrl}
+                                            made={product.general.made}
+                                            model={product.general.model}
+                                            year={product.general.year}
+                                            price={product.general.price}
+                                            nbKilometers={product.general.nbKilometers}
+                                            gazol={product.general.gazol}
+                                            transmissionType={product.general.transmissionType}
                                             goToProd={() => {
                                             this.props.setProductRequestedId(product._id);
                                             this.props.history.push(`/car/${product._id}`);
                                             }}
                                         />
-                                    ))
-                                }
+                                    ))}
                             </ul>
+            )
+        }
+
+        if(!user) {
+            userData = <div>Loading...</div>
+        } else {
+            userData = (
+                    <div className="user-account">
+
+                        <header className="user-account__header">
+
+                            <div className="user-account__header__id">          
+                                <div className="user-account__header__id__avatar">
+                                    {user.firstName.slice(0, 1)}{user.lastName.slice(0, 1)}
+                                </div>
+                                <div className="user__account__header__id__name">{user.firstName} {user.lastName}</div>
+                            </div>
+                        
+                            <div className="user-account__header__infos">
+                                <div className="user-account__header__infos__group">
+                                    <IconSvg icon="email"/>
+                                   <div>{user.email}</div>
+                                </div>
+                                <div className="user-account__header__infos__group">
+                                    <IconSvg icon="phone"/>
+                                   <div>{user.phoneNumber && user.phoneNumber !== ''? user.phoneNumber : 'N.D.' }</div>
+                                </div>
+                                
+                            </div>
+
+                      
+                                <div className={`user-account__header__status
+                                                ${user.active ? 'active' : 'away'}`}>
+                                    {user.active ? 'active' : 'away'}
+                                </div>
+
+                            
+                        </header>
+
+                        <section className="user-account__section user-account__favorites">
+                            <h3 className="user-account__section-title">Favorite Products</h3>
+                            {userFavoriteProductsList}
                         </section>
 
-                        <section className="user-account__viewed">
+                        <section className="user-account__section user-account__viewed">
                             <h3 className="user-account__section-title">Viewed Products</h3>
                             <ul className="user-account__products-list">
                                 {
@@ -133,14 +153,14 @@ class userAccount extends Component {
                                         <ProductCard
                                             key={product._id}
                                             id={product._id}
-                                            mainImg={product.general[0].mainImgUrl}
-                                            made={product.general[0].made}
-                                            model={product.general[0].model}
-                                            year={product.general[0].year}
-                                            price={product.general[0].price}
-                                            nbKilometers={product.general[0].nbKilometers}
-                                            gazol={product.general[0].gazol}
-                                            transmissionType={product.general[0].transmissionType}
+                                            mainImg={product.general.mainImgUrl}
+                                            made={product.general.made}
+                                            model={product.general.model}
+                                            year={product.general.year}
+                                            price={product.general.price}
+                                            nbKilometers={product.general.nbKilometers}
+                                            gazol={product.general.gazol}
+                                            transmissionType={product.general.transmissionType}
                                             goToProd={() => {
                                             this.props.setProductRequestedId(product._id);
                                             this.props.history.push(`/car/${product._id}`);
@@ -151,9 +171,12 @@ class userAccount extends Component {
                             </ul>
                         </section>
 
-                        <section className="user-account__connection">
+                        <section className="user-account__section">
                                 <h3 className="user-account__section-title">Connection History</h3>
-                                <table className="user-account__connection__table">
+                                
+                                <ConnectionCounter data={user.connection } />
+
+                                {/* <table className="user-account__connection__table">
                                     <thead>
                                         <tr>
                                             <th>Start</th>
@@ -171,8 +194,6 @@ class userAccount extends Component {
                                                         }
                                                let displayedElapsedTime = this.elapsedTimeCalculator(data)
 
-                                               console.log(displayedElapsedTime.includes(NaN))
-                                               
                                                 return (
                                                     <tr className="user-account__connection__table__data"
                                                         key={connection._id}>
@@ -185,22 +206,17 @@ class userAccount extends Component {
                                             })
                                         }
                                     </tbody>
-                                </table>
+                                </table> */}
                         </section>
 
          
-                    </div>
-                    
-                </Fragment>
-                
+                    </div>              
 
             )
         }
-        return (
-            <section className="user-account">
-                {userData}
-            </section>
-        )
+        return userData
+
+        
     }
 }
 

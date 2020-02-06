@@ -149,6 +149,7 @@ class UserConnection extends Component {
                 }
             ]
         }
+
         this.setState({ 
                         data: data, 
                         resData: stats,
