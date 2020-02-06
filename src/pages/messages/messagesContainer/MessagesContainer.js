@@ -30,19 +30,15 @@ class MessagesContainer extends Component {
         this.setState({
             messages: this.props.messages, 
             userId: this.props.userId
-        });
-
-        this.scrollToBottom();
-
-        const socket = openSocket('http://localhost:8000');
-        socket.on('userSentMessage', data => {
+        }, () => this.scrollToBottom() );
       
-            this.props.playNotificationSound()
+        const socket = openSocket('http://localhost:8000');
 
+        socket.on('userSentMessage', data => {   
+            this.props.playNotificationSound()
             if(data.messageData.userId === this.state.userId && this._ismounted === true){
                 let url = "http://localhost:8000/messages/admin-update/" + this.state.userId;
                 let method = "POST";
-
                 let timeStamp = timeStampGenerator();
 
                     fetch(url, {
@@ -62,8 +58,8 @@ class MessagesContainer extends Component {
                         return res.json()
                     })
                     .then(resData => {
-                        let lastposition = resData.messages.messages.length - 1
-                        this.addMessages(resData.messages.messages[lastposition])    
+                        let lastposition = resData.user.messages.length - 1
+                        this.addMessages(resData.user.messages[lastposition])    
                     })
                     .catch( err => {
                         console.log(err)
@@ -102,12 +98,10 @@ class MessagesContainer extends Component {
         })
     }
 
-    componentDidUpdate(prevProps){
-        this.scrollToBottom();
-
-        if(prevProps.userId !== this.props.userId){    
-            this.setState({messages: this.props.messages, userId: this.props.userId});
-        }
+    componentDidUpdate(prevProps){   
+        if(prevProps.userId !== this.props.userId){        
+            this.setState({messages: this.props.messages, userId: this.props.userId}, () => this.scrollToBottom());
+        } 
     }
 
     toggleShowInfo = () => {
@@ -164,12 +158,10 @@ class MessagesContainer extends Component {
         })
     }
 
-
-      
     addMessages = message => {
         this.setState(prevState => ({
             messages: [...prevState.messages, message]
-        }))
+        }), () => this.scrollToBottom())
     }
 
     scrollToBottom() {

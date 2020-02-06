@@ -1,7 +1,7 @@
 .messagesContainer__body {
     width: 100%;
     height: calc(100vh - 9rem);
-    background: white; 
+    background: var(--color-white); 
     overflow-y: scroll;
     overflow-x: hidden;
     position: relative;
@@ -26,14 +26,8 @@
 }
 
 .messagesContainer__body__chat {
-    display: inline-block;
-    border-radius: 1rem;
-    background: grey;
-    max-width: 60%;
-    padding: .8rem 1.2rem;
-    font-size: 1.4rem;
-    width: auto;
-    margin-right: 2rem;
+    display: flex;
+    flex-direction: column; 
 }
 
 .messagesContainer__body__chat.small-gap {
@@ -44,36 +38,49 @@
     margin-bottom: 1rem;
 }
 
-.messagesContainer__body__chat--user {
+.messagesContainer__body__chat__content {
+    display: inline-block;
+    border-radius: 1rem;
+    max-width: 60%;
+    padding: .8rem 1.2rem;
+    font-size: 1.4rem;
+    width: auto;
+    margin-right: 2rem;
+}
+
+.messagesContainer__body__chat__content.user {
     background: grey;
     color: white;
     align-self: flex-start;
 }
 
-.messagesContainer__body__chat--admin {
+.messagesContainer__body__chat__content.admin {
     background: var(--color-primary);
     color: var(--color-white);    
     align-self: flex-end;
 }
 
+
 .messagesContainer__body__chat__convoDate {
     text-align: center;
     font-size: 1.2rem;
     margin-bottom: 1rem;
+    margin-top: 2rem;
 
 }
 .messagesContainer__body__chat__detail {
     display: none;
     flex-direction: column;
-    transform: translateY(-6px);
-    color: var(--color-grey);   
+    color: var(--color-grey-dark);   
     transition: all .3s ease-in;
+    margin: .6rem 0;
 }
 
-.messagesContainer__body__chat--admin + .messagesContainer__body__chat__detail {
+.messagesContainer__body__chat__detail.admin {
     align-self: flex-end;
-    transform: translateX(-2rem);
+    margin-right: 2rem;
 }
+
 
 .messagesContainer__body__chat__detail.show {
     display: flex;

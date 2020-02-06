@@ -53,15 +53,15 @@ const MessagesContainerList = props => {
                 {displayedDate !== '' && (<div className="messagesContainer__body__chat__convoDate">{displayedDate}</div>)
                 }
 
-                <div className={`messagesContainer__body__chat 
-                                messagesContainer__body__chat--${message.senderType === 'user' ? 'user' : 'admin'}
+                <div className={`messagesContainer__body__chat               
                                 ${chatMessageGap === 'small' ? 'small-gap': 'big-gap'}`}>
-                    {message.message}
-                </div>
-
-                                        
-                <div className={`messagesContainer__body__chat__detail
-                                ${showInfo ? 'show':''}`}>
+                    <div className={`messagesContainer__body__chat__content 
+                                    ${message.senderType === 'user' ? 'user' : 'admin'}` }>
+                        {message.message}
+                    </div>
+                    <div className={`messagesContainer__body__chat__detail
+                                    ${showInfo ? 'show':''}
+                                    ${message.senderType === 'user' ? 'user' : 'admin'}`}>
                     {
                         message.senderType === 'user' && (
                             <Fragment>
@@ -82,6 +82,9 @@ const MessagesContainerList = props => {
                             </Fragment>                                                       
                     )}
                 </div>
+                </div>
+             
+                
 
             </div>
         )

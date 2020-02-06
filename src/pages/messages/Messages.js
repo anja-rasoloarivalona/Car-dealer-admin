@@ -13,7 +13,7 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
         messages: null,    
         loading: true,
         requestedUser: null,  
-        showUserInfos: true   
+        showUserInfos: true 
     }
 
     componentDidMount(){
