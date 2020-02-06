@@ -10,7 +10,11 @@
 
 
   --color-secondary: #04776e;
-  --color-grey: #989084;
+
+  --color-grey: #c5c5c5;
+  --color-grey-dark: #afafaf;
+  --color-grey-light: #ECE8E3;
+  
 }
 
 *,
@@ -41,7 +45,6 @@ body {
 
 .app {
   display: grid;
-
   grid-template-columns: 20rem 1fr;
   grid-template-rows: 5rem 1fr;
   transition: all .3s ease-in-out;

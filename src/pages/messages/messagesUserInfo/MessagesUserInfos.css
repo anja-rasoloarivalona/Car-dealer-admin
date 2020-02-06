@@ -1,17 +1,15 @@
 .messagesUserInfos {
-    width: 100%;
-    height: 100%;
-
-
+    width: 30rem;
+    height: calc(100vh - 5rem);
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(236, 232, 227) ;
+    background-color: var(--color-grey-light) ;
+    padding-top: 1rem;
 }
 
 .messagesUserInfos__header {
     padding: .5rem 1rem;
-    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,7 +95,7 @@
 }
 
 .messagesUserInfos__notes__title {
-    background-color: var(--color-grey);
+    background-color: var(--color-grey-dark);
     padding: 1.4rem 0;
     padding-left: 1rem;
     border-radius: 5px;

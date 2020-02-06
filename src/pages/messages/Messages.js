@@ -12,7 +12,8 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
     state = {
         messages: null,    
         loading: true,
-        requestedUser: null,       
+        requestedUser: null,  
+        showUserInfos: true   
     }
 
     componentDidMount(){
@@ -92,11 +93,17 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
         this.setState({messages: newData})
     }
 
+    toggleShowUserInfos = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showUserInfos: !prevState.showUserInfos
+        }))
+    }
  
     
     render() {
 
-        const {requestedUser, loading, messages} = this.state;
+        const {requestedUser, loading, messages, showUserInfos} = this.state;
 
         let messagesContainer = <Loader />
         if(requestedUser && requestedUser.messages){
@@ -105,7 +112,8 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
                                         userId={requestedUser._id}
                                         updateNavbar={this.updateNavbar}
                                         playNotificationSound={this.props.playNotificationSound}
-                                        loading={loading}/>
+                                        loading={loading}
+                                        toggleShowUserInfos={this.toggleShowUserInfos}/>
         }
 
         return (
@@ -117,10 +125,10 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
                                         onchangeConvoHandler={this.changeConvoHandler}/>
                     )}
                 </div>
-                <section className="messages__container">
+                <section className={`messages__container ${showUserInfos ? 'full': ''}`}>
                         {messagesContainer}
                 </section>
-                <div className="messages__userInfos">
+                <div className={`messages__userInfos ${showUserInfos ? 'show': ''}`}>
                     {requestedUser &&  <MessagesUserInfos user={requestedUser}/>}              
                 </div>
      

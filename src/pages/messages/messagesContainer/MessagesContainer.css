@@ -21,7 +21,6 @@
 
 
 .messagesContainer__body__chatContainer {
-    cursor: pointer;
     display: flex;
     flex-direction: column; 
 }
@@ -55,16 +54,6 @@
     background: var(--color-primary);
     color: var(--color-white);    
     align-self: flex-end;
-}
-
-.messagesContainer__body__chatContainer:hover .messagesContainer__body__chat--user + .messagesContainer__body__chat__detail {
-    display: flex;
-    margin-top: 1rem;
-}
-
-.messagesContainer__body__chatContainer:hover .messagesContainer__body__chat--admin + .messagesContainer__body__chat__detail {
-    display: flex;
-    margin: .3rem 0;
 }
 
 .messagesContainer__body__chat__convoDate {
@@ -102,9 +91,39 @@
 
 .messagesSender__cta {
     width: 20%;
-     /* background: yellow;  */
-    height: 3rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-.6rem);
+    margin-left: 2rem;
 }
+
+.messageSender__cta__iconContainer {
+    background: var(--color-grey-light);
+    width: 4rem;
+    height: 4rem;
+    margin: 0 .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.messageSender__cta__iconContainer.active {
+    background: var(--color-primary);
+}
+.messagesSender__cta  svg{
+   width: 2rem;
+   height: 2rem;
+   fill: grey;
+   cursor: pointer;
+}
+
+.messageSender__cta__iconContainer.active svg {
+    fill: var(--color-white)
+}
+
 
 .messagesSender__textarea {
     width: 65%;
@@ -116,7 +135,7 @@
     bottom: 3rem;
     right: 9rem;
     border-radius: 1rem;
-    background: #ECE8E3; 
+    background: var(--color-grey-light); 
     border: none
 }
 
@@ -124,7 +143,7 @@
     outline: none;
 }
 
-.messagesSender svg {
+.messagesSender__sender-btn {
     width: 3rem;
     height: 3rem;
     position: absolute;

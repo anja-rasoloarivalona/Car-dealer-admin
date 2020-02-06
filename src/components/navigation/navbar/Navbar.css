@@ -25,7 +25,7 @@ svg.navbar__list__toggle {
     z-index: 1;
     cursor: pointer;
     padding: .3rem;
-    background: var(--color-grey);
+    background: var(--color-grey-light);
     transition: all .3s ease-in-out;
 }
 
@@ -49,14 +49,12 @@ svg.navbar__list__toggle {
     font-size: 1.2rem;
     letter-spacing: 2px;
     text-decoration: none;
-    color: var(--color-grey);
+    color: var(--color-grey-light);
     height: 5rem;
-   padding-left: 2rem;
-   position: relative;
-   opacity: 1;
-
-   
-    border-bottom: 1px solid var(--color-grey);
+    padding-left: 2rem;
+    position: relative;
+    opacity: 1;
+    border-bottom: 1px solid var(--color-grey-light);
     transition: all .3s ease-in-out;
 }
 
@@ -104,7 +102,7 @@ svg.navbar__list__toggle {
     width: 2rem;
     height: 3rem;
     margin-right: 1rem;
-    fill: var(--color-grey);
+    fill: var(--color-grey-light);
 }
 
 .navbar__list a.active {
@@ -112,9 +110,6 @@ svg.navbar__list__toggle {
     border: var(--color-primary);
 }
 
-.navbar__list a:first-child {
-    border-top: 1px solid var(--color-grey);
-}
 
 .navbar__list a.active  .navbar__list__item__text {
     color: var(--color-white);

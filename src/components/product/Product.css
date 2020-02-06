@@ -99,7 +99,7 @@
     align-items: center;
     justify-content: space-around;
     height: 15%;
-    color: var(--color-grey);
+    color: var(--color-grey-dark);
 }
 
 .product__specList__item {
@@ -112,7 +112,7 @@
     width: 1.5rem;
     height: 1.5rem;
     margin-left: .5rem;
-    fill: var(--color-grey);
+    fill: var(--color-grey-dark);
 }
 
 

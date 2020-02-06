@@ -3,6 +3,7 @@ import React, {Fragment} from 'react';
 const MessagesContainerList = props => {
 
     let messages = props.messages;
+    let showInfo = props.showInfo
     let displayedDate = '';
 
     let chatMessageGap;
@@ -60,7 +61,7 @@ const MessagesContainerList = props => {
 
                                         
                 <div className={`messagesContainer__body__chat__detail
-                                ${props.displayDetails ? 'show':''}`}>
+                                ${showInfo ? 'show':''}`}>
                     {
                         message.senderType === 'user' && (
                             <Fragment>

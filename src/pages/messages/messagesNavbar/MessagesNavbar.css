@@ -1,16 +1,21 @@
 .messagesNavbar {
-    background: #ECE8E3;  
-    height: 100%;
-
+    background: var(--color-grey-light);  
+    height: calc(100vh - 5rem);
 }
 
 .messagesNavbar__list {
     list-style: none;
     height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.messagesNavbar__list::-webkit-scrollbar {
+    display: none !important;
 }
 
 .messagesNavbar__list__item {
-    border-bottom: 1px solid rgb(197, 197, 197);
+    border-bottom: 1px solid #c5c5c5;
     display: flex;
     align-items: center;
     height: 7rem;
@@ -18,7 +23,7 @@
 }
 
 .messagesNavbar__list__item.active {
-    background: rgb(175, 175, 175);
+    background: var(--color-grey-dark);
     color: var(--color-white);
 }
 

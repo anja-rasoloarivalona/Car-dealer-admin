@@ -14,6 +14,10 @@ class MessagesContainer extends Component {
         messages: null,
         messageInput: '',
         userId: '',
+
+
+        showInfo: false,
+        showUserInfos: true
     }
 
     componentWillUnmount() {
@@ -105,6 +109,21 @@ class MessagesContainer extends Component {
             this.setState({messages: this.props.messages, userId: this.props.userId});
         }
     }
+
+    toggleShowInfo = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showInfo: !prevState.showInfo
+        }))
+    }
+
+    toggleShowUserInfos = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            showUserInfos: !prevState.showUserInfos
+        }))
+        this.props.toggleShowUserInfos()
+    }
     
     messageChangeHandler = value => {
         this.setState({ messageInput: value})
@@ -159,13 +178,13 @@ class MessagesContainer extends Component {
 
 
     render() {
-        const {displayDetails, messages} = this.state;
+        const {displayDetails, messages, showInfo, showUserInfos} = this.state;
 
         let messagesList;
 
         if(messages && messages.length > 0){
             messagesList = (
-                <MessagesList messages={messages} displayDetails={displayDetails}/>
+                <MessagesList messages={messages} displayDetails={displayDetails} showInfo={showInfo}/>
             ) 
         } else {
             messagesList = (
@@ -183,6 +202,21 @@ class MessagesContainer extends Component {
                 <div className="messagesSender"> 
                     <div className="messagesSender__cta">
 
+                        <div className={`messageSender__cta__iconContainer ${showUserInfos ? 'active': ''}`}
+                             onClick={this.toggleShowUserInfos}>
+                            <IconSvg icon="file"/>
+                        </div>
+
+                        <div className={`messageSender__cta__iconContainer ${showInfo ? 'active': ''}`}
+                             onClick={this.toggleShowInfo}>
+                                <IconSvg icon="eye"/>
+                        </div>
+                        <div className="messageSender__cta__iconContainer">
+                        <IconSvg icon="user"/>
+                        </div>
+                        
+                       
+                        
                     </div>
 
                     <AutoSizeTextArea 
@@ -194,6 +228,7 @@ class MessagesContainer extends Component {
 
                     <IconSvg icon='send'
                             onClick={this.sendMessageHandler}
+                            customClass='messagesSender__sender-btn'
                     />
 
                 </div>
