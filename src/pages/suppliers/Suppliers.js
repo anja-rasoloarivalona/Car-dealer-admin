@@ -83,8 +83,6 @@ class Suppliers extends Component {
 
     deleteSupplierHandler = supplierId => {
 
-        console.log('supplier delete', supplierId)
-
         const {suppliers} = this.state;
 
         let url = 'http://localhost:8000/suppliers/delete-supplier/' + supplierId;

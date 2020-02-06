@@ -32,12 +32,7 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
             return res.json()
         })
         .then(resData => {
-
-            console.log('res', resData);
-
-
             if(resData.messages[0].messages.length !== 0){
-
                 this.setState({ messages: resData.messages,
                     requestedMessageUserId: resData.messages[0]._id},
                     () => this.fetchUserMessages(resData.messages[0]._id))

@@ -25,7 +25,7 @@ class MessagesNavbar extends Component {
 
     componentDidMount(){
         this._ismounted = true;
-        this.setState({ messages: this.props.messages, requestedMessageUserId: this.props.requestedMessageUserId}, () => console.log('few', this.state.messages));
+        this.setState({ messages: this.props.messages, requestedMessageUserId: this.props.requestedMessageUserId});
         const socket = openSocket('http://localhost:8000');
 
             socket.on('userSentMessage', data => {

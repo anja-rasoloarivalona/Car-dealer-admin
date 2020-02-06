@@ -18,7 +18,7 @@ import openSocket from 'socket.io-client';
             text: ''
         },
         userPhone: '',
-        headerEditingMode: false,
+        editUserPhone: false,
 
         userStatus: null,
     }
@@ -28,7 +28,13 @@ import openSocket from 'socket.io-client';
         user.notes.forEach(note => {
             note.show = false
         })
-        this.setState({ currentNotes: user.notes, userStatus: user.active})
+
+        let userPhone = '';
+
+        if(user.phoneNumber && user.phoneNumber !== ''){
+            userPhone = user.phoneNumber
+        }
+        this.setState({ currentNotes: user.notes, userStatus: user.active, userPhone: userPhone})
 
         const socket = openSocket('http://localhost:8000');
 
@@ -52,19 +58,45 @@ import openSocket from 'socket.io-client';
             user.notes.forEach(note => {
                 note.show = false
             })
-            this.setState({ currentNotes: user.notes, userStatus: user.active})
+            this.setState({ currentNotes: user.notes, userStatus: user.active, userPhone: user.phoneNumber, editUserPhone: false})
         }
     }
 
-    toggleEditPhoneNumber = () => {
-        if(!this.state.headerEditingMode){
-            this.setState({ headerEditingMode: !this.state.headerEditingMode})
-        }
-        
+    editPhoneNumberStateHandler = state => {
+        this.setState({ editUserPhone: state})      
     }
 
     editPhoneNumber = value => {
         this.setState({ userPhone: value})
+    }
+
+    saveUserPhoneNumberHandler = () => {
+        let userId = this.props.user._id;
+        let url = "http://localhost:8000/user/edit-phone/" + userId;
+        let method = "PUT";
+        fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ phoneNumber: this.state.userPhone})
+        })
+        .then( res => {
+            if(res.status !== 200)
+            throw new Error('Failed to fetch messages')
+
+            return res.json()
+        })
+        .then(resData => {
+                this.setState({
+                    userPhone: resData.userPhone,
+                    editUserPhone: false,
+
+                })
+        })
+        .catch( err => {
+            console.log(err)
+        }) 
     }
 
     editNewNoteHandler = (input, value) => {
@@ -78,10 +110,16 @@ import openSocket from 'socket.io-client';
     }
 
     toggleAddingNewNoteHandler = () => {
-        this.setState(prevState => ({
-            ...prevState,
-            editingNote: !prevState.editingNote
-        }))
+        const {editingNote} = this.state;
+        if(!editingNote){
+            this.setState({ editingNote: true})
+        } else {
+            let newNote = {
+                title: '',
+                text: ''
+            }
+            this.setState({ editingNote: false, newNote: newNote})
+        }
     }
 
     updateCurrentNote = (noteId, title, text) => {
@@ -91,6 +129,35 @@ import openSocket from 'socket.io-client';
             noteId
         }
         this.setState({ newNote: note, editingNote: true})
+    }
+
+    deleteNoteHandler = noteId => {
+        let url = "http://localhost:8000/user/delete-note/" + noteId;
+        let userId = this.props.user._id;
+        let method = 'DELETE';
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: userId})
+        })
+        .then(res =>  {
+            if(res.status !== 200 && res.status !== 201){
+                throw new Error('Could not delete supplier')
+            }
+            return res.json()
+        })
+        .then( resData => {
+            if(resData.message === 'Note deleted'){          
+                let newNotes = this.state.currentNotes.filter(note => note._id !== noteId);
+                this.setState({ currentNotes: newNotes})
+            }
+        })
+        .catch( err => {
+            console.log(err)
+        })
     }
 
     submitNewNoteHandler = e => {
@@ -134,7 +201,11 @@ import openSocket from 'socket.io-client';
                   return res.json()
             })
             .then(resData => {
-                  this.setState({ currentNotes: resData.newNoteList, editingNote: false})
+               let newNote = {
+                    title: '',
+                    text: ''
+                }
+                this.setState({ currentNotes: resData.newNoteList, editingNote: false, newNote: newNote})
             })
             .catch( err => {
                   console.log(err)
@@ -154,7 +225,7 @@ import openSocket from 'socket.io-client';
 
 
     render() {
-        const { currentNotes, headerEditingMode, editingNote, newNote, userStatus  } = this.state
+        const { currentNotes, editUserPhone,  editingNote, newNote, userStatus, userPhone  } = this.state
         const { user } = this.props;
         return (
             <div className="messagesUserInfos">
@@ -170,16 +241,28 @@ import openSocket from 'socket.io-client';
                         <IconSvg icon="email"/>
                         <span>{user.email}</span>
                     </div>
-                    <div className="messagesUserInfo__contact__group">
+                  
+                    <div className="messagesUserInfo__contact__group messagesUserInfo__contact__group--editable">               
                         <IconSvg icon="phone"/>
-                        <div className={`messagesUserInfo__contact__group__value ${headerEditingMode ? 'edit':'' }`}
-                            onClick={() => this.toggleEditPhoneNumber()}>
-                            <div className="messagesUserInfo__contact__group__value--value">{user.phoneNumber ? user.phoneNumber : 'N.D.'}</div>
+                        <div className={`messagesUserInfo__contact__group__value ${editUserPhone ? 'edit':'' }`}
+                            onClick={() => this.editPhoneNumberStateHandler(true)}>
+                            <div className="messagesUserInfo__contact__group__value--value">{userPhone && userPhone !== '' ? userPhone : 'N.D.'}</div>
                             <input className="messagesUserInfo__contact__group__value--input"
-                                   value={this.state.userPhone}
+                                   value={userPhone !== undefined ? userPhone: ''}
                                    onChange={e => this.editPhoneNumber(e.target.value)}/>
-                        </div>
-                        
+                        </div>                      
+                    </div>
+
+                    <div className={`messagesUserInfo__contact__cta
+                                    ${editUserPhone ? 'show': ''}`}>
+                        <Button color="primary"
+                                onClick={this.saveUserPhoneNumberHandler}>
+                            Save
+                        </Button>
+                        <Button color="primary"
+                                onClick={() => this.editPhoneNumberStateHandler(false)}>
+                            Cancel
+                        </Button>
                     </div>
                 </div>
 
@@ -235,7 +318,8 @@ import openSocket from 'socket.io-client';
                                         <div className="messagesUserInfos__notes__list__item__title__cta">
                                             <IconSvg icon="pencil"
                                                      onClick={() => this.updateCurrentNote(note._id, note.title, note.text)}/>
-                                            <IconSvg icon="bin" />
+                                            <IconSvg icon="bin" 
+                                                    onClick={() => this.deleteNoteHandler(note._id)}/>
                                         </div>
 
                                     </div>
