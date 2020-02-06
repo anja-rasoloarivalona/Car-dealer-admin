@@ -190,7 +190,9 @@ class MessagesContainer extends Component {
                 </div>
                 
                 <div className="messagesSender"> 
-                    <div className="messagesSender__cta">
+
+                    <div className={`messagesSender__cta
+                                    ${showUserInfos ? 'small' : 'big'}`}>
 
                         <div className={`messageSender__cta__iconContainer ${showUserInfos ? 'active': ''}`}
                              onClick={this.toggleShowUserInfos}>

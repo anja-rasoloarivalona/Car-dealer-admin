@@ -96,14 +96,22 @@
    position: relative;
 }
 
-.messagesSender__cta {
-    width: 20%;
+.messagesSender__cta {   
     height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translateY(-.6rem);
     margin-left: 2rem;
+    transition: all .3s ease-in;
+}
+
+.messagesSender__cta.small {
+    width: 20%;
+}
+
+.messagesSender__cta.big {
+    width: 25%;
 }
 
 .messageSender__cta__iconContainer {
