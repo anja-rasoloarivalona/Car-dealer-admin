@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import './StatsUserConnectionChart.css';
 import UserConnection from './charts/UserConnection';
-import UserConnected from './charts/UserConnected';
+import ConnectedUserCounter from './charts/ConnectedUserCounter'
 
 import Loader from '../../../components/loader/Loader';
 
@@ -47,7 +47,7 @@ class StatsUserConnectionChart extends Component {
             charts = (
                 <Fragment>
                     <UserConnection stats={resData}/>
-                    <UserConnected stats={resData}/>
+                    <ConnectedUserCounter stats={resData}/> 
                 </Fragment>
             )
         }

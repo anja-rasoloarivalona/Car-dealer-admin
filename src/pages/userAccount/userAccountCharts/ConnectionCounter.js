@@ -9,9 +9,8 @@ class ConnectionCounter extends Component {
         globalDataSet: null,
 
     }
-
     componentDidMount(){
-        console.log('nofew', this.props.data);
+        // console.log('nofew', this.props.data);
         let data = this.props.data;
         let tempData = {};
         let finalData = {}
@@ -35,8 +34,10 @@ class ConnectionCounter extends Component {
                     ...tempData ,
                     [shortDate] : tempData [shortDate] + 1
                 }
-            }
-            let datasets = [];
+            }           
+        })
+
+        let datasets = [];
             Object.keys(tempData).forEach(i => {
                 datasets = [...datasets, tempData[i]]
             })
@@ -50,8 +51,7 @@ class ConnectionCounter extends Component {
                         backgroundColor: 'transparent'
                     }
                 ]
-            }            
-        })
+            } 
 
         this.setState({ data: finalData, globalDataSet: data})
 
