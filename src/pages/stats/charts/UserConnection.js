@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import { daysInMonth } from '../../../../utilities/daysInMonth';
-import {MONTH_TABLE } from '../../../../utilities/monthTable';
+import { daysInMonth } from '../../../utilities/daysInMonth';
+import {MONTH_TABLE } from '../../../utilities/monthTable';
 
 class UserConnection extends Component {
     state = {
@@ -53,8 +53,8 @@ class UserConnection extends Component {
             fullDatelabels.push(`${day}-${month}-${year}`)
         }
 
+        //store only the key value date-counter that corresponds to the month 
         let tempData = {};
-
         Object.keys(this.state.tempData).forEach(date => {
             if(`${date.split('-')[1]}-${date.split('-')[2]}` === monthAndYear){
                 tempData[date] = this.state.tempData[date]
@@ -64,7 +64,7 @@ class UserConnection extends Component {
         let datasets = [];
         fullDatelabels.forEach(label => {
             if(Object.keys(tempData).includes(label)){
-                datasets = [...datasets, tempData[label].length]
+                datasets = [...datasets, tempData[label]]
             }else{
                 datasets = [...datasets, 0]
             }
@@ -94,20 +94,14 @@ class UserConnection extends Component {
         let tempData = {}; // to manipulate the data
         let finalData = {} //to send the final value to the chart
         //Storing all the connection dataset in the data array
-       
         let data = [];
         this.props.stats.forEach(userStat => {
             userStat.connection.forEach(connection => {
-                connection = {
-                    ...connection,
-                    userId: userStat._id
-                }
                 data.push(connection)
             })
         })
         //Creating the full date for each connection and storing it in the fullDate array
         let fullDateArray = [];
-        
         data.forEach(i => {
             let day = i.start.split('-')[0];
             let month = i.start.split('-')[1];
@@ -119,7 +113,6 @@ class UserConnection extends Component {
         fullDateArray = fullDateArray.sort( (a, b) => {
             return a > b ? 1 : a < b ? -1 : 0
         })
-
         //Format the sorted date in dd-mm-yyyy and store the result in the sortedShortDateArray
         let sortedShortDateArray = [];
         fullDateArray.forEach(i => {
@@ -129,44 +122,38 @@ class UserConnection extends Component {
             if(day < 10){
                 day = `0${day}`;
             }
-
-            if(!sortedShortDateArray.includes(`${day}-${month}-${year}`)){
-                sortedShortDateArray.push(`${day}-${month}-${year}`)
-            }
+            sortedShortDateArray.push(`${day}-${month}-${year}`)
             
         })
-
-       sortedShortDateArray.forEach(date => {
-           tempData[date] = []
-       })
-
-        data.forEach(i => {
-            let date = i.start.split(' ')[0];
-            let userId = i.userId; 
-            Object.keys(tempData).forEach(tempDataKey => {
-                if(tempDataKey === date && !tempData[tempDataKey].includes(userId)){
-                    tempData[tempDataKey].push(userId)
-                }
-            })
+        //For each date, check if it's already in the tempData object
+        sortedShortDateArray.forEach(date => {
+            if(!Object.keys(tempData).includes(date)){
+                // Case 1 : the date is not in the tempData, we need to add it as property and init the counter
+                tempData[date] = 1
+            } else {
+                //case 2 : the date is already in the tempData, we need to increment its value by 1
+                tempData[date] = tempData[date] + 1
+            }
         })
-   
+        //store each date the value in the datasets array
         let datasets = [];
         Object.keys(tempData).forEach(date => {
-            datasets = [...datasets, tempData[date].length]
+            datasets = [...datasets, tempData[date]]
         })
-
-       
         //Build the finalData object
         finalData =  {
             labels : Object.keys(tempData),
             datasets: [
                     {
-                    label: 'Number of connected users',
+                    label: 'Number of connections',
                     data: datasets,
                     backgroundColor: 'transparent'
                     }
                 ]
          }  
+
+        //console.log('tempdata', tempData);
+        // console.log('final', finalData);
 
         let mm_yyyy_labels = [];
         (Object.keys(tempData).forEach(i => {
@@ -195,7 +182,6 @@ class UserConnection extends Component {
         if(!loading){
             statsUserConnection = (
                 <section className="stats__usersConnection">
-                    <h1 className="app__primary__title">Connected Users </h1>
                     <div className="stats__userConnection__container">  
 
                         <div className="stats__userConnection__filter">
