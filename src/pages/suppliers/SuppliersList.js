@@ -1,4 +1,5 @@
 import React from 'react';
+import Title from '../../components/title/Title';
 
 const SuppliersList = props => {
 
@@ -7,13 +8,12 @@ const SuppliersList = props => {
    
     return (
         <ul className="suppliers__list">
-                    <h1 className="app__primary__title suppliers__title">
-                    Suppliers
+                    <Title title = "Suppliers">
                         <div className="suppliers__addButton"
                               onClick={() => props.supplierCurrentViewHandler('suppliersForm')}>
                             ajouter
                         </div>
-                    </h1>
+                    </Title>
                     {suppliers.map(supplier => (
                         <li className="suppliers__list__item"
                             key={supplier._id}>

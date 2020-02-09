@@ -3,7 +3,6 @@ import './Suppliers.css';
 import Loader from '../../components/loader/Loader';
 import SuppliersList from './SuppliersList';
 import SuppliersForm from './SuppliersForm';
-
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions'
 
@@ -28,14 +27,10 @@ class Suppliers extends Component {
                 value: ''
             }
         },
-
         responsiblesForm: {},
-
         suppliers: null,
         loading: true,
-
         currentView: 'suppliersList',
-
         editingMode: false,
         currentSupplierBeingEditedId: null
     }
@@ -49,10 +44,8 @@ class Suppliers extends Component {
         }
     }
 
-
     fetchSuppliers = () => {
         let url = 'http://localhost:8000/suppliers';  
-
         fetch(url, {
             headers: {
                 'Content-Type': 'application/json'
@@ -66,7 +59,6 @@ class Suppliers extends Component {
             return res.json()
         })
         .then(resData => {
-
             let suppliers = resData.suppliers;
             suppliers.forEach(supplier => {
                 supplier.currentView = 'contacts'
@@ -82,9 +74,7 @@ class Suppliers extends Component {
     }
 
     deleteSupplierHandler = supplierId => {
-
         const {suppliers} = this.state;
-
         let url = 'http://localhost:8000/suppliers/delete-supplier/' + supplierId;
         let method = 'DELETE'
 
@@ -113,9 +103,7 @@ class Suppliers extends Component {
 
     addSupplierHandler = (e, addSupplierForm, responsiblesForm) => {
         e.preventDefault();
-
         const {editingMode, currentSupplierBeingEditedId, suppliers} = this.state;
-
         let url = 'http://localhost:8000/suppliers/add-supplier';
         let method = 'POST';
         let body = {
@@ -125,13 +113,11 @@ class Suppliers extends Component {
                 address: addSupplierForm.address.value,
                 responsibles: responsiblesForm
         }
-
         if(editingMode){
             method = 'PUT';
             url = 'http://localhost:8000/suppliers/edit-supplier';
             body = {...body, _id: currentSupplierBeingEditedId}
         }
-
         fetch(url, {
             method: method,
             headers: {
@@ -151,14 +137,11 @@ class Suppliers extends Component {
             return res.json()
         })
         .then( resData => {
-
             let newSuppliersList = [];
-
             let newSupplier = {
                 ...resData.supplier,
                 currentView: 'contacts'
             }
-
             if(editingMode){
               let editedSupplierIndex = suppliers.findIndex(supplier => supplier._id === resData.supplier._id);
               newSuppliersList = [...suppliers];
@@ -174,7 +157,6 @@ class Suppliers extends Component {
                     newSuppliersList = [newSupplier]
                 }
             }
-
             this.props.setSuppliers(newSuppliersList)
             this.setState({ suppliers: newSuppliersList, currentView: 'suppliersList' }, () => this.resetFormHandler())
 
@@ -183,8 +165,6 @@ class Suppliers extends Component {
             console.log(err)
         })
     }
-
-
 
     addSupplierFormChangeHandler = (input, value) => {
             this.setState(prevState => {
@@ -202,7 +182,6 @@ class Suppliers extends Component {
     }
 
     responsibleInputHandler = (input, responsible, value) => {
-
         this.setState(prevState => {
             const updatedForm = {
                 ...prevState.responsiblesForm,
@@ -249,20 +228,17 @@ class Suppliers extends Component {
                 }
             }
         }
-
         this.setState({ responsiblesForm: currentResponsibles})
        
     }
 
     supplierNavigationHandler = (id, requestedView) => {
         let suppliers = this.state.suppliers;
-
         suppliers.forEach(supplier => {
             if(supplier._id === id){
                 supplier.currentView = requestedView
             }
         })
-
         this.setState({ suppliers})
     }
 
@@ -285,9 +261,7 @@ class Suppliers extends Component {
                 value: ''
             }
         };
-
         let responsiblesForm = {};
-
         this.setState({ 
             addSupplierForm : addSupplierForm, 
             responsiblesForm : responsiblesForm, 
@@ -306,7 +280,6 @@ class Suppliers extends Component {
     }
 
     editSupplierHandler = supplier => {
-
         let addSupplierForm = {
             name: {
                 value: supplier.name
@@ -325,15 +298,10 @@ class Suppliers extends Component {
                 value: supplier.address
             },
         }
-
         let responsibles = supplier.responsibles;
-
         let responsiblesForm = {}
-
         responsibles.map( (responsible, index) => {
-
             let newResponsible = `0${index+1}-Responsible`
-
             responsiblesForm = {
                 ...responsiblesForm,
                 [newResponsible]: {
@@ -364,10 +332,7 @@ class Suppliers extends Component {
             currentView: 'suppliersForm',
             editingMode: true,
             currentSupplierBeingEditedId: supplier._id
-        })
-
-      
-
+        })     
     }
 
     render() {
@@ -397,11 +362,8 @@ class Suppliers extends Component {
 
         return (
             <div className="suppliers">
-
                 {currentView === 'suppliersList' && suppliersList}
-
-                {currentView === 'suppliersForm' && suppliersForm}               
-                
+                {currentView === 'suppliersForm' && suppliersForm}                              
             </div>
         )
     }

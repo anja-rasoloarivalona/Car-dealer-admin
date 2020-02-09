@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../../components/button/Button';
 import Input from '../../components/formInput/FormInput';
+import Title from '../../components/title/Title'
 
 const SuppliersForm = props => {
 
@@ -10,14 +11,12 @@ const SuppliersForm = props => {
     return (
         <form className="suppliers__form"
                       onSubmit={e => props.addSupplierHandler(e, addSupplierForm, responsiblesForm)}>
-                    <h1 className="app__primary__title suppliers__title">
-                        Add supplier
+                    <Title title=" Add supplier">
                         <div className="suppliers__addButton"
                               onClick={() => props.supplierCurrentViewHandler('suppliersList')}>
                             list
                         </div>
-                    </h1>
-                   
+                    </Title>                  
                     {
                         Object.keys(addSupplierForm).map(input =>(
                             <Input 
