@@ -4,6 +4,7 @@ import './charts/StatsUserConnectionChart.css'
 import Loader from '../../components/loader/Loader';
 import WebsiteLoadings from './charts/UserConnection';
 import ConnectedUsers from './charts/ConnectedUserCounter';
+import FavoriteProducts from './FavoriteProducts/FavoriteProducts';
 import * as actions from '../../store/actions'
 import { connect} from 'react-redux';
 import Product from '../../components/product/Product';
@@ -18,7 +19,8 @@ class Stats extends Component {
         showBrandsData: [],
         activeSection: 'products views',
         userConnectionStats: null,
-        mostViewedProducts: null       
+        mostViewedProducts: null,
+        mostFollowedProducts: null       
     }
     componentDidMount(){
         this.fetchProductsStats()
@@ -38,7 +40,8 @@ class Stats extends Component {
             return res.json();
         })
         .then(resData => {
-            
+            console.log('res', resData);
+
             let maxProductViews = 0;
             Object.keys(resData.stats).forEach(brand => {
                 if(resData.stats[brand].views > maxProductViews){
@@ -50,8 +53,9 @@ class Stats extends Component {
                 productsStats: resData.stats,
                 maxProductViews: maxProductViews,
                 loading: false,
-                mostViewedProducts: resData.mostViewedProducts
-            }, () => console.log(this.state))
+                mostViewedProducts: resData.mostViewedProducts,
+                mostFollowedProducts: resData.mostFollowedProducts
+            })
            
         })
         .catch(err => {
@@ -116,7 +120,7 @@ class Stats extends Component {
 
     render() {
 
-        const {maxProductViews, productsStats, loading, showBrandsData, activeSection, userConnectionStats, mostViewedProducts} = this.state;
+        const {maxProductViews, productsStats, loading, showBrandsData, activeSection, userConnectionStats, mostViewedProducts, mostFollowedProducts} = this.state;
         let stats;
 
         if(loading){
@@ -171,11 +175,11 @@ class Stats extends Component {
                                                 <div className="stats__productViews__item__models__list__item__model">{model}</div> 
                                                 <div className="stats__productViews__item__models__list__item__viewBar">
                                                     <div className="stats__productViews__item__models__list__item__viewBar__inner"
-                                                        style={{ width: `${ productsStats[brand].models[model] / maxProductViews * 100 }%`}}>
+                                                        style={{ width: `${ productsStats[brand].models[model].viewCounter / maxProductViews * 100 }%`}}>
                                                     </div>
                                                 </div>
                                                 <div className="stats__productViews__item__models__list__item__viewCounter">
-                                                    {productsStats[brand].models[model]}
+                                                    {productsStats[brand].models[model].viewCounter}
                                                 </div>
                                             </li>
                                         ))}
@@ -222,6 +226,12 @@ class Stats extends Component {
             stats = <ConnectedUsers stats={userConnectionStats}/>
         }
 
+        if(!loading && activeSection === "favorite products"){
+            stats = <FavoriteProducts stats={productsStats}
+                                      mostFollowedProducts={mostFollowedProducts}
+                                      setProductRequestedId={this.props.setProductRequestedId}/>
+        }
+
         return (
             <div className="stats">
 
@@ -231,6 +241,11 @@ class Stats extends Component {
                             onClick={() => this.activSectionToggler('products views')}>
                             Products Views
                         </li>
+                        <li className={`stats__nav__list__item ${activeSection === 'favorite products' ? 'active' : ''}`}
+                            onClick={() => this.activSectionToggler('favorite products')}>
+                            Favorite Products
+                        </li>
+                        
                         <li className={`stats__nav__list__item ${activeSection === 'website loadings' ? 'active' : ''}`}
                         onClick={() => this.activSectionToggler('website loadings')}>
                             Website loadings
