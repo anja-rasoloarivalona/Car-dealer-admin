@@ -4,7 +4,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: 0 2rem;
 }
 
 
@@ -12,7 +11,7 @@
     width: 100%;
     padding: 2rem;
     position: relative;
-    background: grey;
+    background: var(--color-grey-light);
     display: flex;
     align-items: center;
 }
@@ -44,11 +43,12 @@
 }
  
 .users__search__input {
-    padding: 1.5rem 0;
+    height: 4rem;
     padding-left: 1rem;
     width: 28rem;
     border-radius: 5px;
-    border: 1px solid var(--color-grey)
+    border: 1px solid var(--color-grey);
+    font-size: 1.2rem;
 }
 
 .users__search__input:focus {
@@ -107,6 +107,10 @@
 }
 
 
+.users__table {
+    width: 90%;
+    margin-top: 3rem;
+}
 
 table, th, td {
     border: 1px solid rgb(233, 232, 232);
@@ -131,9 +135,7 @@ table, th, td {
 }
 
 
-.users__table {
-    width: 100%;
-}
+
 
 .users__table__data__avatar {
   position: relative;

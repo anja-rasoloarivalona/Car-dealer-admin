@@ -1,11 +1,13 @@
 .messagesUserInfos {
-    width: 30rem;
+    width: 25rem;
     height: calc(100vh - 5rem);
+    max-height: calc(100vh - 5rem);
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: var(--color-grey-light) ;
     padding-top: 1rem;
+    overflow: hidden;
 }
 
 .messagesUserInfos__header {
@@ -171,7 +173,7 @@
     padding: .5rem;
     resize: vertical;
     min-height: 10rem;
-    max-height: 25rem;
+    max-height: 20rem;
     font-family: 'Open Sans', sans-serif !important;
     border-radius: 5px;
 }
@@ -188,7 +190,7 @@
 
 .messagesUserInfos__notes__list {
     list-style: none;
-    max-height: 60vh;
+    max-height: 50vh;
     overflow: hidden;
     overflow-y: scroll;
 }
@@ -252,6 +254,7 @@
     padding: 1rem 0;
     padding-left: .5rem;
     background-color: var(--color-white);
+    font-size: 1rem;
 }
 
 .messagesUserInfos__notes__list__item.show .messagesUserInfos__notes__list__item__text {

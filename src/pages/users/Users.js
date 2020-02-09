@@ -154,7 +154,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
 
 
     render() {
-        const {users, searchedUser, scrollPos, searchedUserResults, searchedUserNoResults, searchingUser, query, displaySelector } = this.state;
+        const {users, searchedUser, searchedUserResults, searchedUserNoResults, searchingUser, query, displaySelector } = this.state;
         let inputIcon = <IconSvg icon="search"/>
         if(searchingUser){
             inputIcon = <Spinner />

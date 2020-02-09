@@ -7,7 +7,7 @@
     color: var(--color-white);
     position: fixed;
     width: 100%;
-    z-index: 10;
+    z-index: 20;
 }
 
 .navtop__logo {
