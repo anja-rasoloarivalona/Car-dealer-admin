@@ -1,10 +1,11 @@
 import React, { Component , Fragment} from 'react';
 import Loader from '../../../components/loader/Loader';
 import Button from '../../../components/button/Button';
-import Product from '../../../components/product/Product'
+import Product from '../../../components/product/Product';
+import Title from '../../../components/title/Title';
+import {withRouter} from 'react-router-dom'
 
 class FavoriteProducts extends Component {
-
     state = {
         data : null,
         loading: true,
@@ -12,9 +13,7 @@ class FavoriteProducts extends Component {
         maxFollowedProducts: 0
     }
 
-
     componentDidMount(){
-        console.log('faaavorite',this.props.stats)
         let stats= this.props.stats;
         let sortedBrands = [];
         for(let brand in stats){
@@ -23,27 +22,20 @@ class FavoriteProducts extends Component {
         sortedBrands.sort((a, b) => {
             return b[1] - a[1];
         })
-
         let maxFollowedProducts = sortedBrands[0][1]
-
         let data = {}; 
         sortedBrands.forEach(brandData => {
             let brandName = brandData[0];
             data[brandName] = {
                 followers: brandData[1],
                 models: {...stats[brandName].models}
-            }
-            
+            }           
         })
-
-
-
         this.setState({ data, maxFollowedProducts , loading: false})
     }
 
     showBrandsDataHandler = brand => {
         let showBrandsData = [];
-
         if(brand === 'show all'){
             showBrandsData = Object.keys(this.state.data)
         } else {
@@ -56,8 +48,7 @@ class FavoriteProducts extends Component {
                     showBrandsData = this.state.showBrandsData.filter( i => i !== brand)
                 }
             }
-        }  
-        
+        }          
          this.setState({ showBrandsData })
     }
 
@@ -66,62 +57,53 @@ class FavoriteProducts extends Component {
 
         const {data, loading, maxFollowedProducts, showBrandsData} = this.state
         let mostFollowedProducts = this.props.mostFollowedProducts
-
         let stats = <Loader />;
-
         if(!loading){
-            stats = 
-            
+            stats =            
             <Fragment>
                 <section className="stats__section">
-
-                    <div className="stats__section__title">
-                        <h1 className="app__primary__title">
-                            Favorite products
-                        </h1>
+                    <Title title="Favorite Products">
                         <div className="stats__section__title__cta">
-                            <Button color="primary"
-                                    onClick={() => this.showBrandsDataHandler('show all')}>
-                                Show
-                            </Button>
-                            <Button  color="primary"
-                                  onClick={() => this.showBrandsDataHandler('hide all')}>
-                                Hide
-                            </Button>
-                        </div>
-                    </div>
-                    <ul className="stats__productViews__list">
+                                <Button color="primary"
+                                        onClick={() => this.showBrandsDataHandler('show all')}>
+                                    Show
+                                </Button>
+                                <Button  color="primary"
+                                    onClick={() => this.showBrandsDataHandler('hide all')}>
+                                    Hide
+                                </Button>
+                            </div>
+                    </Title>
+                    <ul className="stats__section__list">
                             {Object.keys(data).map(brand => (
-                                <li className={`stats__productViews__list__item
+                                <li className={`stats__section__list__item
                                                ${showBrandsData.includes(brand) ? 'showList': ''}`}
                                     key={brand}>                       
-                                    <div className="stats__productViews__list__item__brandContainer"
+                                    <div className="stats__section__list__item__brandContainer"
                                          onClick={() => this.showBrandsDataHandler(brand)}>
-                                        <div className="stats__productViews__list__item__brand">
+                                        <div className="stats__section__list__item__brand">
                                             {brand}
                                         </div>
-
-                                        <div className="stats__productViews__list__item__viewBar">
-                                            <div className="stats__productViews__list__item__viewBar__inner"
+                                        <div className="stats__section__list__item__viewBar">
+                                            <div className="stats__section__list__item__viewBar__inner"
                                                  style={{ width: `${(data[brand].followers / maxFollowedProducts) * 100}%`}}
                                                 >
                                                 </div>
                                         </div>
-                                        <div className="stats__productViews__list__item__viewCounter">
+                                        <div className="stats__section__list__item__viewCounter">
                                             {data[brand].followers}
                                         </div>
-                                    </div>
-                                   
-                                    <ul className="stats__productViews__item__models__list">
+                                    </div>                                   
+                                    <ul className="stats__section__list__item__modelsList">
                                         {Object.keys(data[brand].models).map(model => (
-                                            <li className="stats__productViews__item__models__list__item">
-                                                <div className="stats__productViews__item__models__list__item__model">{model}</div> 
-                                                <div className="stats__productViews__item__models__list__item__viewBar">
-                                                    <div className="stats__productViews__item__models__list__item__viewBar__inner"
+                                            <li key={model} className="stats__section__list__item__modelsList__item">
+                                                <div className="stats__section__list__item__modelsList__item__model">{model}</div> 
+                                                <div className="stats__section__list__item__modelsList__item__viewBar">
+                                                    <div className="stats__section__list__item__modelsList__item__viewBar__inner"
                                                         style={{ width: `${ data[brand].models[model].favoritesCounter / maxFollowedProducts * 100 }%`}}>
                                                     </div>
                                                 </div>
-                                                <div className="stats__productViews__item__models__list__item__viewCounter">
+                                                <div className="stats__section__list__item__modelsList__item__viewCounter">
                                                     {data[brand].models[model].favoritesCounter}
                                                 </div>
                                             </li>
@@ -131,12 +113,12 @@ class FavoriteProducts extends Component {
                                 </li>
                             ))}
                         </ul>
-                        </section>
-                        <section className="stats__section">
-                            <h1 className="app__primary__title">Top followed</h1>
-                            <ul className="stats__topViews__list">
-                                    {mostFollowedProducts.map(product => (
-                                        <Product
+                </section>
+                <section className="stats__section">
+                    <Title title="Top favorites"/>
+                        <ul className="stats__products__list">
+                            {mostFollowedProducts.map(product => (
+                                    <Product
                                             id={product._id}
                                             mainImg={product.general.mainImgUrl}
                                             title={product.general.title}
@@ -153,18 +135,13 @@ class FavoriteProducts extends Component {
                                             }}
                                     />
                                     ))}                    
-                            </ul>                          
-                        </section>
+                        </ul>                          
+                </section>
              </Fragment>
         }
 
-
-        return (
-            <div>
-                {stats}
-            </div>
-        )
+        return stats
     }
 }
 
-export default FavoriteProducts
+export default withRouter(FavoriteProducts)

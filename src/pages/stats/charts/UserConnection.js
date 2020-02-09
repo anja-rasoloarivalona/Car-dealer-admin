@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 import { daysInMonth } from '../../../utilities/daysInMonth';
 import {MONTH_TABLE } from '../../../utilities/monthTable';
+import Title from '../../../components/title/Title';
 
 class UserConnection extends Component {
     state = {
-
         data: {
             labels: [],
             datasets: []
@@ -26,7 +26,6 @@ class UserConnection extends Component {
             this.setState({ filter}, () => this.selectUsersConnectionFilterGeneral())
             
         }
-
         if(filter === 'month'){
             this.setState({ filter}, () => this.selectUsersConnectionFilterByMonth())
         }
@@ -79,7 +78,7 @@ class UserConnection extends Component {
                 labels: labels,
                 datasets: [
                     {
-                        label: `Number of connections - ${MONTH_TABLE[month - 1]} ${year}`,
+                        label: `Number of website loadings - ${MONTH_TABLE[month - 1]} ${year}`,
                         data: datasets,
                         backgroundColor: 'transparent'
                     }
@@ -88,7 +87,6 @@ class UserConnection extends Component {
         this.setState({ data: finalData, selectedMonth: monthAndYear})
  
     }
-
 
     selectUsersConnectionFilterGeneral = () => {   
         let tempData = {}; // to manipulate the data
@@ -140,21 +138,8 @@ class UserConnection extends Component {
         Object.keys(tempData).forEach(date => {
             datasets = [...datasets, tempData[date]]
         })
-        //Build the finalData object
-        finalData =  {
-            labels : Object.keys(tempData),
-            datasets: [
-                    {
-                    label: 'Number of connections',
-                    data: datasets,
-                    backgroundColor: 'transparent'
-                    }
-                ]
-         }  
 
-        //console.log('tempdata', tempData);
-        // console.log('final', finalData);
-
+        //Built the mm_yyyy_labels array
         let mm_yyyy_labels = [];
         (Object.keys(tempData).forEach(i => {
             let mm_yyyy = `${i.split('-')[1]}-${i.split('-')[2]}`
@@ -163,6 +148,17 @@ class UserConnection extends Component {
             }
         }))
 
+        //Build the finalData object
+        finalData =  {
+            labels : Object.keys(tempData),
+            datasets: [
+                    {
+                    label: 'Number of website loadings',
+                    data: datasets,
+                    backgroundColor: 'transparent'
+                    }
+                ]
+        }     
         this.setState({ data: finalData,
                         tempData: tempData,
                         mm_yyyy_labels: mm_yyyy_labels,
@@ -173,16 +169,14 @@ class UserConnection extends Component {
                     })
     }
 
-
-
     render() {
         const {data, mm_yyyy_labels, loading, filter, selectedMonth} = this.state;
 
         let statsUserConnection = <div>loading</div>
         if(!loading){
             statsUserConnection = (
-                <section className="stats__usersConnection">
-                     <h1 className="app__primary__title">Website loadings</h1>
+                <section className="stats__section">
+                    <Title title="Website loadings"/>
                     <div className="stats__userConnection__container">  
                         <div className="stats__userConnection__filter">
                             <h2 className="stats__userConnection__filter__title">Filtre</h2>
@@ -198,7 +192,7 @@ class UserConnection extends Component {
                                             ${filter === 'month' ? 'active': ''}`}
                                     onClick={() => this.selectFilterHandler('month')}>
                                     <div className="stats__userConnection__filter__list__item__key">Par mois</div>
-                                    <div className="stats__userConnection__filter__list__item__value">{selectedMonth}</div>
+                                    <div className="stats__userConnection__filter__list__item__value">{MONTH_TABLE[selectedMonth.split('-')[0]].slice(0, 3)} {selectedMonth.split('-')[1]}</div>
                                     <ul className={`stats__userConnection__filter__byMonthList
                                                     ${filter === 'month'  ? 'shown' : ''}`}>
                                         {mm_yyyy_labels.map(label => (
@@ -206,7 +200,7 @@ class UserConnection extends Component {
                                                 onClick={() => this.selectUsersConnectionFilterByMonth(label)} 
                                                 className={`stats__userConnection__filter__byMonthList__item
                                                             ${selectedMonth === label ? 'active' : ''}`}>
-                                                {label}
+                                                {MONTH_TABLE[label.split('-')[0]].slice(0, 3)} {label.split('-')[1]}
                                             </li>
                                         ))}
                                     </ul>

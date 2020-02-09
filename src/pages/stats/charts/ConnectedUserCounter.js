@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 import { daysInMonth } from '../../../utilities/daysInMonth';
 import {MONTH_TABLE } from '../../../utilities/monthTable';
+import Title from "../../../components/title/Title";
 
 class UserConnection extends Component {
     state = {
-
         data: {
             labels: [],
             datasets: []
@@ -79,7 +79,7 @@ class UserConnection extends Component {
                 labels: labels,
                 datasets: [
                     {
-                        label: `Number of connections - ${MONTH_TABLE[month - 1]} ${year}`,
+                        label: `Number of connected users - ${MONTH_TABLE[month - 1]} ${year}`,
                         data: datasets,
                         backgroundColor: 'transparent'
                     }
@@ -194,25 +194,22 @@ class UserConnection extends Component {
         let statsUserConnection = <div>loading</div>
         if(!loading){
             statsUserConnection = (
-                <section className="stats__usersConnection">
-                    <h1 className="app__primary__title">User Connected</h1>
+                <section className="stats__section">
+                    <Title title="Connected users"/>
                     <div className="stats__userConnection__container">  
-
                         <div className="stats__userConnection__filter">
                             <h2 className="stats__userConnection__filter__title">Filtre</h2>
                             <ul className="stats__userConnection__filter__list">
-
                                 <li className={`stats__userConnection__filter__list__item
                                             ${filter === 'general' ? 'active': ''}`}
                                     onClick={() => this.selectFilterHandler('general')}>
                                         general
                                 </li>
-
                                 <li className={`stats__userConnection__filter__list__item
                                             ${filter === 'month' ? 'active': ''}`}
                                     onClick={() => this.selectFilterHandler('month')}>
                                     <div className="stats__userConnection__filter__list__item__key">Par mois</div>
-                                    <div className="stats__userConnection__filter__list__item__value">{selectedMonth}</div>
+                                    <div className="stats__userConnection__filter__list__item__value">{MONTH_TABLE[selectedMonth.split('-')[0]].slice(0, 3)} {selectedMonth.split('-')[1]}</div>
                                     <ul className={`stats__userConnection__filter__byMonthList
                                                     ${filter === 'month'  ? 'shown' : ''}`}>
                                         {mm_yyyy_labels.map(label => (
@@ -220,14 +217,13 @@ class UserConnection extends Component {
                                                 onClick={() => this.selectUsersConnectionFilterByMonth(label)} 
                                                 className={`stats__userConnection__filter__byMonthList__item
                                                             ${selectedMonth === label ? 'active' : ''}`}>
-                                                {label}
+                                                {MONTH_TABLE[label.split('-')[0]].slice(0, 3)} {label.split('-')[1]}
                                             </li>
                                         ))}
                                     </ul>
                                 </li>
                             </ul>
-                        </div>     
-                    
+                        </div>                        
                         <div className="stats__userConnection__chartContainer">
                             <Line 
                                 options={{

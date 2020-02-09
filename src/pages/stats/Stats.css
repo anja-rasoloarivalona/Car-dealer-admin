@@ -1,22 +1,18 @@
 .stats {
     grid-column: 2 / 3;
     grid-row: 2 /3;
-    /* padding: 1rem 2rem;
-    padding-left: 4rem; */
 }
 
+/*----- start navigation --------*/
 .stats__nav {
     width: 100%;
     background: var(--color-grey-light);
     margin-bottom: 3rem;
 }
-
 .stats__nav__list {
     list-style: none;
     display: flex;
 }
-
-
 .stats__nav__list__item {
     width: 15rem;
     background: var(--color-grey-dark);
@@ -30,14 +26,16 @@
     color: var(--color-white);
     cursor: pointer;
 }
-
 .stats__nav__list__item.active {
     background: var(--color-white);
     color: var(--color-primary);
     border-bottom: none;
 }
+/*------ end navigation ---------*/
 
 
+
+/*-- start section and title----- */
 .stats__section {
     display: flex;
     flex-direction: column;
@@ -45,33 +43,25 @@
     margin-bottom: 5rem;
     position: relative;
 }
-.stats__productViews {
-    
-}
-
 .stats__section__title {
     position: relative;
 }
-
-.stats__section .app__primary__title {
-    width: 80vw;
-    margin-bottom: 4rem;
-}
-
 .stats__section__title__cta {
     position: absolute;
     display: flex;
-    top: 1rem;
+    top: 0;
     right: 0;    
 }
+/*-- end section and title----- */
 
-.stats__productViews__list {
+
+/*------- start brand list -------- */
+.stats__section__list {
     list-style: none;
     width: 55%;
     margin-right: 6rem;
 }
-
-.stats__productViews__list__item {
+.stats__section__list__item {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -79,10 +69,7 @@
     margin-bottom: 2rem;
     border-radius: 5px;
 }
-
-
-
-.stats__productViews__list__item__brandContainer {
+.stats__section__list__item__brandContainer {
     display: flex;
     align-items: center;
     height: 4rem;
@@ -92,32 +79,26 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
-
-
-.stats__productViews__list__item__brand{
+.stats__section__list__item__brand{
     margin-right: 2rem;
     width: 8rem;
 
 }
-
-.stats__productViews__list__item__viewBar {
+.stats__section__list__item__viewBar {
     flex: 1;
     height: 5px;
     margin-right: 2rem;
     border-radius: 3px;
     position: relative;
 } 
-
-.stats__productViews__list__item__viewBar__inner {
+.stats__section__list__item__viewBar__inner {
     position: absolute;
     left: 0;
     height: 100%;
     background: var(--color-primary);
     border-radius: 3px;
 }
-
-
-.stats__productViews__item__models__list {
+.stats__section__list__item__modelsList {
     padding-top: 2rem;
     list-style: none;
     padding: 0 1rem;
@@ -128,45 +109,44 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
-.stats__productViews__list__item.showList .stats__productViews__item__models__list {
+.stats__section__list__item.showList .stats__section__list__item__modelsList {
    display: block;
 }
-
-.stats__productViews__item__models__list__item {
+.stats__section__list__item__modelsList__item {
     display: flex;
     align-items: center;
     margin-bottom: 2rem;
 }
-
-.stats__productViews__item__models__list__item:first-child{
+.stats__section__list__item__modelsList__item:first-child{
     margin-top: 2rem;
 }
-
-.stats__productViews__item__models__list__item__model {
+.stats__section__list__item__modelsList__item__model {
     width: 8rem;
     margin-right: 2rem;
     text-align: end;
 }
-
-.stats__productViews__item__models__list__item__viewBar {
+.stats__section__list__item__modelsList__item__viewBar {
     width: 15rem;
     height: 5px;
     margin-right: 2rem;
     position: relative;
     flex: 1;
 }
-
-.stats__productViews__item__models__list__item__viewBar__inner {
+.stats__section__list__item__modelsList__item__viewBar__inner {
     position: absolute;
     left: 0;
     height: 100%;
     background: rgb(102, 83, 83);
     border-radius: 3px;
 } 
+.stats__section__list__item__modelsList__item__viewCounter {
+
+}
+/*------- end brand list -------- */
 
 
-.stats__topViews__list {
+/*--- start products list ----*/
+.stats__products__list {
     width: 93%;
     list-style: none;
     display: grid;
@@ -181,8 +161,5 @@
     margin: 1rem 0;  
 }
 
-.stats__usersConnection {
-    display: flex;
-    flex-direction: column;
-    
-}
+/*--- end products list ----*/
+

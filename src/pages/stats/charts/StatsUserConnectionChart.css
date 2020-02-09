@@ -4,10 +4,6 @@
     width: 80vw;
 }
 
-.stats__usersConnection > h1 {
-    width: 80vw;
-    align-self: center;
-}
 .stats__userConnection__chartContainer {
     position: relative;
     width: 70rem;
@@ -16,23 +12,28 @@
 .stats__userConnection__filter {
     width: 25rem;
     margin-right: 6rem;
+    border-radius: 5px;
 }
 
 .stats__userConnection__filter__title {
-    background: violet;
+    background: var(--color-grey-dark);
     padding: 1rem 0;
     padding-left: 1rem;
+    color: var(--color-white);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .stats__userConnection__filter__list {
     list-style: none;
+    height: auto;
+    
 }
 
 .stats__userConnection__filter__list__item {
     padding: .5rem 1rem;
     border-bottom: 1px solid var(--color-grey);
     cursor: pointer;
-
     display: flex;
     justify-content: space-between;
     position: relative;
@@ -40,20 +41,19 @@
 }
 
 .stats__userConnection__filter__list__item.active {
-    background: green;
+    background: var(--color-primary);
+    color: var(--color-white)
 }
 
 .stats__userConnection__filter__byMonthList {
     list-style: none;
     position: absolute;
-    top: calc(100% + .7rem);
+    top: 100%;
     right: 0;
     width: 50%;
     display: none;
-}
-
-.stats__userConnection__filter__byMonthList__item.active {
-    background: brown;
+    background: var(--color-grey-light);
+    color: black
 }
 
 .stats__userConnection__filter__byMonthList.shown {
@@ -64,6 +64,14 @@
     padding: .5rem 0;
     padding-left: .5rem;
 }
+
+.stats__userConnection__filter__byMonthList__item.active {
+    background: var(--color-grey);
+}
+
+
+
+
 
 .stats__userConnection__filter__list__item__key {
   
