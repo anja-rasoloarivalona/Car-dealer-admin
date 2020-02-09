@@ -77,7 +77,7 @@ class FavoriteProducts extends Component {
 
                     <div className="stats__section__title">
                         <h1 className="app__primary__title">
-                            Per brand
+                            Favorite products
                         </h1>
                         <div className="stats__section__title__cta">
                             <Button color="primary"

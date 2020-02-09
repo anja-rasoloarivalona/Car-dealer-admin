@@ -184,4 +184,5 @@
 .stats__usersConnection {
     display: flex;
     flex-direction: column;
+    
 }

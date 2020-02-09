@@ -182,8 +182,8 @@ class UserConnection extends Component {
         if(!loading){
             statsUserConnection = (
                 <section className="stats__usersConnection">
+                     <h1 className="app__primary__title">Website loadings</h1>
                     <div className="stats__userConnection__container">  
-
                         <div className="stats__userConnection__filter">
                             <h2 className="stats__userConnection__filter__title">Filtre</h2>
                             <ul className="stats__userConnection__filter__list">

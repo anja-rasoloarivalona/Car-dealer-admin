@@ -1,9 +1,13 @@
 .stats__userConnection__container {
     display: flex;
     align-self: center;
-    width: 80%;
+    width: 80vw;
 }
 
+.stats__usersConnection > h1 {
+    width: 80vw;
+    align-self: center;
+}
 .stats__userConnection__chartContainer {
     position: relative;
     width: 70rem;
