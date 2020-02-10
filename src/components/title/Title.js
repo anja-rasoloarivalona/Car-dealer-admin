@@ -5,7 +5,7 @@ const Title = props => {
     return (
         <div className="app__titleContainer">
             <h1 className="app__title app__title--primary">
-                {props.title}{props.titleCounter}
+                {props.title}
             </h1>
             {props.children}
         </div>

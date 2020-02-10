@@ -1,11 +1,9 @@
 import React from 'react';
 import Title from '../../components/title/Title';
+import Button from '../../components/button/Button'
 
 const SuppliersList = props => {
-
     let suppliers = props.suppliers;
-
-   
     return (
         <ul className="suppliers__list">
                     <Title title = "Suppliers">
@@ -17,11 +15,9 @@ const SuppliersList = props => {
                     {suppliers.map(supplier => (
                         <li className="suppliers__list__item"
                             key={supplier._id}>
-
-
                             <div className="suppliers__list__item__header">
                                 <h3 className="suppliers__list__item__header__name">{supplier.name}</h3> 
-                                <div className="suppliers__list__item__header__cta">
+                                <div className="suppliers__list__item__header__cta">                     
                                     <div className="suppliers__list__item__header__cta__btn suppliers__list__item__header__cta__btn--edit"
                                          onClick={() => props.editSupplierHandler(supplier)}>
                                         Edit

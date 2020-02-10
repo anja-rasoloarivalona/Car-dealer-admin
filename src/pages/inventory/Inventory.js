@@ -9,6 +9,7 @@ import Paginator from '../../components/paginator/Paginator';
 import InputRange from "react-input-range";
 import 'react-input-range/lib/css/index.css';
 import DropDownList from '../../components/dropDownList/DropDownList';
+import Title from '../../components/title/Title';
 
 class Inventory extends Component {
 
@@ -671,12 +672,8 @@ class Inventory extends Component {
                     </div>
                 </div>
                 <div className="inventory__counter">
-                       <span>
-                          Products found :
-                      </span>  
-                      <div>
-                        {this.props.totalProducts}
-                      </div>
+                        <Title title={`Products - ${this.props.totalProducts}`}>
+                        </Title>
                 </div>               
               {productsList}
       </div>

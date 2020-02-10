@@ -112,7 +112,7 @@
     margin-top: 3rem;
 }
 
-table, th, td {
+.users__table, .users__table th, .users__table td {
     border: 1px solid rgb(233, 232, 232);
     border-collapse: collapse;  
    

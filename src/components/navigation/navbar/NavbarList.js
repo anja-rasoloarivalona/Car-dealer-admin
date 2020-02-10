@@ -1,8 +1,13 @@
 export const NAV_LINKS = [
     {
-        path: 'ajouter',
-        text: 'Ajouter',
-        icon: 'pencil'
+        path: 'stats',
+        text: 'Statistiques',
+        icon: 'stats'
+    },
+    {
+        path: 'users',
+        text: 'Users',
+        icon: 'users'
     },
     {
         path: 'publicity',
@@ -10,20 +15,18 @@ export const NAV_LINKS = [
         icon: 'pub'
     },
     {
-        path: 'stats',
-        text: 'Statistiques',
-        icon: 'stats'
+        path: 'ajouter',
+        text: 'Ajouter',
+        icon: 'pencil'
     },
-    {
-        path: 'commandes',
-        text: 'Commandes',
-        icon: 'command'
-    },
-    {
-        path: 'users',
-        text: 'Users',
-        icon: 'users'
-    },
+    
+    
+    // {
+    //     path: 'commandes',
+    //     text: 'Commandes',
+    //     icon: 'command'
+    // },
+    
     {
         path: 'fournisseurs',
         text: 'Fournisseurs',
