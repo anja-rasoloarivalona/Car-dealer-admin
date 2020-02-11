@@ -19,7 +19,6 @@
     font-size: var(--font-size-xl);
 }
 
-
 .messagesContainer__body__chatContainer {
     display: flex;
     flex-direction: column; 
@@ -90,11 +89,13 @@
 
 
 .messagesSender {
-    min-height: 9rem;
-   height: auto;
+   min-height: 9rem;
    display: flex;
    align-items: center;
+   justify-content: space-around;
    position: relative;
+
+   /* background: green; */
 }
 
 .messagesSender__cta {   
@@ -102,20 +103,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateY(-.6rem);
     margin-left: 2rem;
     transition: all .3s ease-in;
 }
 
-.messagesSender__cta.small {
-    width: 20%;
-}
-
-.messagesSender__cta.big {
-    width: 25%;
-}
-
-.messageSender__cta__iconContainer {
+.messagesSender__cta__iconContainer {
     background: var(--color-grey-light);
     width: 4rem;
     height: 4rem;
@@ -126,7 +118,7 @@
     border-radius: 50%;
 }
 
-.messageSender__cta__iconContainer.active {
+.messagesSender__cta__iconContainer.active {
     background: var(--color-primary);
 }
 .messagesSender__cta  svg{
@@ -136,20 +128,25 @@
    cursor: pointer;
 }
 
-.messageSender__cta__iconContainer.active svg {
+.messagesSender__cta__iconContainer.active svg {
     fill: var(--color-white)
 }
 
 
-.messagesSender__textarea {
+.messagesSender__textareaContainer {
     width: 65%;
-     /* min-height: 3rem; */
-    /* max-height: 6rem;  */
+    position: relative;
+    height: 4rem;
+    /* background: red; */
+}
+
+.messagesSender__textarea {
+    width: 90%;
     padding: .8rem 1.2rem !important;
     padding-left: 1.4rem !important;     
     position: absolute;
-    bottom: 3rem;
-    right: 9rem;
+    bottom: 0rem;
+    left: 0rem;
     border-radius: 1rem;
     background: var(--color-grey-light); 
     border: none
@@ -163,8 +160,10 @@
     width: 3rem;
     height: 3rem;
     position: absolute;
-    right: 3rem;
-    bottom: 3.3rem;
+    right: 0rem;
+    bottom: 0;
+    top: 0;
+    margin: auto; 
     fill: rgb(49, 49, 158);
     cursor: pointer;
     z-index: 1;

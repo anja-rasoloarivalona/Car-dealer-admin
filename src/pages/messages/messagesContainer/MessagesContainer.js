@@ -191,37 +191,35 @@ class MessagesContainer extends Component {
                 
                 <div className="messagesSender"> 
 
-                    <div className={`messagesSender__cta
-                                    ${showUserInfos ? 'small' : 'big'}`}>
-
-                        <div className={`messageSender__cta__iconContainer ${showUserInfos ? 'active': ''}`}
+                    <div className={`messagesSender__cta`}>
+                        <div className={`messagesSender__cta__iconContainer ${showUserInfos ? 'active': ''}`}
                              onClick={this.toggleShowUserInfos}>
                             <IconSvg icon="file"/>
                         </div>
-
-                        <div className={`messageSender__cta__iconContainer ${showInfo ? 'active': ''}`}
+                        <div className={`messagesSender__cta__iconContainer ${showInfo ? 'active': ''}`}
                              onClick={this.toggleShowInfo}>
                                 <IconSvg icon="eye"/>
                         </div>
-                        <div className="messageSender__cta__iconContainer">
-                        <IconSvg icon="user"/>
-                        </div>
-                        
-                       
-                        
+                        <div className="messagesSender__cta__iconContainer">
+                            <IconSvg icon="user"/>
+                        </div>              
                     </div>
 
-                    <AutoSizeTextArea 
-                        value={this.state.messageInput}
-                        placeholder='message'
-                        onChange={this.messageChangeHandler}
-                        className= "messagesSender__textarea"
-                    />
-
-                    <IconSvg icon='send'
+                    <div className="messagesSender__textareaContainer">
+                        <AutoSizeTextArea 
+                            value={this.state.messageInput}
+                            placeholder='message'
+                            onChange={this.messageChangeHandler}
+                            className= "messagesSender__textarea"
+                        />
+                         <IconSvg icon='send'
                             onClick={this.sendMessageHandler}
                             customClass='messagesSender__sender-btn'
-                    />
+                        />
+                    </div>
+                    
+
+                   
 
                 </div>
                 
