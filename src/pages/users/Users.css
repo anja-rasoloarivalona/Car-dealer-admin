@@ -97,12 +97,12 @@
 
 .users__search__results__item__name {
     text-transform: capitalize;
-    font-size: 1.3rem;
+    font-size: var(--font-size-md);
     font-weight: 600;
 }
 
 .users__search__results__item.users__search__results__item--noResult {
-    font-size: 1.4rem;
+    font-size: var(--font-size-xl);
     font-weight: 600;
 }
 
@@ -121,7 +121,6 @@
 
 
 .users__table th {
-    font-size: 1.2rem;
     padding: 1.7rem;
     background: rgb(248, 245, 245);
     text-align: center;
@@ -130,7 +129,7 @@
 .users__table__data td {
     text-align: left;
     padding: 2rem;
-    font-size: 1.2rem;
+    font-size: var(--font-size-xs);
  
 }
 

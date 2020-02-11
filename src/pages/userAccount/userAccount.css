@@ -23,7 +23,6 @@
     width: 80vw;
     padding: 2rem 0;
     margin-bottom: 3rem;
-    /* border-bottom: 1px solid var(--color-grey); */
     display: flex;
     align-items: center;
     position: relative;
@@ -50,13 +49,14 @@
 
 .user__account__header__id__name {
     text-transform: capitalize;
-    font-size: 1.3rem;
+    font-size: var(--font-size-md);
 }
 
 .user-account__header__infos {
     display: flex;
     align-items: center;
     height: 5rem;
+  
 }
 
 .user-account__header__infos__group {
@@ -68,7 +68,7 @@
     background: var(--color-grey-light);
     width: 16rem;
     border-radius: 5px;
-    font-size: 1.1rem;
+    font-size:var(--font-size-xs);
 }
 
 .user-account__header__infos__group svg {
@@ -89,7 +89,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    font-size: var(--font-size-xs);
     padding: 1rem 3rem;
     border-radius: 3px;
     color: var(--color-white);
@@ -131,7 +131,7 @@
     align-items: center;
     justify-content: center;
     height: 15rem;
-    font-size: 1.5rem;
+    font-size: var(--font-size-xl);
     
 }
 

@@ -94,7 +94,7 @@ class MessagesNavbar extends Component {
                                         {`${message.firstName.slice(0, 1)}${message.lastName.slice(0, 1)}`}
                                     </div>  
                                     <div className="messagesNavbar__list__item__message">
-                                            <h3>{`${message.firstName} ${message.lastName}`}</h3>
+                                            <div className="messagesNavbar__list__item__message__name">{`${message.firstName} ${message.lastName}`}</div>
                                             {message.messages[0].senderType === 'admin' && (
                                                     <span>admin: {
                                                         message.messages[0].message.slice(0, 25)}...
@@ -116,7 +116,7 @@ class MessagesNavbar extends Component {
                                         {`${message.firstName.slice(0, 1)}${message.lastName.slice(0, 1)}`}
                                     </div>
                                     <div className="messagesNavbar__list__item__message">
-                                            <h3>{`${message.firstName} ${message.lastName}`}</h3>
+                                            <div className="messagesNavbar__list__item__message__name">{`${message.firstName} ${message.lastName}`}</div >
                                     </div>
                                 </li>
                             )

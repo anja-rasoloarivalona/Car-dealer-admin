@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Inventory.css";
 import Product from "../../components/product/Product";
-import { connect, connectAdvanced } from "react-redux";
+import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import Loader from "../../components/loader/Loader";
 import queryString from 'querystring';
@@ -10,6 +10,7 @@ import InputRange from "react-input-range";
 import 'react-input-range/lib/css/index.css';
 import DropDownList from '../../components/dropDownList/DropDownList';
 import Title from '../../components/title/Title';
+import IconSvg from '../../utilities/svg/svg';
 
 class Inventory extends Component {
 
@@ -658,23 +659,26 @@ class Inventory extends Component {
                         />
                     </div>
                 </div>
+              </div>
 
-                <div className="inventory__controller__shortcut">
-                      <div className={`inventory__controller__shortcut__button inventory__controller__shortcut__button--displayMode
-                                      ${displayMode === 'list' ? 'active': ''}`}
-                          onClick={this.toggleDisplayMode}>
-                            Afficher données
-                      </div> 
-                      <div className="inventory__controller__shortcut__button inventory__controller__shortcut__button--reset"
-                          onClick={this.resetHandler}>
-                            Reset
-                      </div>              
-                    </div>
-                </div>
-                <div className="inventory__counter">
+
+              <div className="inventory__counter">
                         <Title title={`Products - ${this.props.totalProducts}`}>
+                          <div className="inventory__controller__shortcut">
+                            <div className={`inventory__controller__shortcut__button inventory__controller__shortcut__button--displayMode
+                                            ${displayMode === 'list' ? 'active': ''}`}
+                                onClick={this.toggleDisplayMode}>
+                                  <IconSvg icon="eye"/>
+                                  <span>Show Data</span>
+                            </div> 
+                            <div className="inventory__controller__shortcut__button inventory__controller__shortcut__button--reset"
+                                onClick={this.resetHandler}>
+                                  <IconSvg icon="return"/>
+                                  <span>Reset</span>
+                          </div>              
+                        </div>
                         </Title>
-                </div>               
+              </div>               
               {productsList}
       </div>
     )

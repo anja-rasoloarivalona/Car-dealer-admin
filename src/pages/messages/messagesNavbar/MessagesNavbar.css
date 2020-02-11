@@ -44,13 +44,15 @@
     text-transform: uppercase;
 }
 
-.messagesNavbar__list__item__message h3 {
-    font-size: 1.3rem;
+.messagesNavbar__list__item__message__name{
+    font-size: var(--font-size-md);
+    font-weight: 600;
     margin-bottom: 3px;
     text-transform: capitalize;
 }
 
-.messagesNavbar__list__item__message p {
-    font-size: 1.1rem;
+.messagesNavbar__list__item__message span,
+.messagesNavbar__list__item__message div {
+    font-size: var(--font-size-xs);
 }
 

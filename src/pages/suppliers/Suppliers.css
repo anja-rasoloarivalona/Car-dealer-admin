@@ -24,7 +24,7 @@
     justify-content: center;
     width: 10rem;
     height: 3rem;
-    font-size: 1.3rem;
+    font-size: var(--font-size-md);
     border-radius: 5px;
     cursor: pointer;
     text-transform: lowercase;

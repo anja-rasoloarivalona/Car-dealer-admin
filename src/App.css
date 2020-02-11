@@ -14,6 +14,13 @@
   --color-grey: #c5c5c5;
   --color-grey-dark: #afafaf;
   --color-grey-light: #ECE8E3;
+
+
+  --font-size-xs: 1rem;
+  --font-size-md: 1.2rem;
+  --font-size-xl: 1.4rem;
+  
+  
   
 }
 
@@ -41,6 +48,7 @@ body {
   box-sizing: border-box;
   overflow-x: hidden;
   font-family: 'Open Sans', sans-serif;
+  font-size: var(--font-size-xs);
 }
 
 .app {
