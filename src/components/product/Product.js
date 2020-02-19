@@ -10,12 +10,9 @@ const product = props => {
                 <div className="product__imgContainer__hoverLayer"></div>
                 <img src={props.mainImg} alt="main img" className="product__img"/>
                     <IconSvg icon="search"/>
-            </div>
-            
-            
+            </div>        
             <div className="product__details">
                 <div className="product__details__model">
-                   {/*<span>{props.brand} {props.model}</span>*/} 
                    <span>{props.title}</span>
                     <span>{props.year}</span>
                 </div>
@@ -23,7 +20,6 @@ const product = props => {
                     {props.price.toLocaleString()} MRU
                 </div>           
             </div>
-
             <ul className="product__specList">
                 <li className="product__specList__item">
                     <span>{props.nbKilometers}</span>

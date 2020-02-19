@@ -125,9 +125,9 @@ class MessagesContainer extends Component {
     sendMessageHandler = () => {
         let timeStamp = timeStampGenerator();
 
-        let url = "https://africauto.herokuapp.com/messages/admin/" + this.props.userId; 
+        // let url = "https://africauto.herokuapp.com/messages/admin/" + this.props.userId; 
 
-      //  let url = "http://localhost:8000/messages/admin/" + this.props.userId;
+       let url = "http://localhost:8000/messages/admin/" + this.props.userId;
         let method = "POST";
 
         fetch(url, {

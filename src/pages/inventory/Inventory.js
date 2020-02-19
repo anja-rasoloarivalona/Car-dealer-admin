@@ -460,10 +460,14 @@ class Inventory extends Component {
         this.props.setProductsQueries(query);
         this.props.setSavedProductsQueriesToTrue();
         this.setState({ query: query, products: products, loading: false});
-        this.props.history.push({ 
-              pathname: '/inventory',
-              search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}&page=${query.page}`,
-        })   
+
+        if(query){
+          this.props.history.push({ 
+            pathname: '/inventory',
+            search: `sortBy=${query.sortBy}&supplier=${query.supplierName}&brand=${query.brand}&model=${query.model}&minPrice=${query.price.value.min}&maxPrice=${query.price.value.max}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}&page=${query.page}`,
+      })  
+        }
+         
       })
       .catch(err => {
         console.log(err);

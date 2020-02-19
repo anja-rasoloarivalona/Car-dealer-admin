@@ -40,6 +40,14 @@ export const INITIAL_FORM = {
             placeholder: 'prix',
             value: 0
         },
+        bodyType: {
+            valueType: 'text',
+            control: 'select',
+            label: 'body type',
+            placeholder: 'body type',
+            value: 'sedan',
+            options: ['sedan','coupe','hatchBack','SUV','crossover','minivan','pickup']
+        },
             
 
         nbKilometers: {

@@ -115,11 +115,15 @@ class Publicity extends Component {
     }
 
     saveHandler = () => {
-        const {publicitySelectedProducts, newPubProducts, homePageSelectedProducts, newHomePageProducts } = this.state;
+        const {publicitySelectedProducts, newPubProducts, homePageSelectedProducts, newHomePageProducts } = this.props;
 
         const formData = new FormData();
 
         formData.append("removeFromPub", publicitySelectedProducts);
+
+        console.log('publoicit', publicitySelectedProducts);
+
+
         formData.append("removeFromHomePage", homePageSelectedProducts);
 
         if(newPubProducts){
