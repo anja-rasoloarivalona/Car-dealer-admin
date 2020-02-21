@@ -29,18 +29,21 @@ const SuppliersList = props => {
                                 </div>
                             </div>
 
+                            <div className="suppliers__list__item__infoGroup">
+                                <div className="suppliers__list__item__info">{supplier.email}</div>
+                                <div className="suppliers__list__item__info">{supplier.phoneNumber}</div>
+                                <div className="suppliers__list__item__info">{supplier.address}</div>
+                            </div>
 
-                            <div className="suppliers__list__item__info">{supplier.email}</div>
-                            <div className="suppliers__list__item__info">{supplier.phoneNumber}</div>
-                            <div className="suppliers__list__item__info">{supplier.address}</div>
+                            
 
                             <div className="suppliers__list__item__nav">
                                 <div className={`suppliers__list__item__nav__item
                                                 ${supplier.currentView === 'contacts' ? 'active': ''}`}
                                      onClick={() => props.supplierNavigationHandler(supplier._id, 'contacts')}>Contacts</div>
-                                <div className={`suppliers__list__item__nav__item
+                                {/* <div className={`suppliers__list__item__nav__item
                                                 ${supplier.currentView === 'products' ? 'active': ''}`}
-                                    onClick={() => props.supplierNavigationHandler(supplier._id, 'products')}>Products</div>
+                                    onClick={() => props.supplierNavigationHandler(supplier._id, 'products')}>Products</div> */}
                             </div>
 
                             <table className="suppliers__list__item__responsiblesTable">
@@ -48,7 +51,7 @@ const SuppliersList = props => {
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>phoneNumber</th>
+                                        <th>Phone Number</th>
                                         <th>Poste</th>
                                     </tr>
                                 </thead>

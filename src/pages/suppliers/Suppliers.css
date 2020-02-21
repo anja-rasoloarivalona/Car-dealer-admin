@@ -46,12 +46,16 @@
 }
 
 .suppliers__list__item__header {
-    background: var(--color-grey-dark);
+    background: var(--color-primary);
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 5rem;
     color: var(--color-white);
+}
+
+.suppliers__list__item__header__name {
+    padding-left: 2rem;
 }
 
 .suppliers__list__item__header__cta {
@@ -61,7 +65,7 @@
 
 .suppliers__list__item__header__cta__btn {
     padding: .7rem 0;
-    background: yellow;
+    background: transparent;
     width: 7rem;
     margin: 0 1rem;
     display: flex;
@@ -76,15 +80,23 @@
     padding-left: .5rem;
 }
 
+
+.suppliers__list__item__infoGroup {
+    border-left:  1px solid rgb(233, 232, 232);
+    border-right:  1px solid rgb(233, 232, 232);
+    padding: 2rem 0;
+    padding-left: 2rem;
+  
+}
 .suppliers__list__item__info {
-    margin: .5rem 0;
+   margin-bottom: 1rem;
+   font-size: var(--font-size-md);
 }
 
 
 .suppliers__list__item__nav {
-    background: var(--color-dark);
+    background: var(--color-grey);
     display: flex;
-    margin-top: 1rem;
     height: 3rem;
     padding-left: 0rem;
 }
@@ -100,7 +112,7 @@
 }
 
 .suppliers__list__item__nav__item.active {
-    background: var(--color-primary);
+    background: var(--color-grey);
 }
 
 .suppliers__list__item__responsiblesTable {
@@ -110,7 +122,8 @@
 .suppliers__list__item__responsiblesTable th,
 .suppliers__list__item__responsiblesTable td {
     border: 1px solid rgb(233, 232, 232);
-    border-collapse: collapse;  
+    border-collapse: collapse; 
+    font-size: var(--font-size-md); 
 }
 
 
@@ -122,7 +135,7 @@
 .suppliers__list__item__responsiblesTable thead th,
 .suppliers__list__item__responsiblesTable__row__data {
     padding: 1rem 0;
-    padding-left: .5rem;
+    padding-left: 1rem;
 }
 
 .suppliers__form {
