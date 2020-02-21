@@ -192,7 +192,7 @@ class UserConnection extends Component {
                                             ${filter === 'month' ? 'active': ''}`}
                                     onClick={() => this.selectFilterHandler('month')}>
                                     <div className="stats__userConnection__filter__list__item__key">Par mois</div>
-                                    <div className="stats__userConnection__filter__list__item__value">{MONTH_TABLE[selectedMonth.split('-')[0]].slice(0, 3)} {selectedMonth.split('-')[1]}</div>
+                                    <div className="stats__userConnection__filter__list__item__value">{MONTH_TABLE[selectedMonth.split('-')[0] - 1].slice(0, 3)} {selectedMonth.split('-')[1]}</div>
                                     <ul className={`stats__userConnection__filter__byMonthList
                                                     ${filter === 'month'  ? 'shown' : ''}`}>
                                         {mm_yyyy_labels.map(label => (
