@@ -144,14 +144,14 @@ import * as actions from '../../../store/actions';
                                 autoComplete = 'new-password'/>
                 </ul>
 
-                <div className='login__options'>
+                {/* <div className='login__options'>
                     <div className="login__options--1" >
                         Mot de passe oublié
                     </div>
                     <div className="login__options--1">
                         Pas encore membre ?
                     </div>
-                </div>
+                </div> */}
 
                 <div className="auth__button">
                     <Button color='primary' type='submit'>

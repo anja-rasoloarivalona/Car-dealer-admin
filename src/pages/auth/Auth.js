@@ -11,15 +11,15 @@ import Loader from '../../components/loader/Loader';
 class Auth extends Component {
 
     state= {
-        requestedForm: 'signup',
+        // requestedForm: 'signup',
         loading: false,
         error: false
     }
 
 
-    setRequestedForm = requested => {
-        this.setState({ requestedForm: requested})
-    }
+    // setRequestedForm = requested => {
+    //     this.setState({ requestedForm: requested})
+    // }
 
     setLoadingToTrue = () => {
         this.setState({ loading: true})
@@ -31,11 +31,17 @@ class Auth extends Component {
 
     render() {
         return (
-            <section className="auth">
-                  
+            <section className="auth">            
                   <div className="auth__container">
-
-                        {
+                    <div className="auth__controller">
+                        <div className={`auth__controller__button `}>
+                            Login
+                        </div>
+                    </div>
+                  <Login setLoadingToTrue={this.setLoadingToTrue}
+                         setLoadingToFalse = {this.setLoadingToFalse}
+                    />
+                        {/* {
                             this.state.error === false && (
                             <div className="auth__controller">
                                 <div className={`auth__controller__button 
@@ -50,9 +56,11 @@ class Auth extends Component {
                                 </div>
                             </div>
                             )
-                        }
+                        } */}
 
-                      {
+                   
+
+                      {/* {
                           this.state.requestedForm === 'signup' && (
                           <Signup setLoadingToTrue={this.setLoadingToTrue}
                                   setLoadingToFalse = {this.setLoadingToFalse}
@@ -60,16 +68,7 @@ class Auth extends Component {
                                   resetErrors={this.resetErrors}
                                   requestLoginForm={() => this.setRequestedForm('login')}/>
                           )
-                      }
-
-                      {
-                          this.state.requestedForm === 'login' && (
-                              <Login setLoadingToTrue={this.setLoadingToTrue}
-                                     setLoadingToFalse = {this.setLoadingToFalse}/>
-                          )
-                      }
-                      
-                      
+                      } */}        
                   </div>
           </section>
         )
