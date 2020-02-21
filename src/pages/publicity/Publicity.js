@@ -120,10 +120,6 @@ class Publicity extends Component {
         const formData = new FormData();
 
         formData.append("removeFromPub", publicitySelectedProducts);
-
-        console.log('publoicit', publicitySelectedProducts);
-
-
         formData.append("removeFromHomePage", homePageSelectedProducts);
 
         if(newPubProducts){
