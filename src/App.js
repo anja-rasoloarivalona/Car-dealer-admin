@@ -72,14 +72,23 @@ class App extends Component {
         return res.json()
     })
     .then(resData => {
+
+
         let suppliers = resData.suppliers;
         //We need to set the current view for the suppliers list page
         suppliers.forEach(supplier => {
             supplier.currentView = 'contacts'
         })
+
       this.props.setSuppliers(suppliers);
-      this.props.setBrandsAndModels(resData.brandsAndModels);
-      this.props.setTotalProducts(resData.totalProducts)
+       this.props.initAppData(resData)
+ 
+      // this.props.setBrandsAndModels(resData.brandsAndModels);
+      // this.props.setTotalProducts(resData.totalProducts);
+
+
+
+
       this.setState({ loading: false})
     })
     .catch( err => {
@@ -176,12 +185,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setLoginStateToTrue: (isAuth, token, adminId, adminName) => dispatch(actions.setLoginStateToTrue(isAuth, token, adminId, adminName)),
     setLoginStateToFalse: () => dispatch(actions.setLoginStateToFalse()),
-
-
-    setBrandsAndModels: data => dispatch(actions.setBrandsAndModels(data)),
+    initAppData: data => dispatch(actions.initAppData(data)),
     setSuppliers: data => dispatch(actions.setSuppliers(data)),
 
-    setTotalProducts : data => dispatch(actions.setTotalProducts(data))
   }
 }
 

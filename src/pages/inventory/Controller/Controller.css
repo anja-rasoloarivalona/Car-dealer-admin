@@ -1,0 +1,59 @@
+.inventory__controller {
+   
+    justify-content: center;
+    align-content: center;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 20rem);
+    grid-template-rows: repeat(auto-fit, 4rem);
+    grid-auto-rows: 5rem;
+
+    padding: 3rem 0;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    background: var(--color-grey-light);
+}
+
+.inventory__controller .input-range__track--active {
+    background: var(--color-primary) !important;
+}
+
+.inventory__controller .input-range__slider {
+    background: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.inventory__controller__group {
+    width: 20rem;
+    height: 4rem;
+    background: var(--color-white);
+    border-radius: .5rem;
+    padding: 1rem;
+    
+
+}
+
+.inventory__controller__group__infos {
+    display: flex;
+    align-items: center;
+}
+
+.inventory__controller__group__infos__key {
+    margin-right: 1rem;
+}
+
+.inventory__controller__group .input-range__label-container {
+    display: none;
+}
+
+.inventory__controller__group .input-range {
+    margin: 1rem 0;
+    width: 100% !important;
+    transform: translateY(-.6rem);
+}
+
+
+.inventory__controller .drop-down-list__value svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}

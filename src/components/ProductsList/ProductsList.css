@@ -1,0 +1,12 @@
+.products-list {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 29rem);
+    grid-template-rows: repeat(auto-fit, 25rem);
+    grid-auto-rows: 25rem;  
+    column-gap: 1.5rem;
+    row-gap: 3rem;
+    padding: 2rem 0;
+    list-style: none;  
+}

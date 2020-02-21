@@ -1,22 +1,16 @@
 import * as actionTypes from './actionsTypes';
 
 
+export const initAppData = data => {
+    return  {
+        type: actionTypes.INIT_APP_DATA,
+        data: data
+    }
+}
 export const setRequestedProduct = data => {
     return {
         type: actionTypes.SET_REQUESTED_PRODUCT,
         product: data
-    }
-}
-
-export const setSavedProductsQueriesToTrue = () => {
-    return {
-        type: actionTypes.SET_SAVED_PRODUCTS_QUERIES_TO_TRUE
-    }
-}
-export const setProductsQueries = data => {
-    return {
-        type: actionTypes.SET_PRODUCTS_QUERIES,
-        data: data
     }
 }
 
@@ -40,22 +34,16 @@ export const setProducts = data => {
     }
 }
 
-export const setBrandsAndModels = data => {
-    return {
-        type: actionTypes.SET_BRANDS_AND_MODELS,
-        brandsAndModels: data
-    }
-}
-
-export const setTotalProducts = data => {
-    return {
-        type: actionTypes.SET_TOTAL_PRODUCTS,
-        totalProducts: data
-    }
-}
 
 export const addTotalProducts = () => {
     return {
         type: actionTypes.ADD_TOTAL_PRODUCTS
+    }
+}
+
+export const setInventoryCurrentPage = page => {
+    return {
+        type: actionTypes.SET_INVENTORY_CURRENT_PAGE,
+        page: page
     }
 }

@@ -1,13 +1,11 @@
 export {
+    initAppData,
     setRequestedProduct,
     setRequestedProductId,
     toggleEditingMode,
     setProducts,
-    setBrandsAndModels,
-    setTotalProducts,
     addTotalProducts,
-    setProductsQueries,
-    setSavedProductsQueriesToTrue
+    setInventoryCurrentPage
 } from './products'
 
 
@@ -32,13 +30,13 @@ export {
 
 
 export {
-    setCurrentPage
-} from './paginator'
-
-export {
     setError
 } from './error'
 
+export {
+    setCurrency,
+    setLang
+} from './parameters'
 
 export {
     setPublicityData,

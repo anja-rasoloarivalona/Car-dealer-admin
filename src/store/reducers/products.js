@@ -7,25 +7,34 @@ const initialState = {
     productRequestedId: '',
     editingMode: false,
     products: [],
-    brandsAndModels: null,
+    brandAndModelsData: null,
+    price: null,
+    bodyTypeList: null,
     totalProducts: null,
+    itemsPerPage: 6,
+    currentInventoryPage: 1,
+}
 
-    productsQueries: null,
-    savedProductsQueries: false
+const initAppData = (state, action) => {
+    return updatedObject( state, {
+        brandAndModelsData: action.data.brandAndModelsData,
+        price: action.data.price,
+        bodyTypeList: action.data.bodyTypeList,
+        totalProducts: action.data.totalProducts
+    })
 }
 
 
 const reducer = (state = initialState, action) => {
     switch(action.type){
+        case actionTypes.INIT_APP_DATA: return initAppData(state, action);
         case actionTypes.SET_REQUESTED_PRODUCT : return updatedObject(state, {productRequested: action.product});
         case actionTypes.SET_REQUESTED_PRODUCT_ID: return updatedObject(state, {productRequestedId: action.id});
         case actionTypes.TOGGLE_EDITING_MODE: return updatedObject(state, {editingMode: !state.editingMode});
-        case actionTypes.SET_PRODUCTS: return updatedObject(state, {products: action.products});
-        case actionTypes.SET_BRANDS_AND_MODELS: return updatedObject(state, {brandsAndModels: action.brandsAndModels});
-        case actionTypes.SET_TOTAL_PRODUCTS: return updatedObject(state, {totalProducts: action.totalProducts});
+        case actionTypes.SET_PRODUCTS: return updatedObject(state, {products: action.products});     
         case actionTypes.ADD_TOTAL_PRODUCTS: return updatedObject(state, {totalProducts: state.totalProducts + 1});
-        case actionTypes.SET_PRODUCTS_QUERIES: return updatedObject(state, {productsQueries: action.data});
-        case actionTypes.SET_SAVED_PRODUCTS_QUERIES_TO_TRUE: return updatedObject(state, {savedProductsQueries: true})
+        case actionTypes.SET_INVENTORY_CURRENT_PAGE: return updatedObject(state, {currentInventoryPage: action.page})
+
     
         default: return state
     }
