@@ -217,7 +217,7 @@ class UserConnection extends Component {
                                                 onClick={() => this.selectUsersConnectionFilterByMonth(label)} 
                                                 className={`stats__userConnection__filter__byMonthList__item
                                                             ${selectedMonth === label ? 'active' : ''}`}>
-                                                {MONTH_TABLE[label.split('-')[0]].slice(0, 3)} {label.split('-')[1]}
+                                                {MONTH_TABLE[label.split('-')[0] - 1].slice(0, 3)} {label.split('-')[1]}
                                             </li>
                                         ))}
                                     </ul>
