@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import './Navtop.css';
+import IconSvg from '../../../utilities/svg/svg';
+import { connect } from 'react-redux'
 
 class Navtop extends Component {
 
@@ -7,6 +9,26 @@ class Navtop extends Component {
         users: null,
         showUsersList: false
     }
+
+    componentWillMount(){
+        document.addEventListener('mousedown', this.handleClick, false)
+    }
+    
+    componentWillUnmount(){
+         document.removeEventListener('mousedown', this.handleClick, false)
+    }
+
+    handleClick = e => {         
+        if(this.target && this.target.contains(e.target)){
+            return
+        } else {
+            if(this.state.showUsersList){
+                this.hideUsersList()
+            }
+            
+        }     
+    }
+
 
     componentDidMount(){
         this.fetchUsersHandler()
@@ -17,6 +39,10 @@ class Navtop extends Component {
             ...prevState,
             showUsersList: !prevState.showUsersList
         }))
+    }
+
+    hideUsersList = () => {
+        this.setState({showUsersList: false})
     }
 
     fetchUsersHandler = () => {
@@ -46,16 +72,26 @@ class Navtop extends Component {
         let connectedUsers = ''
         if(users){
             connectedUsers = (
-                <div className="nav__top__connected">
+                <div className="nav__top__connected"
+                ref={el => this.target = el}>
                     <div className="nav__top__connected__count"
-                        onClick={this.showUsersListToggler}>connected : {users.length}</div>
+                        onClick={this.showUsersListToggler}>
+                            <div className="nav__top__connected__count__icon">
+                                <IconSvg icon="users"/>
+                                <div className={`nav__top__connected__count__icon__status ${users.length > 0 ? 'green': 'red'}`}></div>
+                            </div>
+                            {users.length > 0 && (
+                                <span>{users.length}</span>
+                            )}
+                            
+                    </div>
                     
                     {users.length > 0 && (
-                        <ul className={`nav__top__connected__list 
-                                        ${showUsersList ? 'active': ''}`}>
+                        <ul className={`nav__top__connected__list ${showUsersList ? 'active': ''}`}>
                             {
-                                users.map(user => (
-                                    <li className="nav__top__connected__list__item">
+                                users.map( (user, i) => (
+                                    <li className="nav__top__connected__list__item"
+                                    key={i}>
                                         <div className="nav__top__connected__list__item__avatar">
                                             {user.firstName.slice(0, 1)}{user.lastName.slice(0, 1)}
                                         </div>
@@ -74,23 +110,36 @@ class Navtop extends Component {
 
         return (
             <div className="navtop">
-            <div className="navtop__logo">
-                WOTO ADMIN
-            </div>
 
-            {connectedUsers}
+                <div className="navtop__logo">
+                    WOTO ADMIN
+                </div>
 
-          {
-              /*
-              <Button color='grey'>
-                Logout
-            </Button>
-              */
-          }  
+                {this.props.auth && this.props.token && this.props.adminId && this.props.adminNAme && (
+                    <div className="navtop__cta">
+                        {connectedUsers}
+                        <div className="navtop__cta__logout"
+                            onClick={this.props.logoutHandler}>
+                        Logout
+                        </div>
+                    </div>
+                )}
 
+               
             </div>
         )
     }
 }
 
-export default Navtop; 
+
+const mapStateToProps = state => {
+    return {
+        auth: state.auth.auth,
+        token: state.auth.auth,
+        adminId: state.auth.adminId,
+        adminName: state.auth.adminName, 
+    }
+  }
+  
+
+export default connect(mapStateToProps)(Navtop); 

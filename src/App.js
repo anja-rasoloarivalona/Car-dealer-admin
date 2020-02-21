@@ -55,7 +55,7 @@ class App extends Component {
       }
 
       this.props.setLoginStateToTrue(true, token, connectedAdminId, connnectedAdminName);
-     // this.props.history.push('/inventory')
+
   }
 
   initializeDatasHandler = () => {
@@ -98,6 +98,16 @@ class App extends Component {
 
   playNotificationSound = () => {
     this.player.play();
+  }
+
+  logoutHandler = () => {
+    console.log('logging out')
+    this.props.setLoginStateToFalse();
+    localStorage.removeItem('woto-admin-token');
+    localStorage.removeItem('woto-admin-expiryDate');
+    localStorage.removeItem('woto-admin-adminId');
+    localStorage.removeItem('woto-admin-adminName');
+    this.props.history.push('/')
   }
 
   render() {
@@ -159,7 +169,7 @@ class App extends Component {
     
     return (
             <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>
-                    <Navtop />
+                    <Navtop logoutHandler={this.logoutHandler} />
                     {this.props.errors !== null && <ErrorHandler />}
                     {app}
             </div>
