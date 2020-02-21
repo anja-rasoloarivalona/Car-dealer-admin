@@ -17,8 +17,10 @@ const formFeature = props => {
                     value={props.value}
                     onChange={props.addFeatureChangeHandler}
                 />
-                <Button onClick={props.addFeature}>
-                    Ajouter
+                <Button onClick={props.addFeature}
+                        color="secondary"
+                 >
+                    Add
                 </Button>
             </div>
 

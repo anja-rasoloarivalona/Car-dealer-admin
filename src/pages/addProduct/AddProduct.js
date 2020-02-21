@@ -539,7 +539,8 @@ class AddProduct extends Component {
                     />
                 </div>
                 <div className="add-product__form__controller">
-                    <Button onClick={this.showImageFormHandler}>
+                    <Button onClick={this.showImageFormHandler}
+                        color='primary'>
                         next
                     </Button>
                     

@@ -23,6 +23,7 @@
 .formFeature__list {
     width: 50%;
     margin-top: 2rem;
+    list-style: none;
 }
 
 .formFeature__list__item {
@@ -30,6 +31,8 @@
     margin-bottom: 1rem;
     padding: 1rem 0;
     width: 40%;
-    padding-left: .5rem;
+    padding-left: 1rem;
     border: 1px solid var(--color-grey);
+    cursor: pointer;
+    border-radius: .5rem;
 }

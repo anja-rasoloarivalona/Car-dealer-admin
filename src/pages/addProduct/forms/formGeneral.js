@@ -3,32 +3,32 @@ export const INITIAL_FORM = {
         title: {
             valueType: 'text',
             control: 'input',
-            label: 'titre',
-            placeholder: 'titre',
+            label: 'title',
+            placeholder: 'title',
             value: ''
         },
 
         brand: {
             valueType: 'text',
             control: 'input',
-            label: 'marque',
-            placeholder: 'marque',
+            label: 'brand',
+            placeholder: 'brand',
             value: ''
         },
 
         model: {
             valueType: 'text',
             control: 'input',
-            label: 'modèle',
-            placeholder: 'modèle',
+            label: 'model',
+            placeholder: 'model',
             value: ''
         },
 
         year: {
             valueType: 'text',
             control: 'select',
-            label: 'année',
-            placeholder: 'année',
+            label: 'year',
+            placeholder: 'year',
             value: '2008',
             options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
         },
@@ -36,8 +36,8 @@ export const INITIAL_FORM = {
         price: {
             valueType: 'number',
             control: 'input',
-            label: 'prix',
-            placeholder: 'prix',
+            label: 'price',
+            placeholder: 'price',
             value: 0
         },
         bodyType: {
@@ -54,15 +54,15 @@ export const INITIAL_FORM = {
             valueType: 'number',
             control: 'input',
             label: 'Nb km',
-            placeholder: 'Nombre de kilomètres',
+            placeholder: 'kilometers',
             value: 0
         },
         
         gazol: {
             valueType: 'text',
             control: 'select',
-            label: 'carburant',
-            placeholder: 'essence',
+            label: 'fuel',
+            placeholder: 'fuel',
             value: 'essence',
             options: ['essence', 'diesel']
         },
@@ -70,8 +70,8 @@ export const INITIAL_FORM = {
         yearOfRelease: {
             valueType: 'text',
             control: 'select',
-            label: 'mise en circulation',
-            placeholder: 'année de mise en circulation',
+            label: 'year of release',
+            placeholder: 'year of release',
             value: '2008',
             options: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
         },
@@ -79,8 +79,8 @@ export const INITIAL_FORM = {
         nbOwners: {
             valueType: 'number',
             control: 'select',
-            label: 'nb proprios',
-            placeholder: 'nombre de propriétaires',
+            label: 'nb owners',
+            placeholder: 'number of owners',
             value: 0,
             options: [0, 1, 2, 3, 4, 5, 6]
         },
@@ -88,35 +88,35 @@ export const INITIAL_FORM = {
         serialNumber: {
             valueType: 'text',
             control: 'input',
-            label: 'numéro de série',
-            placeholder: 'numéro de série',
+            label: 'serial number',
+            placeholder: 'serial number',
             value: ''
         },
 
         generalState: {
             valueType: 'text',
             control: 'input',
-            label: 'état général',
-            placeholder: 'état général',
+            label: 'general state',
+            placeholder: 'general state',
             value: ''
         },
 
         publicity: {
             valueType: 'number',
             control: 'select',
-            label: 'publicité',
-            placeholder: 'oui ou non',
-            value: 'oui',
-            options: ['oui', 'non']
+            label: 'publicity',
+            placeholder: true,
+            value: true,
+            options: [true, false]
         },
 
         homePage: {
             valueType: 'number',
             control: 'select',
-            label: "page d'accueil",
-            placeholder: 'oui ou non',
-            value: 'oui',
-            options: ['oui', 'non']
+            label: "home page",
+            placeholder: true,
+            value: true,
+            options: [true, false]
         },
     },
 
@@ -124,24 +124,24 @@ export const INITIAL_FORM = {
         reference: {
             valueType: 'text',
             control: 'input',
-            label: 'référence',
-            placeholder: 'référence',
+            label: 'reference',
+            placeholder: 'reference',
             value: ''
         },
 
         supplierPrice : {
             valueType: 'number',
             control: 'input',
-            label: 'prix fournisseur',
-            placeholder: 'prix fournisseur',
+            label: 'supplier price',
+            placeholder: 'supplier price',
             value: 0
         },
 
         supplierName : {
             valueType: 'text',
             control: 'select',
-            label: 'fournisseur',
-            placeholder: 'fournisseur',
+            label: 'supplier',
+            placeholder: 'supplier',
             value: '',
             options: []
         }
@@ -153,17 +153,17 @@ export const INITIAL_FORM = {
         transmissionType : {
             valueType: 'text',
             control: 'select',
-            label: 'boîte',
-            placeholder: 'manuelle ou automatique',
-            value: 'manuelle',
-            options: ['manuelle', 'automatique']  
+            label: 'gear box',
+            placeholder: 'gear box',
+            value: 'manual',
+            options: ['manual', 'automatic']  
         },
 
         nbGearRatios : {
             valueType: 'number',
             control: 'select',
-            label: 'nb rapports',
-            placeholder: 'nombre de rapports',
+            label: 'gear box ratio',
+            placeholder: 'gear box ratio',
             value: 5,
             options: [5, 6]  
         },
@@ -171,8 +171,8 @@ export const INITIAL_FORM = {
         nbCylinders : {
             valueType: 'number',
             control: 'select',
-            label: 'nb cylindres',
-            placeholder: 'nombre de cylindres',
+            label: 'nb cylinders',
+            placeholder: 'nombre de cylinders',
             value: 2,
             options: [2, 3, 4, 5, 6, 7,8,9,10,11,12]
         },
@@ -180,16 +180,16 @@ export const INITIAL_FORM = {
         motorSize: {
             valueType: 'text',
             control: 'input',
-            label: 'taille moteur',
-            placeholder: 'taille du moteur',
+            label: 'motor size',
+            placeholder: 'motor size',
             value: ''
         },
 
         maxSpeed: {
             valueType: 'text',
             control: 'input',
-            label: 'vitesse maximum',
-            placeholder: 'vitesse max',
+            label: 'max speed',
+            placeholder: 'max speed',
             value: ''
         },
 
@@ -201,16 +201,16 @@ export const INITIAL_FORM = {
         intColor: {
             valueType: 'text',
             control: 'input',
-            label: 'couleur intérieure',
-            placeholder: 'couleur intérieure',
+            label: 'interior color',
+            placeholder: 'interior color',
             value: ''
         },
 
         extColor: {
             valueType: 'text',
             control: 'input',
-            label: 'couleur extérieure',
-            placeholder: 'couleur extérieure',
+            label: 'exterior color',
+            placeholder: 'exterior color',
             value: ''
         },
     }
