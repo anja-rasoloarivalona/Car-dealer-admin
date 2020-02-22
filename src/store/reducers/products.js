@@ -11,7 +11,7 @@ const initialState = {
     price: null,
     bodyTypeList: null,
     totalProducts: null,
-    itemsPerPage: 6,
+    itemsPerPage: 20,
     currentInventoryPage: 1,
 }
 

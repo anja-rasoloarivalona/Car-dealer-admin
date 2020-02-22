@@ -167,8 +167,6 @@ class Inventory extends Component {
             url.search = new URLSearchParams(params).toString()
         }
 
-        console.log('fecthin', params.supplierId)
-
 
         fetch( url, {
           headers: {
@@ -183,6 +181,10 @@ class Inventory extends Component {
         })
         .then(resData => {  
           this.setState({ products: resData.products, loading: false});
+
+          console.log(resData.products);
+
+          
           this.props.history.push({
               pathname: `/inventory`,
               search: `supplier=${query.supplierName}&sort=${query.sort}&page=${query.page}&bodyType=${query.bodyType}&brand=${query.brand}&model=${query.model}&minPrice=${minPriceQuery}&maxPrice=${maxPriceQuery}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}`
