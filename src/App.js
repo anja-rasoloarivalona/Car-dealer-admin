@@ -9,7 +9,7 @@ import Publicity from './pages/publicity/Publicity';
 import Stats from './pages/stats/Stats';
 import Order from './pages/order/Order';
 import Add from './pages/addProduct/AddProduct';
-import Car from './pages/car/Car';
+import SingleCar from './pages/car/Car';
 import Auth from './pages/auth/Auth';
 import Users from './pages/users/Users'
 import Messages from './pages/messages/Messages';
@@ -32,7 +32,15 @@ import {connect} from 'react-redux';
 class App extends Component {
 
   state = {
-    loading: true
+    loading: true,
+    hideScrollBar: false,
+  }
+
+  showScrollBarHandler = () => {
+    this.setState({ hideScrollBar: false}, () => document.body.className = "")
+  }
+  hideScrollBarHandler = () => {
+    this.setState({ hideScrollBar: true}, () => document.body.className="hideScrollBar")
   }
 
 
@@ -112,6 +120,7 @@ class App extends Component {
 
   render() {
 
+    const { hideScrollBar } = this.state
     let app;
 
     if(this.state.loading === true) {
@@ -137,7 +146,10 @@ class App extends Component {
                       }                
                         <Switch>
                             <Route exact path='/' component={Inventory}/>
-                            <Route path='/inventory/:prodId' component={Car}/>
+
+                            <Route path='/inventory/:prodId'  render={(props) => <SingleCar {...props} hideScrollBar={hideScrollBar} showScrollBarHandler={this.showScrollBarHandler} hideScrollBarHandler={this.hideScrollBarHandler} /> }/>
+
+
                             <Route path='/inventory' component={Inventory}/>
                             <Route path='/ajouter' component={Add}/>
                             <Route path='/publicity' component={Publicity}/>

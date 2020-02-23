@@ -78,3 +78,8 @@ body {
   position: relative;
 
 }
+
+body.hideScrollBar::-webkit-scrollbar {
+  display: none;
+  overflow: hidden;
+}
