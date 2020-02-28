@@ -145,11 +145,8 @@ class App extends Component {
                         */
                       }                
                         <Switch>
-                            <Route exact path='/' component={Inventory}/>
-
+                            <Route exact path='/' component={Inventory}/>  
                             <Route path='/inventory/:prodId'  render={(props) => <SingleCar {...props} hideScrollBar={hideScrollBar} showScrollBarHandler={this.showScrollBarHandler} hideScrollBarHandler={this.hideScrollBarHandler} /> }/>
-
-
                             <Route path='/inventory' component={Inventory}/>
                             <Route path='/ajouter' component={Add}/>
                             <Route path='/publicity' component={Publicity}/>

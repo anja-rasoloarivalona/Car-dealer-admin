@@ -105,18 +105,18 @@ export const INITIAL_FORM = {
             valueType: 'number',
             control: 'select',
             label: 'publicity',
-            placeholder: true,
-            value: true,
-            options: [true, false]
+            placeholder: 'true',
+            value: 'true',
+            options: ['true', 'false']
         },
 
         homePage: {
             valueType: 'number',
             control: 'select',
             label: "home page",
-            placeholder: true,
-            value: true,
-            options: [true, false]
+            placeholder: 'true',
+            value: 'true',
+            options: ['true', 'false']
         },
     },
 

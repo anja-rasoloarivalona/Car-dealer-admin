@@ -234,10 +234,10 @@ class AddProduct extends Component {
       .then( resData => {
         if(this.props.editingMode === true){  
           this.props.toggleEditingMode()     
-          this.props.history.push(`/inventory/${this.props.productBeingEditedId}`)
+          this.props.history.push(`/inventory/${this.props.productBeingEditedId}?brand=${resData.product.brand}&model=${resData.product.model}&price=${resData.product.price}`)
         } else {
 
-          this.props.history.push(`/inventory/${resData.product._id}`)
+          this.props.history.push(`/inventory/${resData.product._id}?brand=${resData.product.brand}&model=${resData.product.model}&price=${resData.product.price}`)
         }
       })
       .catch(err => {
