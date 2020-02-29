@@ -20,7 +20,7 @@ import Suppliers from './pages/suppliers/Suppliers';
 import Navtop from './components/navigation/navtop/Navtop';
 import Navbar from './components/navigation/navbar/Navbar';
 import Chat from './components/chat/Chat';
-import notification from './assets/notification.mp3'
+import notification from './assets/eventually.mp3'
 import ErrorHandler from './components/errorHandler/ErrorHandler';
 
 
