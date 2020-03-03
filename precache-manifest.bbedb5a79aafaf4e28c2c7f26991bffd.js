@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "46a8e68ab0ac7eeb9a5c7e7d9316031f",
+    "revision": "67dc5d4c6197ed81ee3364d647bd94ca",
     "url": "/woto-motors-admin/index.html"
   },
   {
-    "revision": "cdd1b8fe8b227d025a0f",
+    "revision": "45a88d6ce8dc412fad8c",
     "url": "/woto-motors-admin/static/css/2.564e90a8.chunk.css"
   },
   {
-    "revision": "e7abd429eba969b0be92",
+    "revision": "a25915f5606743f5e79d",
     "url": "/woto-motors-admin/static/css/main.dffcb98b.chunk.css"
   },
   {
-    "revision": "cdd1b8fe8b227d025a0f",
-    "url": "/woto-motors-admin/static/js/2.4e07cf7f.chunk.js"
+    "revision": "45a88d6ce8dc412fad8c",
+    "url": "/woto-motors-admin/static/js/2.054351e4.chunk.js"
   },
   {
     "revision": "b2aef2d316188a16e8626768b912ae73",
-    "url": "/woto-motors-admin/static/js/2.4e07cf7f.chunk.js.LICENSE"
+    "url": "/woto-motors-admin/static/js/2.054351e4.chunk.js.LICENSE"
   },
   {
-    "revision": "e7abd429eba969b0be92",
-    "url": "/woto-motors-admin/static/js/main.82bc3147.chunk.js"
+    "revision": "a25915f5606743f5e79d",
+    "url": "/woto-motors-admin/static/js/main.0ec65ccc.chunk.js"
   },
   {
     "revision": "ab94f4d0180d53d0a612",
