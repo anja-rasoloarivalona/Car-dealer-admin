@@ -84,11 +84,8 @@ import * as actions from '../../../store/actions';
         })
         .then( resData => {
                 this.props.loginSucceeded(resData);
-
-
-
                 localStorage.setItem('woto-admin-token', resData.token);
-                localStorage.setItem('woto-admin-adminId', resData.userId);
+                localStorage.setItem('woto-admin-adminId', resData.adminId);
                 localStorage.setItem('woto-admin-adminName', resData.adminName)
 
                 const remainingMilliSeconds =  60 * 60 * 1000 //1hour
@@ -130,7 +127,8 @@ import * as actions from '../../../store/actions';
                                 onChange={this.inputChangeHandler}
                                 placeholder='email'
                                 border
-                                required={true}/>
+                                required={true}
+                                autoComplete = 'off'/>
 
                         <Input  type='password'
                                 control='input'
@@ -141,7 +139,7 @@ import * as actions from '../../../store/actions';
                                 placeholder='mot de passe'
                                 border
                                 required={true}
-                                autoComplete = 'new-password'/>
+                                autoComplete = 'off'/>
                 </ul>
 
                 {/* <div className='login__options'>

@@ -17,12 +17,12 @@ class Signup extends Component {
                 errorLabel: 'A lastname'
             },
 
-            userEmail: {
+            email: {
                 value: '',
                 errorLabel: 'An email'
             },
 
-            userPassword:{
+            password:{
                 value: '',
                 errorLabel: 'A password'
             },
@@ -56,20 +56,22 @@ class Signup extends Component {
         })
     }
 
-    submitHandler = (e, signupFormData) => {
+    submitHandler = (e ) => {
+
+        const {signupForm} = this.state
         
         e.preventDefault();
 
         this.props.setLoadingToTrue()
 
-
-        const errors = validator(
-            signupFormData.userEmail,
-            signupFormData.userPassword,
-            signupFormData.confirm_password,
-            signupFormData.firstName,
-            signupFormData.lastName
-        )
+        let data  = {
+            email: signupForm.email,
+            firstName: signupForm.firstName,
+            lastName: signupForm.lastName,
+            password: signupForm.password,
+            confirm_password: signupForm.confirm_password
+        }
+        const errors = validator(data)
 
         if(errors.length > 0){
             this.setState({ error: errors })
@@ -81,10 +83,10 @@ class Signup extends Component {
         const formData = new FormData();
 
 
-        formData.append('firstName', signupFormData.firstName.value);
-        formData.append('lastName', signupFormData.lastName.value);
-        formData.append('email', signupFormData.userEmail.value);
-        formData.append('password', signupFormData.userPassword.value)
+        formData.append('firstName', signupForm.firstName.value);
+        formData.append('lastName', signupForm.lastName.value);
+        formData.append('email', signupForm.email.value);
+        formData.append('password', signupForm.password.value)
 
         fetch('https://africauto.herokuapp.com/admin/signup', {
             method: 'PUT',
@@ -138,7 +140,7 @@ class Signup extends Component {
             form = (
             
             <form className= 'auth__form auth__form--signup'
-                    onSubmit={e => this.submitHandler(e, this.state.signupForm)} 
+                    onSubmit={e => this.submitHandler(e)} 
                     autoComplete="off"
                     noValidate> 
 
@@ -168,8 +170,8 @@ class Signup extends Component {
                         <Input  type='email'
                             control='input'
                             label='email'
-                            id='userEmail'
-                            value={this.state.signupForm['userEmail'].value}
+                            id='email'
+                            value={this.state.signupForm['email'].value}
                             onChange={this.inputChangeHandler}
                             placeholder='email'
                             border
@@ -180,8 +182,8 @@ class Signup extends Component {
                     <Input  type='password'
                             control='input'
                             label='mot de passe'
-                            id='userPassword'
-                            value={this.state.signupForm['userPassword'].value}
+                            id='password'
+                            value={this.state.signupForm['password'].value}
                             onChange={this.inputChangeHandler}
                             placeholder='mot de passe'
                             border
@@ -205,7 +207,7 @@ class Signup extends Component {
 
             <div className="auth__button">
                 <Button color='primary' type='submit'>
-                    Sign up
+                    Add Admin
                 </Button>
             </div>
             

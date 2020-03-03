@@ -7,7 +7,8 @@ class Navtop extends Component {
 
     state = {
         users: null,
-        showUsersList: false
+        showUsersList: false,
+        loading: true
     }
 
     componentWillMount(){
@@ -46,7 +47,7 @@ class Navtop extends Component {
     }
 
     fetchUsersHandler = () => {
-        let url = "http://localhost:8000/admin/connected-users";
+        let url = "https://africauto.herokuapp.com/admin/connected-users";
        fetch(url, {
            headers: {
                "Content-Type": "application/json"
@@ -59,7 +60,7 @@ class Navtop extends Component {
             return res.json();
         })
         .then(resData => {
-            this.setState({ users: resData.users})
+            this.setState({ users: resData.users, loading: false})
         })
         .catch(err => {
             console.log(err);
@@ -67,7 +68,7 @@ class Navtop extends Component {
     }
 
     render() {
-        const {users, showUsersList} = this.state;
+        const {users, showUsersList, loading} = this.state;
 
         let connectedUsers = ''
         if(users){
@@ -115,7 +116,7 @@ class Navtop extends Component {
                     WOTO ADMIN
                 </div>
 
-                {this.props.auth && this.props.token && this.props.adminId && this.props.adminNAme && (
+                {this.props.auth && this.props.token && this.props.adminId && this.props.adminName && (
                     <div className="navtop__cta">
                         {connectedUsers}
                         <div className="navtop__cta__logout"

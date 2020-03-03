@@ -69,9 +69,8 @@
     margin: 1.5rem 0;
     height: 5rem;
     position: relative;
-    background: transparent;
+    background: transparent !important;
 }
-
 
 .auth__input__list .input__label {
     position: absolute;
@@ -90,12 +89,12 @@
 }
 
 
-.auth__input__list .input__field {
+.auth__input__list input.input__field {
     height: 100%;
     width: 100%;
     padding-left: .5rem;
     border: none;
-    background: transparent;
+    background: transparent !important;
     color: var(--color-white)
     
 }

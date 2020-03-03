@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './Navbar.css';
-
 import { NavLink} from 'react-router-dom';
 import IconSvg from '../../../utilities/svg/svg';
 import { NAV_LINKS } from './NavbarList';
@@ -11,11 +10,7 @@ import  * as actions from '../../../store/actions'
 
 class Navbar extends Component {
 
-
     componentDidMount(){
-        
-
-
         let url = "http://localhost:8000/stats/notifications";
         let mehod = 'GET';
 
@@ -90,6 +85,18 @@ class Navbar extends Component {
                             </NavLink>
                         ))
                     }
+
+                    {this.props.adminId === '5d94e344b01eb1509cc2539c' && (
+                        <NavLink to="/admin-manager" className={`navbar__list__item 
+                            ${this.props.showFullNavbar === true ? '' : 'hide'}`} >
+                            <IconSvg icon="inventory"/>
+                            <span className="navbar__list__item__text">Admin</span>
+                        </NavLink>
+                    )}
+
+                  
+
+                    
             </ul>
         )
     }
@@ -100,7 +107,8 @@ class Navbar extends Component {
 const mapStateToProps = state => {
     return {
         showFullNavbar: state.nav.showFullNavbar,
-        notification: state.nav.notification
+        notification: state.nav.notification,
+        adminId: state.auth.adminId,
     }
 }
 

@@ -1,13 +1,8 @@
-
-
 export const validator = (data) => {
     const error = [];
     const fields = Object.keys(data);
 
-
-
-  
-
+    console.log(data)
 
     /* ------CHECK IF VALUE IS EMPTY---------*/
 
@@ -30,17 +25,18 @@ export const validator = (data) => {
 
 
       /*----CHECK FIRST NAME AND LAST NAME LLENGTH------*/ 
-     /* if(firstName){
-          if(firstName.value.trim().length < 3){
+
+      if(fields.includes('firstName')){
+          if(data.firstName.value.trim().length < 3){
               error.push('Firstname should be at least 3 characters long')
           }
       }
-*/
-    /*  if(lastName){
-        if(lastName.value.trim().length < 3){
+
+     if(fields.includes('lastName')){
+        if(data.lastName.value.trim().length < 3){
             error.push('Lastname should be at least 3 characters long')
         }
-    }*/
+    }
 
 
     /*------CHECK PASSWORD LENGTH-----*/
@@ -52,11 +48,11 @@ export const validator = (data) => {
     }
 
     /*----CHECK IF TWO PASSWORDS ARE EQUAL-----*/
-   /* if(confirm_password){
-        if(password.value.trim() !== confirm_password.value.trim()){
+    if(fields.includes('confirm_password')){
+        if(data.password.value.trim() !== data.confirm_password.value.trim()){
             error.push('Please enter the same password')
         }
-    }*/
+    }
 
     return error
     

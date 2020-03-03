@@ -15,6 +15,7 @@ import Users from './pages/users/Users'
 import Messages from './pages/messages/Messages';
 import UserAccount from './pages/userAccount/userAccount';
 import Suppliers from './pages/suppliers/Suppliers';
+import AdminManager from './pages/adminManager/AdminManager'
 
 /*----COMPONENTS---------*/
 import Navtop from './components/navigation/navtop/Navtop';
@@ -144,10 +145,19 @@ class App extends Component {
                             <Route path='/publicity' component={Publicity}/>
                             <Route path='/users/:userId' component={UserAccount}/>
                             <Route path='/users' component={Users}/>
-                            <Route path='/stats' component={Stats}/>
+                            <Route path='/stats' component={Stats}/>   
                             <Route path='/fournisseurs' component={Suppliers}/>
                             <Route path='/messages' render={(props) => <Messages {...props} playNotificationSound={this.playNotificationSound}/>}
-                            />                                                          
+                            />     
+
+                            {this.props.adminId === '5d94e344b01eb1509cc2539c' && (
+                              <Route path='/admin-manager' component={AdminManager}/> 
+                            )}
+                            
+
+
+
+                            <Redirect to="/"/>                                                    
                         </Switch>
                         
                 </Fragment>

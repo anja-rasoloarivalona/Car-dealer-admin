@@ -4,6 +4,7 @@ export const NAV_LINKS = [
         text: 'Statistiques',
         icon: 'stats'
     },
+   
     {
         path: 'users',
         text: 'Users',
