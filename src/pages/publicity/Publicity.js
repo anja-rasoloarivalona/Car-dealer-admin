@@ -22,7 +22,7 @@ class Publicity extends Component {
     fetchProductsHandler = () => {
         this.setState({ loading: true});
 
-        let url = 'http://localhost:8000/admin/publicity'; 
+        let url = 'https://africauto.herokuapp.com/admin/publicity'; 
         fetch(url, {
             headers: {
                 'Content-Type': 'application/json'
@@ -139,7 +139,7 @@ class Publicity extends Component {
         }
 
         let method = 'PUT';
-        let url = "http://localhost:8000/admin/update-product-visibility";
+        let url = "https://africauto.herokuapp.com/admin/update-product-visibility";
 
         fetch(url, {
             headers: {

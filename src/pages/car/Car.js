@@ -49,7 +49,7 @@ class Car extends Component {
             prodId = this.props.prodId
         }    
 
-        let url = "http://localhost:8000/admin/" + prodId;
+        let url = "https://africauto.herokuapp.com/admin/" + prodId;
         let method = 'GET';
         
         fetch(url, {

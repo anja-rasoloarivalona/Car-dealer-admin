@@ -36,7 +36,7 @@ import openSocket from 'socket.io-client';
         }
         this.setState({ currentNotes: user.notes, userStatus: user.active, userPhone: userPhone})
 
-        const socket = openSocket('http://localhost:8000');
+        const socket = openSocket('https://africauto.herokuapp.com');
 
         socket.on('userLoggedIn', data => {
             let userLoggedInId = data._id;
@@ -72,7 +72,7 @@ import openSocket from 'socket.io-client';
 
     saveUserPhoneNumberHandler = () => {
         let userId = this.props.user._id;
-        let url = "http://localhost:8000/user/edit-phone/" + userId;
+        let url = "https://africauto.herokuapp.com/user/edit-phone/" + userId;
         let method = "PUT";
         fetch(url, {
             method: method,
@@ -132,7 +132,7 @@ import openSocket from 'socket.io-client';
     }
 
     deleteNoteHandler = noteId => {
-        let url = "http://localhost:8000/user/delete-note/" + noteId;
+        let url = "https://africauto.herokuapp.com/user/delete-note/" + noteId;
         let userId = this.props.user._id;
         let method = 'DELETE';
 
@@ -169,7 +169,7 @@ import openSocket from 'socket.io-client';
         let url, method, body;
 
         if(noteId){
-            url = "http://localhost:8000/user/edit-note/" + this.props.user._id;
+            url = "https://africauto.herokuapp.com/user/edit-note/" + this.props.user._id;
             method ='PUT';
             body = JSON.stringify({
                 title: newNote.title,
@@ -177,7 +177,7 @@ import openSocket from 'socket.io-client';
                 noteId: noteId
             })
         } else {
-            url = "http://localhost:8000/user/add-note/" + this.props.user._id;
+            url = "https://africauto.herokuapp.com/user/add-note/" + this.props.user._id;
             method = "POST";
             body = JSON.stringify({
                 title: newNote.title,

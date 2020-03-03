@@ -172,7 +172,7 @@ class AddProduct extends Component {
         formData.append('albumId', this.state.albumId);
         formData.append('supplierId', supplierId)
         method = 'POST';
-        url = "http://localhost:8000/admin/add-product";
+        url = "https://africauto.herokuapp.com/admin/add-product";
     }
 
     if(this.props.editingMode === true){
@@ -209,7 +209,7 @@ class AddProduct extends Component {
         formData.append('supplierId', supplierId)
 
         method = 'PUT';
-        url = "http://localhost:8000/admin/edit-product"
+        url = "https://africauto.herokuapp.com/admin/edit-product"
     }
 
     fetch(url, {

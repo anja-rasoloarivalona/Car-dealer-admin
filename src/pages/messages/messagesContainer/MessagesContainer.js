@@ -30,12 +30,12 @@ class MessagesContainer extends Component {
             userId: this.props.userId
         }, () => this.scrollToBottom() );
       
-        const socket = openSocket('http://localhost:8000');
+        const socket = openSocket('https://africauto.herokuapp.com');
 
         socket.on('userSentMessage', data => {   
             this.props.playNotificationSound()
             if(data.messageData.userId === this.state.userId && this._ismounted === true){
-                let url = "http://localhost:8000/messages/admin-update/" + this.state.userId;
+                let url = "https://africauto.herokuapp.com/messages/admin-update/" + this.state.userId;
                 let method = "POST";
                 let timeStamp = timeStampGenerator();
 
@@ -66,7 +66,7 @@ class MessagesContainer extends Component {
             } else {
                 
                 let userId = data.messageData.userId;
-                let url = "http://localhost:8000/stats/add-notification/" + userId;
+                let url = "https://africauto.herokuapp.com/stats/add-notification/" + userId;
                 let method = 'POST';
 
                 fetch(url, {
@@ -127,7 +127,7 @@ class MessagesContainer extends Component {
 
         // let url = "https://africauto.herokuapp.com/messages/admin/" + this.props.userId; 
 
-       let url = "http://localhost:8000/messages/admin/" + this.props.userId;
+       let url = "https://africauto.herokuapp.com/messages/admin/" + this.props.userId;
         let method = "POST";
 
         fetch(url, {

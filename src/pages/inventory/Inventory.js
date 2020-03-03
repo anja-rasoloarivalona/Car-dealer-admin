@@ -137,7 +137,7 @@ class Inventory extends Component {
 
     fetchProductsHandler = () => {
         const {query} = this.state
-        let url =  new URL('http://localhost:8000/product/admin');
+        let url =  new URL('https://africauto.herokuapp.com/product/admin');
         let params;
 
         //current value with the corresponding currency
@@ -181,10 +181,6 @@ class Inventory extends Component {
         })
         .then(resData => {  
           this.setState({ products: resData.products, loading: false});
-
-          console.log(resData.products);
-
-          
           this.props.history.push({
               pathname: `/inventory`,
               search: `supplier=${query.supplierName}&sort=${query.sort}&page=${query.page}&bodyType=${query.bodyType}&brand=${query.brand}&model=${query.model}&minPrice=${minPriceQuery}&maxPrice=${maxPriceQuery}&minYear=${query.year.value.min}&maxYear=${query.year.value.max}`

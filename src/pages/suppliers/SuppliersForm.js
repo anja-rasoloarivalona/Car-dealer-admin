@@ -14,7 +14,7 @@ const SuppliersForm = props => {
                     <Title title=" Add supplier">
                         <div className="suppliers__addButton"
                               onClick={() => props.supplierCurrentViewHandler('suppliersList')}>
-                            list
+                            List
                         </div>
                     </Title>                  
                     {

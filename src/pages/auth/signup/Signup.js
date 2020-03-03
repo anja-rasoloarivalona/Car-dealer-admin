@@ -86,7 +86,7 @@ class Signup extends Component {
         formData.append('email', signupFormData.userEmail.value);
         formData.append('password', signupFormData.userPassword.value)
 
-        fetch('http://localhost:8000/admin/signup', {
+        fetch('https://africauto.herokuapp.com/admin/signup', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

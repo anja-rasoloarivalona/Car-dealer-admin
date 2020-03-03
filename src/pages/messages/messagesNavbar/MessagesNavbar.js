@@ -26,7 +26,7 @@ class MessagesNavbar extends Component {
     componentDidMount(){
         this._ismounted = true;
         this.setState({ messages: this.props.messages, requestedMessageUserId: this.props.requestedMessageUserId});
-        const socket = openSocket('http://localhost:8000');
+        const socket = openSocket('https://africauto.herokuapp.com');
 
             socket.on('userSentMessage', data => {
             if(this._ismounted === true){

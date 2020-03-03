@@ -45,7 +45,7 @@ class Suppliers extends Component {
     }
 
     fetchSuppliers = () => {
-        let url = 'http://localhost:8000/suppliers';  
+        let url = 'https://africauto.herokuapp.com/suppliers';  
         fetch(url, {
             headers: {
                 'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ class Suppliers extends Component {
 
     deleteSupplierHandler = supplierId => {
         const {suppliers} = this.state;
-        let url = 'http://localhost:8000/suppliers/delete-supplier/' + supplierId;
+        let url = 'https://africauto.herokuapp.com/suppliers/delete-supplier/' + supplierId;
         let method = 'DELETE'
 
         fetch(url, {
@@ -104,7 +104,7 @@ class Suppliers extends Component {
     addSupplierHandler = (e, addSupplierForm, responsiblesForm) => {
         e.preventDefault();
         const {editingMode, currentSupplierBeingEditedId, suppliers} = this.state;
-        let url = 'http://localhost:8000/suppliers/add-supplier';
+        let url = 'https://africauto.herokuapp.com/suppliers/add-supplier';
         let method = 'POST';
         let body = {
                 name: addSupplierForm.name.value,
@@ -115,7 +115,7 @@ class Suppliers extends Component {
         }
         if(editingMode){
             method = 'PUT';
-            url = 'http://localhost:8000/suppliers/edit-supplier';
+            url = 'https://africauto.herokuapp.com/suppliers/edit-supplier';
             body = {...body, _id: currentSupplierBeingEditedId}
         }
         fetch(url, {

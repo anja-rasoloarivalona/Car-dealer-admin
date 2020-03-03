@@ -31,7 +31,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
 
     componentDidMount(){
         this.fetchUsersdata();
-        const socket = openSocket('http://localhost:8000');
+        const socket = openSocket('https://africauto.herokuapp.com');
         socket.on('userLoggedIn', data => {
             let userLoggedInId = data._id;
 
@@ -63,7 +63,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
     }
 
     fetchUsersdata = () => {
-        let url = "http://localhost:8000/admin/users";
+        let url = "https://africauto.herokuapp.com/admin/users";
         let method = "POST";
         fetch(url, {
             headers: {
@@ -93,7 +93,7 @@ import DropDownList from '../../components/dropDownList/DropDownList';
     }
 
     fetchSearchedUsers = () => {
-        let url = 'http://localhost:8000/user/search-user';
+        let url = 'https://africauto.herokuapp.com/user/search-user';
         let method = 'POST'
 
         if(this.state.searchedUser !== ''){
@@ -111,7 +111,6 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                         "Make sure the email isn't used yet"
                     )
                 }
-    
                 if(res.status !== 200 && res.status !== 201){
                     throw new Error ( ' Creating a user failed')
                 }
@@ -124,8 +123,6 @@ import DropDownList from '../../components/dropDownList/DropDownList';
                 } else {
                     this.setState({searchedUserResults:  resData.users, searchingUser: false, searchedUserNoResults: true })
                 }
-                
-                console.log('useeers', resData.users)
             })
             .catch(err => {
                 console.log(err)

@@ -32,7 +32,7 @@ class Stats extends Component {
     }
 
     fetchProductsStats = () => {
-        let url = "http://localhost:8000/stats/products-stats";
+        let url = "https://africauto.herokuapp.com/stats/products-stats";
        fetch(url, {
            headers: {
                "Content-Type": "application/json"
@@ -66,7 +66,7 @@ class Stats extends Component {
     }
 
     fetchUserConnectionStats = () => {
-        let url = "http://localhost:8000/stats/user-connection-stats";
+        let url = "https://africauto.herokuapp.com/stats/user-connection-stats";
         fetch(url, {
             headers: {
                 "Content-Type": "application/json"

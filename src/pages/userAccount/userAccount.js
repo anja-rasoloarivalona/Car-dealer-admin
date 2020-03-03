@@ -19,7 +19,7 @@ class userAccount extends Component {
     }
 
     fetchUserAccountDetails = () => {
-        let url = "http://localhost:8000/admin/user/" + this.props.match.params.userId;
+        let url = "https://africauto.herokuapp.com/admin/user/" + this.props.match.params.userId;
 
         fetch(url, {
             headers: {

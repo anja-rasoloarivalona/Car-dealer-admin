@@ -67,7 +67,7 @@ class App extends Component {
   }
 
   initializeDatasHandler = () => {
-    let url = 'http://localhost:8000/init';  
+    let url = 'https://africauto.herokuapp.com/init';  
     fetch(url, {
         headers: {
             'Content-Type': 'application/json'
@@ -90,13 +90,6 @@ class App extends Component {
 
       this.props.setSuppliers(suppliers);
        this.props.initAppData(resData)
- 
-      // this.props.setBrandsAndModels(resData.brandsAndModels);
-      // this.props.setTotalProducts(resData.totalProducts);
-
-
-
-
       this.setState({ loading: false})
     })
     .catch( err => {
@@ -109,7 +102,6 @@ class App extends Component {
   }
 
   logoutHandler = () => {
-    console.log('logging out')
     this.props.setLoginStateToFalse();
     localStorage.removeItem('woto-admin-token');
     localStorage.removeItem('woto-admin-expiryDate');
@@ -155,13 +147,7 @@ class App extends Component {
                             <Route path='/stats' component={Stats}/>
                             <Route path='/fournisseurs' component={Suppliers}/>
                             <Route path='/messages' render={(props) => <Messages {...props} playNotificationSound={this.playNotificationSound}/>}
-                            />
-                            {
-                              /*                     
-                              <Route path='/commandes' component={Order}/> 
-                              */
-                            }
-                                                            
+                            />                                                          
                         </Switch>
                         
                 </Fragment>
@@ -170,11 +156,6 @@ class App extends Component {
     
     
       }
-    
-    
-    
-    
-
     
     return (
             <div className={`app  ${this.props.showFullNavbar === true ? '' : 'full-app'}`}>

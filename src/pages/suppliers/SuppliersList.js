@@ -9,7 +9,7 @@ const SuppliersList = props => {
                     <Title title = "Suppliers">
                         <div className="suppliers__addButton"
                               onClick={() => props.supplierCurrentViewHandler('suppliersForm')}>
-                            ajouter
+                            Add
                         </div>
                     </Title>
                     {suppliers.map(supplier => (

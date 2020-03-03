@@ -55,7 +55,7 @@ import * as actions from '../../../store/actions';
         }
 
 
-        fetch('http://localhost:8000/admin/login', {
+        fetch('https://africauto.herokuapp.com/admin/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

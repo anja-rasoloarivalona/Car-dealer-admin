@@ -17,7 +17,7 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
     }
 
     componentDidMount(){
-     let url = "http://localhost:8000/messages";
+     let url = "https://africauto.herokuapp.com/messages";
      let method = "GET";
         fetch(url, {
             method: method,
@@ -48,7 +48,7 @@ import MessagesUserInfos from './messagesUserInfo/MessagesUserInfos';
     }
 
     fetchUserMessages = userId => {    
-      let url = "http://localhost:8000/messages/admin-update/" + userId;
+      let url = "https://africauto.herokuapp.com/messages/admin-update/" + userId;
       let method = "POST";
       let timeStamp = timeStampGenerator();
         fetch(url, {
