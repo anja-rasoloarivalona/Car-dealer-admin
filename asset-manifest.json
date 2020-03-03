@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/woto-motors-admin/static/css/main.dffcb98b.chunk.css",
+    "main.js": "/woto-motors-admin/static/js/main.82bc3147.chunk.js",
+    "main.js.map": "/woto-motors-admin/static/js/main.82bc3147.chunk.js.map",
+    "runtime-main.js": "/woto-motors-admin/static/js/runtime-main.124af6f3.js",
+    "runtime-main.js.map": "/woto-motors-admin/static/js/runtime-main.124af6f3.js.map",
+    "static/css/2.564e90a8.chunk.css": "/woto-motors-admin/static/css/2.564e90a8.chunk.css",
+    "static/js/2.4e07cf7f.chunk.js": "/woto-motors-admin/static/js/2.4e07cf7f.chunk.js",
+    "static/js/2.4e07cf7f.chunk.js.map": "/woto-motors-admin/static/js/2.4e07cf7f.chunk.js.map",
+    "index.html": "/woto-motors-admin/index.html",
+    "precache-manifest.e6288cb5ee0f0fdcb29f3a1fcaca5422.js": "/woto-motors-admin/precache-manifest.e6288cb5ee0f0fdcb29f3a1fcaca5422.js",
+    "service-worker.js": "/woto-motors-admin/service-worker.js",
+    "static/css/2.564e90a8.chunk.css.map": "/woto-motors-admin/static/css/2.564e90a8.chunk.css.map",
+    "static/css/main.dffcb98b.chunk.css.map": "/woto-motors-admin/static/css/main.dffcb98b.chunk.css.map",
+    "static/js/2.4e07cf7f.chunk.js.LICENSE": "/woto-motors-admin/static/js/2.4e07cf7f.chunk.js.LICENSE",
+    "static/media/Auth.css": "/woto-motors-admin/static/media/desert-suv.4b55d60c.jpg",
+    "static/media/eventually.mp3": "/woto-motors-admin/static/media/eventually.b5e7acad.mp3",
+    "static/media/sprite.svg": "/woto-motors-admin/static/media/sprite.737c6dbb.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.124af6f3.js",
+    "static/css/2.564e90a8.chunk.css",
+    "static/js/2.4e07cf7f.chunk.js",
+    "static/css/main.dffcb98b.chunk.css",
+    "static/js/main.82bc3147.chunk.js"
+  ]
+}
