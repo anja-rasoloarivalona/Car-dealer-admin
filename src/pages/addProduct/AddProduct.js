@@ -115,10 +115,40 @@ class AddProduct extends Component {
           //We need to transform each url (string) into an object with the checked property => We need it to select all the images we want to delete later
           let productBeingEditedCurrentUrlImagesWithChekedOption = [];
           product.imageUrls.forEach( url => {
-            productBeingEditedCurrentUrlImagesWithChekedOption = [...productBeingEditedCurrentUrlImagesWithChekedOption, {url: url, checked: false}]
+
+
+
+
+
+            let text =   url.substr( url.indexOf(product.general.year), 7);
+            let rank = text.split('-')[1];
+            if(text.split('-')[1][1] === '.'){
+              rank = text.split('-')[1][0]
+            }
+
+            productBeingEditedCurrentUrlImagesWithChekedOption = [
+                ...productBeingEditedCurrentUrlImagesWithChekedOption, 
+                {url: url, 
+                checked: false,
+                rank: parseInt(rank) 
+              }]
           })
 
-          console.log(requestDataSet)
+
+
+          productBeingEditedCurrentUrlImagesWithChekedOption.sort((a,b) => (a.rank > b.rank) ? 1 : ((b.rank > a.rank) ? -1 : 0))
+
+          // console.log(productBeingEditedCurrentUrlImagesWithChekedOption)
+
+          // productBeingEditedCurrentUrlImagesWithChekedOption.forEach(urlData => {
+          //   let url = urlData.url;
+          //   let text =   url.substr( url.indexOf(product.general.year), 7);
+          //   let rank = text.split('-')[1];
+          //   if(text.split('-')[1][1] === '.'){
+          //     rank = text.split('-')[1][0]
+          //   }
+          //   console.log(rank)
+          // })
 
           this.setState({ 
             initialForm : initialForm, 
@@ -164,11 +194,40 @@ class AddProduct extends Component {
     let method;
     let url;
 
+    console.log(requestDataSet)
+
+
+    
+
+
+
     
     if(this.props.editingMode === false){
+
+
+    let tempData = [];
+    urlImages.forEach(url => {
+      let text =   url.substr( url.indexOf(requestDataSet.year), 7);
+      let rank = text.split('-')[1];
+      if(text.split('-')[1][1] === '.'){
+        rank = text.split('-')[1][0]
+      }
+
+      tempData.push({
+          url: url,
+          rank: parseInt(rank) 
+      })
+    })
+
+    tempData.sort((a,b) => (a.rank > b.rank) ? 1 : ((b.rank > a.rank) ? -1 : 0))
+    let finalData = [];
+    tempData.forEach(url => {
+        finalData.push(url.url)
+    })
+
         Object.keys(requestDataSet).map(  data => formData.append(`${data}`, `${requestDataSet[data]}`));
         formData.append('features', featuresList);
-        formData.append('imageUrls', urlImages);
+        formData.append('imageUrls', finalData);
         formData.append('albumId', this.state.albumId);
         formData.append('supplierId', supplierId)
         method = 'POST';
@@ -200,16 +259,35 @@ class AddProduct extends Component {
           }
 
       }
+      
+      let tempData = [];
+      productBeingEditedUrlImages.forEach(url => {
+        let text =   url.substr( url.indexOf(requestDataSet.year), 7);
+        let rank = text.split('-')[1];
+          if(text.split('-')[1][1] === '.'){
+            rank = text.split('-')[1][0]
+          }
+        tempData.push({
+          url: url,
+          rank: parseInt(rank) 
+        })
+      })
 
-        Object.keys(requestDataSet).map(  data => formData.append(`${data}`, `${requestDataSet[data]}`));
-        formData.append('features', featuresList);
-        formData.append('albumId', this.state.albumId);
-        formData.append('imageUrls', productBeingEditedUrlImages);
-        formData.append('productBeingEditedID', this.state.productBeingEditedID );
-        formData.append('supplierId', supplierId)
+      tempData.sort((a,b) => (a.rank > b.rank) ? 1 : ((b.rank > a.rank) ? -1 : 0))
+      let finalData = [];
+      tempData.forEach(url => {
+        finalData.push(url.url)
+      })
 
-        method = 'PUT';
-        url = "https://africauto.herokuapp.com/admin/edit-product"
+      Object.keys(requestDataSet).map(  data => formData.append(`${data}`, `${requestDataSet[data]}`));
+      formData.append('features', featuresList);
+      formData.append('albumId', this.state.albumId);
+      formData.append('imageUrls', finalData);
+      formData.append('productBeingEditedID', this.state.productBeingEditedID );
+      formData.append('supplierId', supplierId)
+
+      method = 'PUT';
+      url = "https://africauto.herokuapp.com/admin/edit-product"
     }
 
     fetch(url, {
@@ -361,7 +439,10 @@ class AddProduct extends Component {
     let images = [];
     files.forEach(file => {
       let a = file.file;
-      images = [...images, a];
+      if(a !== ''){
+        images = [...images, a];
+      }
+      
     });
     this.setState({
       images: images

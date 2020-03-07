@@ -65,10 +65,11 @@ class Car extends Component {
             return res.json();
         })
         .then( resData => {
+            let product = resData.product;
             this.setState({
-                product: resData.product,
+                product: product,
                 loading: false
-            }, () => this.props.setProductRequested(resData.product))
+            }, () => this.props.setProductRequested(product))
         })
         .catch( err => {
             console.log(err)
